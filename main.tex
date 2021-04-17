@@ -1,0 +1,258 @@
+% 12 point font, and your thesis is a ``report'' to LaTeX
+\documentclass[12pt]{report}
+
+% this enables correct linespacing and graphics inclusion via 
+%``\includegraphics''
+\usepackage{setspace}
+\usepackage{graphicx}
+
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{nameref}
+\usepackage{graphicx}
+\usepackage{lipsum,multicol}
+\usepackage{mdwlist}
+\usepackage{soul}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{algorithm,algpseudocode}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{subcaption}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{enumitem}
+
+\setlist{nolistsep}
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+%Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},  
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+\lstset{style=mystyle}
+\renewcommand{\lstlistingname}{Code Block}
+
+
+% leave 1.5in margin to the left and 1in margin to the other
+% sides. Don't print page number in the margin (but rather above it)
+\setlength{\textheight}{8.63in}
+\setlength{\textwidth}{5.9in}
+\setlength{\topmargin}{-0.2in}
+\setlength{\oddsidemargin}{0.3in}
+\setlength{\evensidemargin}{0.3in}
+\setlength{\headsep}{0.0in}
+
+% Start to write
+\begin{document}
+
+
+\newcommand{\brk}{\vspace*{0.18in}}
+
+% No page number on the title page
+\thispagestyle{empty}
+
+% Center the whole title page
+\begin{center}
+
+\brk
+
+% Large font and bold face for the headline. Try to keep it at one or
+% two lines. Headlines over two lines will mess up the spacing, and you have to
+% manually finetune it. Note that the line break in the SOURCE CODE
+% does not affect the line breaking in the output file. If you want
+% hardcoded line breaks, you have to mark them with a double backslash (\\)
+
+   {\large 
+	\textbf{
+	Development and an Lower Limb Exoskeleton and Simulation Framework 
+	}
+   }
+
+
+\brk
+by
+
+\brk
+% insert your name here. 
+Nathaniel Goldfarb
+
+
+% All this is constant:
+\brk\brk
+A Thesis
+
+\brk
+Submitted to the Faculty
+
+\brk
+of the 
+
+\brk
+WORCESTER POLYTECHNIC INSTITUTE
+	
+\brk
+In partial fulfillment of the requirements for the
+
+\brk
+Degree of Doctor of Philosophy
+
+\brk
+in
+
+\brk
+Robotics Engineering
+
+% Adjust this to your preferred month and year
+\brk
+May 2000
+
+\end{center}
+
+	
+\vfill
+APPROVED:
+
+\vspace{0.25in}
+\rule{3in}{0.8pt}
+
+% Change this to your favorite CS professor.
+Professor Gregory Fischer,Thesis Advisor
+
+\vspace{0.25in}
+\rule{3in}{0.8pt}
+
+% This is also constant :)
+Professor Karen Troy,  Committee Member
+
+
+\vspace{0.25in}
+\rule{3in}{0.8pt}
+
+% This is also constant :)
+Professor Jie Fu,  Committee Member
+
+
+\vspace{0.5in}
+\rule{3in}{0.8pt}
+
+% This is also constant :)
+Professor Berk Calli,  Committee Member
+
+% end of titlepage
+\newpage
+
+% This is the command for doublespacing when you use the setspace
+% package
+% Please do NOT use \baselinestretch, this will mess up everything,
+% cause earthquakes, tornados and lots of questions for me...
+% If you need a singlespaced paragraph (BAD STYLE!!!), use
+% \singlespacing or \onehalfspacing and enclose it together with the
+% paragraph in braces {\singlespacing This is my text... blah blah blah}
+%
+\doublespacing
+
+% Now you can start to be creative.
+% First, you need an abstract.
+% Fortunately, LaTeX has thought of that, so it's very easy:
+\input{Chapters/Abstract}
+
+% From here on, we need Roman page numbers according to the library
+% regulations. So let's assign those.
+
+\pagenumbering{roman} % or {Roman} if you like them capitalized
+
+
+\input{Chapters/Acknowledgements}
+\input{Chapters/Dedication}
+% The next thing is the Preface (``Acknowledgements'').
+% No standard environment for that, so we'll format it by hand.
+%
+
+
+% P.S. You don't have to add me to the acknowledgements for providing 
+% this file :)
+
+\clearpage
+
+
+% Now comes the Table of Contents, really easy in LaTeX. you never
+% have to worried about it. (Think of all the hours you would
+% have wasted in Word getting this thing updated without crashing
+% the system) :).
+
+\tableofcontents
+
+% THAT'S IT. REALLY. Everything else is automatic. No formatting, no headline.
+% All predefined.
+
+% Now - just as easy - the List of Figures.
+% This will catch all objects enclosed in \begin{figure}\end{figure}
+% statements.
+\listoffigures
+
+% There is also a list of tables, if you have any.
+% This will catch all objects enclosed in \begin{table}\end{table}
+% statements.
+\listoftables
+
+
+% And we need a clear separation between preface and text, otherwise
+% the numbering gets confused.
+
+\clearpage
+
+% And now - tataa - the text.
+% This is the place to become really creative.
+
+% From here on, we need arabic numbering again and we need to start
+% from 1.
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+
+\maketitle
+% \input{Chapters/introduction}
+\input{Chapters/Background/Background}
+\input{Chapters/Gait_Data}
+\input{Chapters/software}
+\input{Chapters/mechdesign/mech_design}
+\input{Chapters/stairclimbing}
+\input{Chapters/simulation}
+\input{Chapters/Controllers/controllers}
+
+\bibliographystyle{ieeetr}
+\bibliography{bibliography/lfd,bibliography/SCI,bibliography/mech_design,bibliography/exo_background, bibliography/software,  bibliography/sim, bibliography/gait, bibliography/stair, bibliography/controllers }
+
+
+
+\end{document}

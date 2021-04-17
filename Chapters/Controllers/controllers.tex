@@ -1,0 +1,22 @@
+\chapter{Exoskeleton Controllers}
+
+\section{Introduction}
+
+Controller are key aspect of a lower limb exoskeleton, they allow the exoskeleton to move through desired motions. Different controllers have been developed to control the motion of the exoskeleton. A large aspect of these controllers are designed to consider the dynamics model of the exoskeleton allowing the the non-linear dynamics to be cancelled out when computing the control input. LARRE is assumed to be non-linear and modeled by \autoref{eq:Dyn} where $M$ is the mass-inertia matrix, $C$ is the Coriolis terms, $G$ is the gravity terms. This is similar to other models discussed in \autoref{huo2016active} \cite{vantilt2019model}.
+
+\begin{equation}
+    \tau = M(q) \ddot{q} + C(q, \dot{q}) \dot{q} + G(q)
+    \label{eq:Dyn}
+\end{equation}
+
+
+Several assumptions are made in the design of the controllers. Firstly the ground force reactions cannot be measured which prevents feedback from the step. Secondly The human effort can be measured, this is directly done through the simulation package. This measurement can be replicated on a physical exoskeleton using force sensing resistors or IMUs in the legs of system. Thirdly, that the exoskeleton gait speed is very slow. Gait training using exoskeleton has been shown to improve the gait speed of paraplegics. The average walking speed after training was on average $0.43m/s$ \cite{khan2019retraining} compared to the average walking speed of a person is $1.5m/s$ \cite{fitzpatrick2006another}. 
+
+Two different controllers are presented, the first is an iLQR controller, the second is an cooperative controller. The iLQR controller takes advantage full advantage of learning from demonstration and optimal controller theory to generate a optimal control signal to control the exoskeleton. The cooperative controller is designed to provide assistive control commands to combined the torques of the person and the exoskeleton. The enable the exoskeleton to only provide the difference in torque between the required and the what the person provides. 
+
+All the controller are implemented using the control architecture discussed in \autoref{sec:controlarchitecture}. The modular control system allowed for controllers to be quickly implemented and tested. The RBDL library allowed for the fast computation of the dynamics of the exoskeleton allowing for real time control. 
+
+% The controller presented in \cite{martinez2017controller} was implemented on the Indigo exoskeleton and used combination of force fields and human demonstration data to control the movement of the exoskeleton joints. This method did not consider the mass of dynamics of the exoskeleton and was designed to work on stroke patients with unilateral control. 
+
+
+\input{Chapters/Controllers/iLQR_Controller}

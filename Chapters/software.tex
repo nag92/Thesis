@@ -1,0 +1,278 @@
+
+\chapter{Vicon and Gait Analysis Software Package}
+\label{chap:software}
+\section{Overview}
+The Vicon motion capture system collects a rich set of data for analysis and manipulation. This richness of this data set however makes the raw data difficult to extract and handle.
+To handle this data is was pessary to develop a toolkit to parse the data into data structures that exposes the data to other APIs for manipulation and analysis. 
+
+The Vicon  motion capture system is a popular motion capture system. This mocap system can export the data in several formats, including C3D \footnote{https://www.c3d.org/}  files and ASCII files. Vicon offers Python and Matlab packages to post-process the data; these packages only work on a computer with an active Vicon Nexus software package, making it challenging to work with the data. 
+
+C3D files contain rich data that can be imported by popular biomechanical systems such as OpenSim \cite{seth2018opensim}. OpenSim will ingest the data and build an analysis model. The Biomechanical Toolkit offers a powerful tool for handling the raw C3D files to allow researchers to work with the mocap data and apply methods and algorithms \cite{barre2014biomechanical}. This package is written in C++, which is a compiled language, not an interpreted language. The advantage of an  interpreted language is that it is easier to implement and code cane be executed on the fly.
+
+ASCII files are another popular format for handling mocap data. The Gait Analysis Toolkit developed at Cleveland State University gait lab is an open-source tool for analyzing mocap data  \cite{DTK2014} \cite{GATK2014}. However, this toolkit's complexity makes it difficult to separate the tools for handling marker analysis from gait data.   
+
+The toolkit is split into three parts \textbf{GaitCore}\footnote{https://github.com/WPI-AIM/AIM\_GaitCore}, \textbf{Vicon toolkit}\footnote{https://github.com/WPI-AIM/AIM\_Vicon},  \textbf{Gait Analysis toolkit}\footnote{https://github.com/WPI-AIM/AIM\_GaitAnalysisToolkit} as described in \autoref{fig:software}. This was done to abstract the functionality and allow it to be used for different applications and mocap systems. The GaitCore package contains the low level APIs that build the data structures. The Vicon package contains APIs to parse and manipulate the raw mocap data. The Gait Analysis toolkit provides high level APIs to analysis gait trajectories and use them to build motion models. 
+
+This package has the advantage of this package over similar packages is the underlining structure and modularity. This code base can be extend to handle other mocap systems which would then have access to the built in computation and analytical tools discussed below. The interpreted language also allows for researcher not familiar with C++ to quickly access and analysis their data. The Python language is better for prototyping due to the simple syntax but lacks computational performance. This is in contrast to C++ which has complex syntax with better computation performance \cite{varisteas2018distributed} \cite{bargiacchi2020ai}. Computational time is less of a concern when analysing data where a priority is more focused an obtaining results and extracting information then real time functionality. Then key functionality of the package is detailed below. The methods and algorithms used to build the package is also described. 
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.15]{images/software/software.png}
+    \caption[Software Architecture]{Software architecture of the Vicon-specific toolkit for importing and processing data, the Gait Toolkit for motion anlaysis which is not specific only to Vicon, the GaitCore structure, and user applications.}
+    \label{fig:software}
+\end{figure}
+
+
+\section{GaitCore}
+At the center of the Vicon and Gait Analysis tool kit libraries is the GaitCore package. The GaitCore package provides low-level objects used in both the Vicon and Gait Analysis Toolkit packages. This package allows for the data to be manipulated and stored for consistent structures and readability.
+
+The GaitCore package objects provide APIs to initialize the object and work with the data. Each class has override operators to allow for mathematical operations to be performed. The objects in the GaitCore package are the following:
+
+\begin{itemize}[noitemsep]
+\item \textbf{Core}:
+\begin{itemize}[noitemsep]
+    \item \underline{Point}: Holds a 3D point $(x,y,z)$, there are override operators and functions to perform basic vector operations. It can also be converted into a numpy array to perform more advanced operations.
+    \item \underline{PointArray}: Holds a list of Point objects. This class provides functions to access to $X$, $Y$, and $Z$ axis. 
+    \item \underline{Newton}: Holds angle, power, torque, force information that is calculated by the Nexus system. 
+    \item \underline{Data}: Holds time sequenced data, it can be used to organize joint data against the time period. This class has two fields; data and time. It is a method of sequencing the data.  
+\end{itemize}
+\item \textbf{Bio}:
+\begin{itemize}
+    \item \underline{Joint}: Holds information on a single joint
+    \item \underline{Leg}: Holds three joints (hip, knee, ankle)
+    \item \underline{Arm}: Holds three joints (shoulder, elbow, wrist)
+    \item \underline{Trunk}: Holds four joints (head, spine, thorax, plevis)
+    \item \underline{Side}: Holds left and right side of the body
+\end{itemize}
+\end{itemize}
+
+
+
+
+\section{Vicon Package}
+\subsection{Overview}
+The Vicon Toolkit Package parses and organizes the data exported by the Vicon Nexus software. The Nexus software exports an ASCII file with headers distributed throughout the row of the file. The Vicon parser extends an abstract base class \textit{Mocap}; this allows for abstract of the core functionality required for different mocap systems; this includes the marker interpolation and joint modeling. This allows the tools discussed to be used for other mocap systems like the Optitrack \footnote{https://optitrack.com/}.  
+ The tools in this package are summarized below: 
+
+\begin{itemize}[noitemsep]
+    \item Gap filling of missing data 
+    \item Organizing the data from the plug-in gait model 
+    \item Sorting of rigid bodies
+    \item Access to force plates and EMGs 
+\end{itemize}
+
+
+The Vicon Toolkit Package sorts the data into three buckets (classes): markers, devices, and model outputs. Each of these classes has internal functions for analysis. The classes were created to align the section headers in the ASCII file export from Vicon Nexus. 
+
+The Vicon object is initialized with a single line of code. The only mandatory parameter is the path to the ASCII file; there are optional parameters for gap filling and interpolation of missing data. The interpolated data can be exported to a new file for later use.  \autoref{setup} shows how to initialize the Vicon object.
+
+\lstinputlisting[language=Python, 
+caption=This block shows how to initialize the Vicon object and use the interpolation parameters, label=setup]{code/set_up.py}
+
+
+\subsection{Gap Filling}
+
+A common complication during a mocap trial is that the cameras will lose track of one or several markers; this results in gaps in the data. The Vicon Nexus software provides several tools to pattern and spline fill missing marker data; this should fill most of the gaps. However, some gaps might remain in the exported data. These gaps need to be filled in before any analysis can be performed. Tools were build into the package to filling in and interpolate missing data. The tools are abstracted for the implementation and development of custom interpolation methods. The Vicon object will keep track of which values were interpolated. This was done so that user of this package can track what data was interpolated. 
+
+
+There has been substantial effort put into the research and development of missing marker interpolation methods. Each method is designed under different constraints and is optimized for different scenarios, including but not limited to biomechanical research. These methods vary from simple spline fitting to complicated statistical methods. 
+
+Akima spline interpolation \cite{wang2014real} is a simple polynomial interpolation method. The Akima method uses $3^{rd}$ order continuously differentiable polynomial. The Akima 's feature method's feature is it has a continuous $1^{st}$  order derivative through its endpoints and behaves well when the second derivative of the data is rapidly changing. \autoref{eq:akima} defines the the polynomial between the two points $(x_{1}, y_{1})$ and $(x_{2}, y_{2})$, with slopes $t_{1}$ and $t_{2}$ respectively. The Akma method is limited in several ways; it assumes that a polynomial can interpret the marker's movement. It does not consider the marker's velocity vector and does not consider the movement of other markers attached to the same body. 
+
+\begin{equation} \label{eq:akima}
+\large
+\begin{split}
+        y &= p_{0} + p_{1}(x - x_{1}) + p_{2}(x - x_{1})^{2} + p_{3}(x - x_{1})^{3} \\
+        where, \\
+          p_{0} &= y_{1} \\
+    p_{1} &= t_{1} \\
+    p_{2} &= (3(y_{2} - y_{1})/(x_{2} - x_{1}) - 2t_{1} - t_{2})/(x_{2} - x_{1}) \\
+    p_{3} &= (t_{1} + t_{2} - 2(y_{2} - y_{1})/(x_{2} - x_{1}))/(x_{2} - x_{1})^{2}
+\end{split}
+\end{equation}
+
+Piaze \textit{et. al} attempting to resolve some of the limitations pure interpolation buy considering the velocity vector of the marker and its recent history \cite{piazza2009towards}. This method assumes that a marker will either move locally in a straight line or a circle pattern. A backlog of markers is stored to find the forward vector of motion; this backlog is used to estimate a marker's velocity. Using both the linear and angular velocity, a local model of the marker can be found and used to interpolate to find small gaps in the marker's trajectory. This method is relatively simple in its implantation and execution. It takes advantage of the marker's prior motion to interpolate its future position and does not require the marker noise variance model. This method has several limitations; it only relies on a single marker, meaning that it cannot infer a marker's position from other markers. In addition, it assumes that all motion on a body can either be modeled as linear or circular, which may not always be the case. The velocity is also calculated by examining the backlog of the marker's location, while this leads to a vector be less subject to noise from frame to frame. It can lead to the velocity vector lagging behind the motion of the marker. 
+
+McCain \textit{et. al} proposed a method that takes advantage of rigid bones in the human body and marker attached to the bones will have the same relative motion \cite{li2010bolero}. In this method a hard and soft assignment method was examined. The soft assignment method relaxes some of the assumptions of marker noise caused by skin movement. This method is based on the expectation-maximization (EM) algorithm and Kalman like filtering method; this is statistical-based method that requires knowledge of the marker noise and additional markers to work properly. 
+
+A similar method was developed by Lasenby \textit{et. al}, this method also used a bone constraint method \cite{aristidou2013real}. However, this method did not constrain its movement to be linear; it replaced the linear Kalman filter with an unscented Kalman filter. An unscented Kalman filter allows for nonlinear models of the motion to be assumed. This method takes full advantage of the markers being attached to a rigid bone structure. It also uses a variable tune model with a target velocity and acceleration of the markers. The latter, however, is subject to too much noise to be computationally useful. This method requires three markers per body for tracking; these markers allow the marker to calculate the body's 3D location in space. While this number of markers would be common for biomechanical trials, it requires many markers to be used; this makes it unsuitable for trials with few markers or markers not attached to rigid bodies.
+
+Each of the methods discussed above is optimal for different applications and research. Furthermore, new methods can be developed to produce better results or suit a particle application or research. To handle this the package was build so that the user can specify the desired interpolation method. This is unique among the other packages. Other packages either do not offer an interpolation method or it is fixed.  
+
+\subsection{Rigid Bodies}
+
+Rigid bodies in mocap are built from a collection of individual markers on a body segment. Three or more markers is required to define the position and orientation of body in space allow for the relative pose of the body to be found in all the frames. Using rigid plates with known marker position the marker placement can be set \footnote{https://www.vicon.com/hardware/accessories/}. This rigid bodies are strapped the person segments to record the positions of the body. \autoref{fig:markers_side} shows the coordinate frames on the leg of a person. \autoref{fig:rigidbody} shows the rigid body plate with marker locations. 
+
+\begin{figure}
+\centering 
+\begin{subfigure}{0.4\linewidth} 
+  \centering 
+  \includegraphics[scale=0.05,frame]{images/software/marker_side_coor.png} 
+  \caption[RigidBody Frames]{Rigid body frames on the leg} 
+  \label{fig:markers_side} 
+\end{subfigure} 
+%
+\begin{subfigure}{0.4\linewidth} 
+  \centering 
+    \centering
+    \includegraphics[scale=0.11]{images/software/rigidbody_label.png} 
+    \caption{Labeled rigid body plate from Vicon}
+    \label{fig:rigidbody}
+\end{subfigure} 
+\caption[Rigidbodies and Placement]{Rigidbodies and Placement} 
+\label{fig:markers} 
+
+\end{figure} 
+
+A least squares method is used to the transformation be between the markers point cloud \cite{arun1987least}. Using this method the relative location of the markers is required, which is set using the rigid body plates. This is described in \autoref{eq:pointcloudtransformation}. In this equation $A$ and $B$ are the recorded locations of all the markers in different frames. The goal is to calculate the translation $t$ and rotation $R$ between the two point clouds. The rotation is found using Singular value decomposition (SVD). \autoref{eq:rotationPointclouds} is used to find the rotation. To isolate the translation component the marker point clouds are re centered around the origin by subtracting the centroid (\autoref{eq:centroid}) of the pointcloud. Here, $A_i$ and $B_i$ is a $3x1$ vector of the position ($[x,y,z]$) of a single marker. Using the rotation matrix $R$ the translation is then computed using  \autoref{eq:translationPointclouds}.  The error for every transformation is calculated and returned; it is used to evaluate the transformation's goodness of fit. \autoref{eq:errorPointclouds} is used to calculate the fit error.   
+
+
+\begin{equation}
+    \large
+    RA + t = B
+    \caption{Marker point cloud transformation}
+    \label{eq:pointcloudtransformation}
+\end{equation}
+
+\begin{equation}
+\large
+    centroid_{A,B} &= \frac{1}{N} \sum_{i}^{N} \{A,B\}_i 
+    \caption{Calculation of the pointcloud centroid}
+    \label{eq:centroid}
+\end{equation}
+
+
+\begin{equation}
+\large
+    \begin{split}
+        H &= ( A - centroid_A) ( B - centroid_B) ^T\\
+    [U,S,V] &= SVD(H)\\
+    R &= VU^T    
+    \end{split}
+    \caption{Finding the rotation matrix between the marker pointclouds}
+    \label{eq:rotationPointclouds}
+\end{equation}
+    
+\begin{equation}
+    \large
+    t = centroid_B - R \times centroid_A
+    \caption{Marker point cloud transformation}
+    \label{eq:translationPointclouds}
+\end{equation}
+
+\begin{equation}
+    \large
+    err = \sum_{i}^{N} || RA_i + t -B_i ||^2
+    \caption{Error of the point cloud fitting}
+    \label{eq:errorPointclouds}
+\end{equation}
+
+
+The Vicon toolkit will automatically gather markers into rigid bodies and can produce a transformation matrix for each rigid body for every point in the trial. The transformation are used to locate relative movement between the various bodies. The novelty of this package is its flexibility to generate rigid bodies from a set of markers. The package handles the gather of the markers on the same body and due to the abstraction layer, it can be used for any mocap system. 
+
+
+\subsection{Addition Features}
+
+\subsubsection{Model Outputs}
+The Vicon Nexus software has several plug-in models (upper and lower) for fitting marker data to the human's body. The plug-in models are used for calculating the joint angle, torque, power, and force output by the plugin model. These values are critical for analysis of gaits and human motion.  The Vicon package stores all of this data in the Newton class. The joint class stores the data for a single joint, such as the hip, shoulder, or knee. This structure allows for easy access to the joint kinematics and dynamics. \autoref{modeloutput} shows how to get the left hip angle of a subject while walking. By replacing angle with the moment, the torques around that joint can be accessed.
+
+
+\lstinputlisting[language=Python, 
+caption=This block shows how to get the hip angle around the $X$ axis of the course of the entire trial, label=modeloutput]{code/modeloutput.py}
+
+This package makes provides single line access to all the model output information. Using the model output information the joint trajectories of the gait cycle can be studied and used for developing motion models. All the critical information is provided to the user.  
+
+
+
+\subsubsection{Visualization of Trial}
+The \textit{play()} function generates a 3D plot of every marker position through time. \autoref{fig:playFigure} show a frame from the \textit{play()} from a trial where a subject climbed a staircase. Markers and rigid bodies were placed on the subject's legs, and a rigid body was placed on each of the steps of the stairs to locate each of the steps. The Vicon object also has a graphing method that will create and plot a selected field graph.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{images/software/play.png}
+   \caption[Play Figure]{Marker locations in a single frame during a trial of climbing stairs. Each of the red dots is a marker. The marker clusters on the right hand side are rigid bodies placed on each stair. }
+    \label{fig:playFigure}
+\end{figure}
+
+
+\section{Gait Analysis Package}
+
+\subsection{Overview}
+While the Vicon package provides broad tools to handle the mocap data; the Gait Analysis Toolkit provides more focused tools to handle gait analysis. This package includes: 
+\begin{itemize}[noitemsep]
+    \item Separating gait cycles
+    \item Comparing different subjects gaits
+    \item EMG filtering
+    \item Learning of gait trajectories
+\end{itemize}
+
+These tools were developed to compare the gait motion collected during the trial. The toolkit will separate the gait motions into individual gait cycles. The gait cycles can be compared within the trial or against other trials or subjects. This allows for features of the trajectory to be compared to find patterns. 
+
+\subsection{Gait Detection}
+\autoref{fig:gaitDetection} show the extract gait cycles. It analyzes the first and second derivative to find the max peaks and inflection points. This joint angle method can lead to a slight phase shift in a gait cycle; this can be improved using information from the force plates. Once the index of all the gait cycles is found, the devices data and the model data associated with the gait trail are separated by the indices. Each of the lines is a gait cycle extracted from a separate subject. 
+
+\begin{figure}[h]
+   \centering
+    \includegraphics[scale=0.5]{images/software/gaitcycle.png}
+    \caption[Gait Cycles]{The joint angle during a gait cycle. Each line represents a different subjects gait. The trajectories were re-sampled to be the same length}
+    \label{fig:gaitDetection}
+\end{figure}
+
+
+
+\subsection{Learning from Demonstration}
+
+The LfD algorithms are built into this package to learn the record bio-mechanical information. This allows for seemly flow from data collection to replication. \autoref{fig:flowchart} shows a flowchart of how a trajectory can be learned. \autoref{fig:learned} shows a learned demonstrations and the learned trajectory. The software are based on the other open-source packages \cite{calinon2016tutorial}. These other package while perform the mathematical operations, they are difficult to use without outside their provided data set with the code base. 
+
+
+\begin{figure}
+    \begin{subfigure}{0.4\linewidth} 
+        \centering
+        \captionsetup{justification=centering}
+        \centerline{
+        \includegraphics[scale=0.25]{images/software/flowchart.png}}
+        \caption{Learning flow chart}
+        \label{fig:flowchart}
+    \end{subfigure}
+    %
+    \begin{subfigure}{0.4\linewidth} 
+        \centering
+        \captionsetup{justification=centering}
+        \centerline{
+        \includegraphics[scale=0.50]{images/software/learnedZ.png}}
+        \caption{The thick line is the learned trajectories. The thin lines are the demonstrations that were used to train the model. This model was trained to replicate the toe marker}
+        \label{fig:learned}
+    \end{subfigure}
+    
+    \label{fig:my_label}
+\end{figure}
+
+
+
+
+The Gait Analysis package takes a different approach by provided the tools to parse data and build the data structures the user only has to provide the data set and have a basic understanding of Python. Another advantage of approach is the separation of the learning and replication systems. As discussed in \autoref{sec:lfd} the learning phase is an offline process. Using GMM to encode a data set can take several seconds to several minutes depending on number of demonstrations, length of the demonstrations, and the number of bins used to encode. This makes is desirable to use a powerful computer to encode the demonstrations. The replication of the trajectory with GMR is an online process using the parameters calculated by GMM. 
+
+This separation of layers allows for the demonstrations to be learned once then can be played back later. The object-oriented approach reduces the amount of redundant code required. The package divides the tools into three parts allowing for additional algorithms to be developed and use the underlying structure: 
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Model:} The main body of the algorithm, all the functions for handling the data. Examples of Models include (Gaussian Mixed Models(GMM), Gaussian Mixed Regression (GMR), Dynamics Motion Primitives (DMP), Task-Parameterized Gaussian Mixed Models (TPGMM). All of the Models extend the ModelBase class. This parent class contains properties and common functions to make it easy for future development
+    \item \textbf{Trainer:} This class handles the process of organizing and processing the data. The trainer's classes all extend the base TrainerBase class, which has core functionality to parse and save the data. The trainer class will handle all the alignment and put the data in the model's proper form. The trainer pickles \footnote{https://docs.python.org/3/library/pickle.html} the model to be used later without needing to retrain the model. 
+    \item \textbf{Runner:} The runner class plays the imitation model. The input to the model is the pickle file generated by the trainer. All the runners extend the RunnerBase class. This running method allows for feedback into the system. 
+\end{itemize}
+
+
+\section{Contributions}
+
+The software packages presented have been release open source for community use and development. The packages can be installed using pip for easy of use. The modularity of the packages allows for the underlying tools to be used to build parsers for other mocap systems like the OptiTrack \footnote{https://optitrack.com/} mocap system. The Vicon Toolkit Package parses and provides convenient tools for access and manipulation of the mocap data. This package includes access to the raw marker position and allows for the manipulation of rigid body transformations. The Gait Analysis Toolkit provides tools for gait analysis independent Vicon package.  It contains a tool for extracting cycles, gait comparison, EMGs analysis, and learning and comparing trajectories. The contributions of the packages are the following:
+
+\begin{itemize}
+    \item Open Source tools for handling mocap data.
+    \item Improved methods to handle and analysis marker and rigid body data by allowing rigid bodies to be defined and automatically finding transformation between different bodies in every frame.
+    \iten Visualization tools to observe the marker position and calculated joint centers. 
+    \item Comprehensive tools for learning from demonstrations to encode and reproduce biological motion. The encoding method is separated from the reproduction method allowing for offline learning and online reproduction.
+    \item Modular method to fill in missing marker gaps allowing different gap filling methods to be implemented. 
+    \item Built in tools to parse and compare gait trajectories. \item APIs to provide access to the lower and upper body plug-in Vicon models. 
+\end{itemize}
+
+All of the toolkits presented here were built to handle all the collected human demonstration data in \autoref{chap:gaitdata}. This allowed for the gait cycles to be extracted and compared. The collected data was then easily encoded using the built in LfD tools. The separation of the layers allows the trajectories to learned offline and replicated online. This feature was be used to build the simulation of the exoskeleton in \autoref{sec:sim}.
+
