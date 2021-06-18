@@ -51,6 +51,36 @@ The dynamic properties of LARRE are essential for building the controller. The d
 \end{table}
 
 
+To measure the kinematics and dynamics of a gait while wearing LARRE a single patient study was conducted. This study was not designed to measure the ability for the exoskeleton to induce movement but merely to observe the motion of the exoskeleton. The Vicon setup described in \autoref{sec:setup} was used with the custom marker layout used in 
+
+The joints kinematics are shown in \autoref{fig:exojointkin}. Only a single demonstration is shown however multiple demonstrations were record. Similar just the right leg is shown. The heel strikes and toe offs are called out in the graphs. These points are found using the Vicon plug-in gait tools. All of the data presented was extracted and analysed using the tools discussed in \autoref{chap:software}. In this study, three steps are taken across the mocap floor. The fist step is slight off since it started with feet together, however step two and three are more aligned with the expected motion. LARRE was able to move through the desired joint range for a gait cycle. Similarly with the moments shown in \autoref{fig:larregaitmoments}, the first step is does not contain relevant data since the moments can only be calculated when the force plates embedded on the floor are stepped on. The moments are presented in $\frac{Nm}{Kg}$ which allows for the torque to be abstracted and calculated for the different masses. 
+
+\begin{figure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \captionsetup{justification=centering}
+        \centerline{
+        \includegraphics[width=\textwidth, frame]{images/mech_design/exo_joint_angles.png}}
+        \caption[LARRE gait cycle angles]{Gait cycle angles of the LARRE}
+        \label{fig:larregaitangles}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \captionsetup{justification=centering}
+        \centerline{
+        \includegraphics[width=\textwidth, frame]{images/mech_design/exo_joint_moments.png}}
+        \caption[LARRE gait cycle moments]{Gait cycle moments of the LARRE}
+        \label{fig:larregaitmoments}
+    \end{subfigure}    
+    \caption{Gait cycles kinematics for LARRE}
+    \label{fig:exojointkin}
+\end{figure}
+
+
+
+
+
+
 % \begin{table}[h!]
 % \begin{centering}
 %     \begin{tabular}{ |p{1cm} p{2cm} p{2cm} p{2cm}|  }
