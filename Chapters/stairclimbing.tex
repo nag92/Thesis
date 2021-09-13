@@ -1,10 +1,19 @@
 \chapter{Generalization of Stair Climbing}
 
-\section{Overview}
-Stair climbing is an important ADL. It is imporant for exoskeleton to be able generate trajectories to climb the stairs. This work focuses on the generation of the trajectory from the start to the goal, not taking into consideration balance and stability. This research assumes that the goal point is within the exoskeletons support polygon using zero moment point \cite{kajita2003biped}.
+\section{Introduction}
+Stair climbing is an important ADL. It is important for exoskeleton to be able generate trajectories to climb the stairs. This work focuses on the generation of the trajectory from the start to the goal, not taking into consideration balance and stability. This research assumes that the goal point is within the exoskeletons support polygon using zero moment point \cite{kajita2003biped}.
 
 
-There is a need to combine Stair Climbing research with LfD methods. The methods best for this research are in \cite{andriacchi1980study} and \cite{hicks2011lower} along with GMR. This allows for robust data collection to be combined with a well studied framework of teaching a lower limb exoskeleton trajectories. These methods together allow a compilation of data to generalize a trajectory for stair climbing for people and stairs of different heights.
+By combined Stair Climbing LfD methods step motions can be generalized and reproduced. Allow for demonstrations of single stair height to be used to generate trajectories for different climbing heights. This simplifies the training process since it all possible step heights cannot be collected for training data. Additionally since the foot location is used as the training set, it abstracted the leg lengths and thus the height of the person. This allows for the motion to be reproduced for people of different heights. A similar recording method described in \cite{hicks2011lower} was used as the basis for the study. \autoref{fig:stairoverlay} shows the Vicon image of a person climbing the stairs. The collected data set was then generalized with GMM and GMR. This collection and encoding method allowed for robust data collection to be combined with a well studied framework of teaching a lower limb exoskeleton trajectories. These methods together allow a compilation of data to generalize a trajectory for stair climbing for people and stairs of different heights. This model shows that there is no need to retrain the trajectory for each person and different stair heights.
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics{images/stairs/mocap_overlay_stairs.jpg}
+    \caption[Stair mocap overlay]{Person with mocap overlay climbing the stair case}
+    \label{fig:stairoverlay}
+\end{figure}
 
 \section{Learning of the Trajectories}
 
@@ -137,8 +146,7 @@ The inverse kinematics and the anthropomorphic parameters were used to calculate
 
 \section{Contribuitions}
 
-
-This contribution of this method was to show how to build an imitation model by learning stair climbing trajectories using mocap and GMM/GMR. This work showed a trajectory generation of the joint trajectories for the exoskeletons joint angles to be generalized so it can be used by people of all leg lengths on variable stair heights. This method allow the model to handle different stair heights by changing the start and goal inputs to the DMP controller. As apposed to other methods that relay on hand generated trajectory generation from then start to the goal, this methods allows for biological stair climbing trajectories to be used that can be dynamically manipulated to climb different stair heights.  
+This contribution of this method was to show how to build an imitation model by learning stair climbing trajectories using mocap and GMM/GMR. This work showed a trajectory generation of the joint trajectories for the exoskeletons joint angles to be generalized so it can be used by people of all leg lengths on variable stair heights. This method allow the model to handle different stair heights by changing the start and goal inputs to the DMP controller. As apposed to other methods that relay on hand generated trajectory generation from then start to the goal, this methods allows for biological stair climbing trajectories to be used that can be dynamically manipulated to climb different stair heights. The contribution were presented here\cite{goldfarb2021towards}.
 
 
 % The stair location can be found using LIDAR or distance sensors (see \autoref{fig:sensors}). 

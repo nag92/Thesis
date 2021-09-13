@@ -30,7 +30,7 @@
 \usepackage{xcolor}
 \usepackage{subcaption}
 \usepackage{enumitem}
-
+\usepackage{tocloft}
 \setlist{nolistsep}
 %New colors defined below
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -93,7 +93,7 @@
 
    {\large 
 	\textbf{
-	Development and an Lower Limb Exoskeleton and Simulation Framework 
+	Development of a Lower Limb Exoskeleton Controller and Simulation Testing
 	}
    }
 
@@ -108,7 +108,7 @@ Nathaniel Goldfarb
 
 % All this is constant:
 \brk\brk
-A Thesis
+A Dissertation
 
 \brk
 Submitted to the Faculty
@@ -133,7 +133,7 @@ Robotics Engineering
 
 % Adjust this to your preferred month and year
 \brk
-May 2000
+May 2022
 
 \end{center}
 
@@ -158,7 +158,7 @@ Professor Karen Troy,  Committee Member
 \rule{3in}{0.8pt}
 
 % This is also constant :)
-Professor Jie Fu,  Committee Member
+Professor ??????,  Committee Member
 
 
 \vspace{0.5in}
@@ -225,6 +225,13 @@ Professor Berk Calli,  Committee Member
 \listoftables
 
 
+% \newcommand{\listequationsname}{List of Equations}
+% \newlistof{myequations}{equ}{\listequationsname}
+% \newcommand{\myequations}[1]{%
+% \addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
+
+% \listofmyequations
+
 % And we need a clear separation between preface and text, otherwise
 % the numbering gets confused.
 
@@ -240,8 +247,8 @@ Professor Berk Calli,  Committee Member
 \setcounter{page}{1}
 
 
-\maketitle
-% \input{Chapters/introduction}
+%\maketitle
+\input{Chapters/introduction}
 \input{Chapters/Background/Background}
 \input{Chapters/Gait_Data}
 \input{Chapters/software}
@@ -251,7 +258,7 @@ Professor Berk Calli,  Committee Member
 \input{Chapters/Controllers/controllers}
 
 \bibliographystyle{ieeetr}
-\bibliography{bibliography/lfd,bibliography/SCI,bibliography/mech_design,bibliography/exo_background, bibliography/software,  bibliography/sim, bibliography/gait, bibliography/stair, bibliography/controllers }
+\bibliography{bibliography/lfd,bibliography/SCI, bibliography/strokes, bibliography/mech_design,bibliography/exo_background, bibliography/software,  bibliography/sim, bibliography/gait, bibliography/stair, bibliography/controllers }
 
 
 

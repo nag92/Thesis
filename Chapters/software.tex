@@ -1,13 +1,12 @@
-
 \chapter{Vicon and Gait Analysis Software Package}
 \label{chap:software}
-\section{Overview}
-The Vicon motion capture system collects a rich set of data for analysis and manipulation. This richness of this data set however makes the raw data difficult to extract and handle.
-To handle this data is was pessary to develop a toolkit to parse the data into data structures that exposes the data to other APIs for manipulation and analysis. 
+\section{Introduction}
 
-The Vicon  motion capture system is a popular motion capture system. This mocap system can export the data in several formats, including C3D \footnote{https://www.c3d.org/}  files and ASCII files. Vicon offers Python and Matlab packages to post-process the data; these packages only work on a computer with an active Vicon Nexus software package, making it challenging to work with the data. 
+The development of the presented software packages were done with the help of Alek Lewis and Alex Tacescu, who helped with debugging and testing of the packages and well has contributing ideas to the structure of the packages. The Vicon \footnote{Vicon, 7388 S. Revere Parkway Suite 901 Centennial CO 80112USA} motion capture system collects a rich set of data for analysis and manipulation. This richness of this data set however makes the raw data difficult to extract and handle. To handle this data is was pessary to develop a toolkit to parse the data into data structures that exposes the data to other APIs for manipulation and analysis. 
 
-C3D files contain rich data that can be imported by popular biomechanical systems such as OpenSim \cite{seth2018opensim}. OpenSim will ingest the data and build an analysis model. The Biomechanical Toolkit offers a powerful tool for handling the raw C3D files to allow researchers to work with the mocap data and apply methods and algorithms \cite{barre2014biomechanical}. This package is written in C++, which is a compiled language, not an interpreted language. The advantage of an  interpreted language like Python is that it is easier to implement and code cane be executed on the fly. This is in contrast to C++ which has complex syntax with better computation performance \cite{varisteas2018distributed} \cite{bargiacchi2020ai}. Computational time is less of a concern when analysing data where a priority is more focused an obtaining results and extracting information then real time functionality.  The toolkit developed at Cleveland State University gait lab is an open-source tool for analyzing mocap data  \cite{DTK2014} \cite{GATK2014}. While, this package was developed in Python, this tool lacks flexibility and modulairty. The complexity of the toolkit makes it difficult to separate marker trajectories and handle marker analysis from gait data.   
+The Vicon motion capture system is a popular motion capture system. This mocap system can export the data in several formats, including C3D \footnote{https://www.c3d.org/}  files and ASCII files. Vicon offers Python and Matlab packages to post-process the data; these packages only work on a computer with an active Vicon Nexus software package, making it challenging to work with the data. 
+
+C3D files contain rich data that can be imported by popular biomechanical systems such as OpenSim \cite{seth2018opensim}. OpenSim will ingest the data and build an analysis model. The Biomechanical Toolkit offers a powerful tool for handling the raw C3D files to allow researchers to work with the mocap data and apply methods and algorithms \cite{barre2014biomechanical}. This package is written in C++, which is a compiled language, not an interpreted language. The advantage of an  interpreted language like Python is that it is easier to implement and code can be executed on the fly. This is in contrast to C++ which has complex syntax with better computation performance \cite{varisteas2018distributed} \cite{bargiacchi2020ai}. Computational time is less of a concern when analysing data where a priority is more focused an obtaining results and extracting information then real time functionality. The toolkit developed at Cleveland State University gait lab is an open-source tool for analyzing mocap data  \cite{DTK2014} \cite{GATK2014}. While, this package was developed in Python, this tool lacks flexibility and modulairty. The complexity of the toolkit makes it difficult to separate marker trajectories and handle marker analysis from gait data.   
 
 To solve these problems a new toolkit was developed to manipulate and analysis Vicon and Gait data. Three software packages are presented, the Gait Core package, the Vicon Toolkit Package, and the Gait Analysis Toolkit Package. The software packages separate the tools for handling the Vicon marker data and the tools for gait analysis. This structure, shown in \autoref{fig:software}, allows for each software package to be used as stand-alone or in a unified system. The GaitCore package allows for a common API to be used along with constant data types.   
 
@@ -19,16 +18,16 @@ The advantage of these packages over similar packages is the underlining structu
 
 
 
-\begin{figure}
+\begin{figure}[hbt]
     \centering
-    \includegraphics[scale=0.15]{images/software/software.png}
-    \caption[Software Architecture]{Software architecture of the Vicon-specific toolkit for importing and processing data, the Gait Toolkit for motion anlaysis which is not specific only to Vicon, the GaitCore structure, and user applications.}
+    \includegraphics[scale=0.20]{images/software/software.png}
+    \caption[Software Architecture]{Software architecture of the Vicon-specific toolkit for importing and processing data, the Gait Toolkit for motion analysis which is not specific only to Vicon, the GaitCore structure, and user applications.}
     \label{fig:software}
 \end{figure}
 
 
 \section{GaitCore}
-At the center of the Vicon and Gait Analysis tool kit libraries is the GaitCore package. The GaitCore package provides low-level objects used in both the Vicon and Gait Analysis Toolkit packages. This package allows for the data to be manipulated and stored for consistent structures and readability.
+At the center of our Vicon and Gait Analysis tool kit libraries is the GaitCore package. The GaitCore package provides low-level objects used in both the Vicon and Gait Analysis Toolkit packages. This package allows for the data to be manipulated and stored for consistent structures and readability.
 
 The GaitCore package objects provide APIs to initialize the object and work with the data. Each class has override operators to allow for mathematical operations to be performed. The objects in the GaitCore package are the following:
 
@@ -55,7 +54,7 @@ The GaitCore package objects provide APIs to initialize the object and work with
 
 \section{Vicon Package}
 \subsection{Overview}
-The Vicon Toolkit Package parses and organizes the data exported by the Vicon Nexus software. The Nexus software exports an ASCII file with headers distributed throughout the row of the file. The Vicon parser extends an abstract base class \textit{Mocap}; this allows for abstract of the core functionality required for different mocap systems; this includes the marker interpolation and joint modeling. This allows the tools discussed to be used for other mocap systems like the Optitrack \footnote{https://optitrack.com/}.  
+Our Vicon Toolkit Package parses and organizes the data exported by the Vicon Nexus software. The Nexus software exports an ASCII file with headers distributed throughout the row of the file. The Vicon parser extends an abstract base class \textit{Mocap}; this allows for abstract of the core functionality required for different mocap systems; this includes the marker interpolation and joint modeling. This allows the tools discussed to be used for other mocap systems like the Optitrack \footnote{Optitrack, NaturalPoint, Inc. Corvallis, OR 97339}.  
  The tools in this package are summarized below: 
 
 \begin{itemize}[noitemsep]
@@ -66,7 +65,7 @@ The Vicon Toolkit Package parses and organizes the data exported by the Vicon Ne
 \end{itemize}
 
 
-The Vicon Toolkit Package sorts the data into three buckets (classes): markers, devices, and model outputs. Each of these classes has internal functions for analysis. The classes were created to align the section headers in the ASCII file export from Vicon Nexus. 
+Our Vicon Toolkit Package sorts the data into three buckets (classes): markers, devices, and model outputs. Each of these classes has internal functions for analysis. The classes were created to align the section headers in the ASCII file export from Vicon Nexus. 
 
 The Vicon object is initialized with a single line of code. The only mandatory parameter is the path to the ASCII file; there are optional parameters for gap filling and interpolation of missing data. The interpolated data can be exported to a new file for later use.  \autoref{setup} shows how to initialize the Vicon object.
 
@@ -101,7 +100,7 @@ McCain \textit{et. al} proposed a method that takes advantage of rigid bones in 
 
 A similar method was developed by Lasenby \textit{et. al}, this method also used a bone constraint method \cite{aristidou2013real}. However, this method did not constrain its movement to be linear; it replaced the linear Kalman filter with an unscented Kalman filter. An unscented Kalman filter allows for nonlinear models of the motion to be assumed. This method takes full advantage of the markers being attached to a rigid bone structure. It also uses a variable tune model with a target velocity and acceleration of the markers. The latter, however, is subject to too much noise to be computationally useful. This method requires three markers per body for tracking; these markers allow the marker to calculate the body's 3D location in space. While this number of markers would be common for biomechanical trials, it requires many markers to be used; this makes it unsuitable for trials with few markers or markers not attached to rigid bodies.
 
-Each of the methods discussed above is optimal for different applications and research. Furthermore, new methods can be developed to produce better results or suit a particle application or research. To handle this the package was build so that the user can specify the desired interpolation method. This is unique among the other packages. Other packages either do not offer an interpolation method or it is fixed.  
+Each of the methods discussed above is optimal for different applications and research. Furthermore, new methods can be developed to produce better results or suit a particle application or research. To handle this the package was build so that the user can specify the desired interpolation method. This is unique among the other packages. To the best of our knowledge other packages either do not offer an interpolation method or it is the method is fixed.  
 
 \subsection{Rigid Bodies}
 
@@ -178,7 +177,7 @@ The Vicon toolkit will automatically gather markers into rigid bodies and can pr
 \subsection{Addition Features}
 
 \subsubsection{Model Outputs}
-The Vicon Nexus software has several plug-in models (upper and lower) for fitting marker data to the human's body. The plug-in models are used for calculating the joint angle, torque, power, and force output by the plugin model. These values are critical for analysis of gaits and human motion.  The Vicon package stores all of this data in the Newton class. The joint class stores the data for a single joint, such as the hip, shoulder, or knee. This structure allows for easy access to the joint kinematics and dynamics. \autoref{modeloutput} shows how to get the left hip angle of a subject while walking. By replacing angle with the moment, the torques around that joint can be accessed.
+The Vicon Nexus software available from Vicon has several plug-in models (upper and lower) for fitting marker data to the human's body. The plug-in models are used for calculating the joint angle, torque, power, and force output by the plugin model. These values are critical for analysis of gaits and human motion.  The Vicon package stores all of this data in the Newton class. The joint class stores the data for a single joint, such as the hip, shoulder, or knee. This structure allows for easy access to the joint kinematics and dynamics. \autoref{modeloutput} shows how to get the left hip angle of a subject while walking. By replacing angle with the moment, the torques around that joint can be accessed.
 
 
 \lstinputlisting[language=Python, 

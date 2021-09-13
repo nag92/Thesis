@@ -1,6 +1,6 @@
 \section{Prototype of personalized bio-mechanical knee}
 
-Another knee design was examined that focused more on attempting to match the knee motion profile. Exoskeletons discussed in \autoref{sec:ExoBack} mostly use pin-type joints in their knee joints. This is in contrast to how the actual kinematics which has a variable center of rotation \cite{morrison1970mechanics} \cite{koo2008knee}.
+The work done in this section was in collaboration with Alex Tacescu. I lead the managed the focus of the project and came up with the idea. I was also involved with running the mocap experiments and the mechanical design. Another knee design was examined that focused more on attempting to match the knee motion profile. Exoskeletons discussed in \autoref{sec:ExoBack} mostly use pin-type joints in their knee joints. This is in contrast to how the actual kinematics which has a variable center of rotation \cite{morrison1970mechanics} \cite{koo2008knee}.
 
 Several recent designs have focused more on accounting for knee motion. Choi \textit{et. al} used multiple rolling cams to adapt to the changing center of rotation \cite{choi2017development}. This design fits a person's knee motion; it did not use modeling of the knee's tibiofemoral motion to design the cams. Additionally, the design is complicated and not easily reproducible. In another design Choi \textit{et. al} used multiple roller and pulleys powered by linear actuators. However, rotary electric motors with rotary gearboxes can often achieve higher performance than electric linear actuators powered by rotary DC motors. Another knee design was presented in \cite{wang2018comfort}, this design prioritized the comfort of the user and the alignment of the knee joint. This design also uses pulleys and cables to model the knee motion. \cite{AdaptiveKneeJoint} presents a cam knee design that uses a model of the knee motion. This design is a significant improvement over previous designs that merely compensate for the motion. However, as the other designs discussed, they use linear actuators.  These designs do well at either mimicking or compensating for the knee motion; however, they are mechanically cumbersome to manufacture; they did not show mimicking of the center of rotation's theoretical movement and/or use a linear actuator to replicate rotary motion. In addition, the design does not allow for the knee to be customized and therefore cannot meet the specific motion of the patient. Thus, we propose a knee design that is readily configured to match a particular patient's knee joint motion, is designed for easy manufacturing and allows the use of readily available rotary actuators and brake mechanisms.
 
@@ -67,7 +67,7 @@ The motor and gearbox need to provide sufficient torque and power to drive the k
         Output Stall Torque & \(\tau_{out\_stall}\) & \(673.2 Nm\) \\
         \hline
     \end{tabular}
-    \caption{Motor/gearbox specifications and output power specifications of the proposed joint.}
+    \caption{Bio Knee parameters}{Motor/gearbox specifications and output power specifications of the proposed joint.}
     \label{table:MotorGearboxSpecs}
 \end{table}
 
