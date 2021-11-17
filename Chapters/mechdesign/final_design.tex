@@ -51,12 +51,42 @@ The dynamic properties of LARRE are essential for building the controller. The d
 \end{table}
 
 
-To measure the kinematics and dynamics of a gait while wearing LARRE a single patient study was conducted. This study was not designed to measure the ability for the exoskeleton to induce movement but merely to observe the motion of the exoskeleton. The Vicon setup described in \autoref{sec:setup} was used with the custom marker layout shown in \autoref{fig:larremarker}. Additional markers was added to the plug-in gait model. The additional markers were added to ensure that there was no marker occlusion during the trial. 
+To measure the kinematics and dynamics of a gait while wearing LARRE a single patient study was conducted. This study was not designed to measure the ability for the exoskeleton to induce movement but merely to observe the motion of the exoskeleton. The Vicon setup described in \autoref{sec:setup} was used with the custom marker layout shown in \autoref{fig:larremarker}. Additional markers was added to the plug-in gait model. \autoref{tab:exomarkerlayout} details the rigid bodies used and their location (see \autoref{fig:markers} for definition of the marker layout). The  The additional markers were added to ensure that there was no marker occlusion during the trial. 
 
 The joints kinematics are shown in \autoref{fig:exojointkin}. Only a single demonstration is shown however multiple demonstrations were record. Similar just the right leg is shown. The heel strikes and toe offs are called out in the graphs. These points are found using the Vicon plug-in gait tools. All of the data presented was extracted and analysed using the tools discussed in \autoref{chap:software}. In this study, three steps are taken across the mocap floor. The fist step is slight off since it started with feet together, however step two and three are more aligned with the expected motion. The gait cycles are presented over the collected frames, the vicon records at 100FPS so the presented trial is approximately $14.04s$. LARRE was able to move through the desired joint range for a gait cycle. Similarly with the moments shown in \autoref{fig:larregaitmoments}, the first step is does not contain relevant data since the moments can only be calculated when the force plates embedded on the floor are stepped on. The moments are presented in $\frac{Nm}{Kg}$ which allows for the torque to be abstracted and calculated for the different masses. 
 
+\begin{table}[h!]
+    \begin{centering}
+            \begin{tabular}{||c  c ||} 
+         \hline
+            Plate Name & Plate \#  \\ [0.5ex] 
+            \hline\hline
+            LTHIGH	& 11 \\
+            LSHANK &	19\\
+            LFOOT &	9 \\
+            LTHIGH FRONT &	7\\
+            LTHIGH BACK &	15\\
+            LSHANK FRONT &	4\\
+            LSHANK BACK &	14\\
+            RTHIGH SIDE &	5\\
+            RSHANK SIDE &	17\\
+            RFOOT &	10\\
+            RTHIGH FRONT &	20\\
+            RTHIGH BACK &	16\\
+            RSHANK FRONT &	1\\
+            RSHANK BACK &	3\\
+            BACK &	2\\ [1ex] 
+         \hline
+        \end{tabular}
+        \caption{Caption}
+        \label{tab:exomarkerlayout}
+    \end{centering}
+\end{table}
 
-\begin{figure}
+
+
+
+\begin{figure}[h!]
     \begin{subfigure}{0.5\textwidth}
         \centering
         \captionsetup{justification=centering}

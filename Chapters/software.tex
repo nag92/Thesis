@@ -20,7 +20,7 @@ The advantage of these packages over similar packages is the underlining structu
 
 \begin{figure}[hbt]
     \centering
-    \includegraphics[scale=0.20]{images/software/software.png}
+    \includegraphics[scale=0.15]{images/software/software.png}
     \caption[Software Architecture]{Software architecture of the Vicon-specific toolkit for importing and processing data, the Gait Toolkit for motion analysis which is not specific only to Vicon, the GaitCore structure, and user applications.}
     \label{fig:software}
 \end{figure}
@@ -228,7 +228,7 @@ These tools were developed to compare the gait motion collected during the trial
 The LfD algorithms are built into this package to learn the record bio-mechanical information. This allows for seemly flow from data collection to replication. \autoref{fig:flowchart} shows a flowchart of how a trajectory can be learned. \autoref{fig:learned} shows a learned demonstrations and the learned trajectory. The software are based on the other open-source packages \cite{calinon2016tutorial}. These other package while perform the mathematical operations, they are difficult to use without outside their provided data set with the code base. 
 
 
-\begin{figure}
+\begin{figure}[h!]
     \begin{subfigure}{0.4\linewidth} 
         \centering
         \captionsetup{justification=centering}
@@ -246,11 +246,47 @@ The LfD algorithms are built into this package to learn the record bio-mechanica
         \caption{The thick line is the learned trajectories. The thin lines are the demonstrations that were used to train the model. This model was trained to replicate the toe marker}
         \label{fig:learned}
     \end{subfigure}
-    
-    \label{fig:my_label}
+    \label{fig:LFDexample}
 \end{figure}
 
 
+DTW (\autoref{eq:DTW}) does not produce smooth trajectories; the trajectories must be smoothed so that the derivative of the trajectory is found. This is done to transform the trajectory into a force model that is used to pull the system along a desired trajectory. This is done using \autoref{eq:forcingfunction}, were $x$ is the demonstration trajectory, and $K_p$ and $K_v$ are gain. This is essential a mass-spring-dampener model. A polynomial to the temporally scaled demonstrations produces smooth, continuous, and differentiable trajectories; this is important when differentiating the demonstrations for encoding the motion model.  \autoref{fig:DTWSmoothing} shows an example of the smoothing. This has an effect on the reproduction of the trajectory. This can be seen in \autoref{fig:smoothingcomparison}. As shown in \autoref{fig:unsmoothreplication} when the DTW trajectories are not smoothed the model cannot replicated the motion. The forcing function shown in blue were calculated using \autoref{eq:forcingfunction}, as shown the training forcing functions chatter. This is caused by the DTW trajectories have discontinues the are magnified when the differential of the signal is taken.  \autoref{fig:smoothreplication} was generated has the smoothing applied which results in the forcing function being smooth and a better replication of the trajectory. The smoothed path method as a metric of imitation cost of 1224 while the unsmoothed path method as a cost of 1890.3. This is a approximately a 54.4\% increase in the metric of imitation. 
+
+\begin{equation}
+    \Large
+    \tau = x + \frac{Kv}{Kp} \dot{x} + \frac{1}{Kp} \ddot{x}
+    \caption[Force Term]{Forcing Term}
+    \label{eq:forcingfunction}
+\end{equation}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{images/software/DTWsmoothing_annotanted.png}
+    \caption[DTW Smoothing]{Using Polynomials to smooth the DTW trajectory. The chatter can be seen in the enlarged box.}
+    \label{fig:DTWSmoothing}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+    \begin{subfigure}{\textwidth} 
+        \centering
+        \captionsetup{justification=centering}
+        \includegraphics[width=\textwidth]{images/software/unsmoothed_repruction.png}
+        \caption{Forcing function and replicated trajectory. As shown the model was not able to follow the desired motion and the forcing functions have chattering along the motion.}
+        \label{fig:unsmoothreplication}
+    \end{subfigure}
+      \begin{subfigure}{\textwidth} 
+        \centering
+        \captionsetup{justification=centering}
+        \includegraphics[width=\textwidth]{images/software/smoothed_repruction.png}
+        \caption{Forcing function and replicated trajectory. As shown the model was able to follow the desired motion and the forcing functions are smooth along the motion.}
+        \label{fig:smoothreplication}
+    \end{subfigure}
+    \caption[DTW Smoothing]{Effects of applying smoothing the a DTW demonstration}
+    \label{fig:smoothingcomparison}
+\end{figure}
 
 
 The Gait Analysis package takes a different approach by provided the tools to parse data and build the data structures the user only has to provide the data set and have a basic understanding of Python. Another advantage of approach is the separation of the learning and replication systems. As discussed in \autoref{sec:lfd} the learning phase is an offline process. Using GMM to encode a data set can take several seconds to several minutes depending on number of demonstrations, length of the demonstrations, and the number of bins used to encode. This makes is desirable to use a powerful computer to encode the demonstrations. The replication of the trajectory with GMR is an online process using the parameters calculated by GMM. 
@@ -272,10 +308,12 @@ The software packages presented have been release open source for community use 
     \item Open Source tools for handling mocap data.
     \item Improved methods to handle and analysis marker and rigid body data by allowing rigid bodies to be defined and automatically finding transformation between different bodies in every frame.
     \iten Visualization tools to observe the marker position and calculated joint centers. 
+    \item Improved GMM process by introducing a polynomal smoothing function on the demonstrations to ensure that they are smooth and differentiable. By doing this is reduced the chattering in the forcing function used to train and drive the model along the desired trajectory. This was shown to reduce the metric of imitation.
     \item Comprehensive tools for learning from demonstrations to encode and reproduce biological motion. The encoding method is separated from the reproduction method allowing for offline learning and online reproduction.
     \item Modular method to fill in missing marker gaps allowing different gap filling methods to be implemented. 
-    \item Built in tools to parse and compare gait trajectories. \item APIs to provide access to the lower and upper body plug-in Vicon models. 
+    \item Built in tools to parse and compare gait trajectories. 
+    \item APIs to provide access to the lower and upper body plug-in Vicon models. 
 \end{itemize}
 
-All of the toolkits presented here were built to handle all the collected human demonstration data in \autoref{chap:gaitdata}. This allowed for the gait cycles to be extracted and compared. The collected data was then easily encoded using the built in LfD tools. The separation of the layers allows the trajectories to learned offline and replicated online. This feature was be used to build the simulation of the exoskeleton in \autoref{sec:sim}.
+All of the toolkits presented here were built to handle all the collected human demonstration data in \autoref{chap:gaitdata}. This allowed for the gait cycles to be extracted and compared. The collected data was then easily encoded using the built in LfD tools. The separation of the layers allows the trajectories to learned offline and replicated online. This feature was be used to build the simulation of the exoskeleton in \autoref{chap:sim}.
 

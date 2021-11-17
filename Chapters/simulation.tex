@@ -195,6 +195,7 @@ Robotic controllers typically requires knowledge of the systems' dynamics being 
 
 
 \begin{equation}
+\Large
     H(q) \Ddot{q} + C(q,\Dot{q}) = \tau + G(q)^T \lambda
     \label{eq:motion}
 \end{equation}
@@ -206,12 +207,14 @@ The dynamic server is designed to be used with Python and C++ clients. This modu
 The AMBF client gathers the joint position ($q$), joint velocity ($\Dot{q}$), and acceleration ($\DDot{q}$) of the robot.  The forward kinematics are calculated using these variables as shown in \autoref{eq:FD}; this returns the torque at each of the joints. To find the joint acceleration, the joint position and velocity are required in addition to a torque or command ($\tau$) shown in \autoref{eq:ID}.  
 
 \begin{equation}
+    \Large
     \tau = ID(q,\Dot{q}, \Ddot{q})
     \label{eq:ID}
 \end{equation}
 
 
 \begin{equation}
+    \Large
     \Ddot{q} = FD(q,\Dot{q}, \tau )
     \label{eq:FD}
 \end{equation}

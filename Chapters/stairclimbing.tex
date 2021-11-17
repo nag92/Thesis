@@ -43,6 +43,15 @@ The limb length of the subject used for training were measured using a calibrati
     \label{fig:stick}
 \end{figure} 
 
+\autoref{fig:DTWStairs} shows the alignment of a trajectory against a demonstration. This demonstration was taken from stair climbing data set. The blue line is demo 1, and the orange line is demo 2. DTW aligns demo 2 with demo 1. The green line represents the aligned trajectory and the red line represents a polynomial fit to the aligned trajectory. The cost map shows the closest fit of points from $P$ to $T$. The white spots are the hills and the black spots are the valleys, with the path being the minimum cost from start to goal. The total path cost associated with the Euclidean was $17652.35$, and the cost of the Manhattan path was $33.50$. This is the cost of aligning the demonstration with the model trajectory. The Manhattan metric had a much lower cost than the Euclidean metric, allowing for a better fit. 
+
+\begin{figure}[h]
+     \centering 
+     \includegraphics[width=\textwidth]{images/stairs/DTW_annotated.png} 
+     \caption[Polynomial Smoothing of DTW]{Two demos being aligned using DTW and a smoothed trajectory. Blue line: demo 1. Orange line: demo 2. Green line: aligned trajectory. Red line: Polynomial smooth trajectory. The cost map shows the distance between the points.} 
+     \label{fig:DTWStairs} 
+\end{figure} 
+
 
 
 The BIC score was used optimize the number of required bins for the GMM proccess. \autoref{fig:BIC} shows the BIC score calculated for several bin sizes (1-25) for the $ Y $ and $ Z $ trajectories of the toe marker. This calculation limits the number of bins. The two graphs are generated using a single demonstration from each of the eight subjects in the config0 data set (see \autoref{tab:stairs}). The optimal number of bins for the $Z$ axis is 6 bins and the optimal number of bins for the $Y$ axis is 7 bins. 

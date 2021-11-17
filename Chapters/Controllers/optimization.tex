@@ -2,45 +2,45 @@
 
 
 \subsection{Overview Cooperative Controllers}
-
-Assistive controllers have long been implemented in rehabilitative exoskeletons. This includes the MIT-MANUS \cite{ju2005rehabilitation}, BLEEX\cite{kazerooni2006hybrid}, HAL\cite{kawamoto2004power} and many others robotic systems including several exoskeletons \cite{kim2012admittance,ott2010unified,huo2011control}. These systems use assistive controllers to help guide the person's arm or leg through some desired trajectory or complete tasks. This method is typically used because the person has difficulty generating the necessary torques due to medical problems such as a stroke or spinal cord injury. The difficulty in designing these systems is in handling the non-linearity and distances from being connected to a person, which the controller will have to overcome. Many of these controllers implement either impedance or admittance models. Admittance controllers transform forces and torques to the desired position and orientation. Impedance controllers are the mirror calculating displacements from applied forces and torques. They allow for virtual stiffness, which is useful for controlling the human-robot interactions \cite{keemink2018admittance}. 
+Assistive controllers have long been implemented in rehabilitative exoskeletons. This includes the MIT-MANUS \cite{ju2005rehabilitation}, BLEEX\cite{kazerooni2006hybrid}, HAL\cite{kawamoto2004power} and many others robotic systems including several exoskeletons \cite{kim2012admittance,ott2010unified,huo2011control}. These systems use assistive controllers to help guide the person's arm or leg through a desired trajectory or to complete tasks. This method is typically used because the person has difficulty generating the necessary torques due to medical problems such as a stroke or spinal cord injury. The difficulty in designing these systems is in handling the non-linearity and distances from being connected to a person, which the controller will have to overcome. Many of these controllers implement either admittance or impedance models. Admittance controllers transform forces and torques to the desired position and orientation. Impedance controllers are the mirror to admittance controllers calculating displacements from applied forces and torques. Impedance controllers allow for virtual stiffness, which is useful for controlling the human-robot interactions \cite{keemink2018admittance}. 
 
 The admittance controller has shown better results when implemented into an exoskeleton. They are easier to implement and can measure the intention of the user. Admittance controllers allow for the adjustment of the stiffness to meet the on-the-fly demand by either being more or less aggressive in the supplied force \cite{aguirre2007active,newman1994stable}. This problem is solved by using variable admittance, where the parameters are adjusted based on the user's intention and ability.
 
 Oh \textit{et. al} proposed a generalized framework for assistive controllers \cite{oh2015generalized}. The proposed controller combined a model-based method with feed-forward disturbance rejection—this method models the interaction as a disturbance to the system instead of an interactive force.  Additionally, a PD controller was used, in contrast to a Sliding Mode Controller (SMC), which has been shown to have better performance in controlling non-linear systems. They both have robust and adaptive properties that are ideal for assistive systems \cite{slotine1991applied}.
 
-SMC is a popular method in assistive controllers due to their insensitivity to disturbances and handling of non-linearity better than traditional PD controller \cite{nasir2010performance} \cite{sanngoen2020review} \cite{fischer-SMC}. SMC works by using a switching function to drive the system along a sliding surface. Torabi \textit{et al.} used a model-based SMC controller to drive a lower limb exoskeleton. This controller also used an adaptive admittance controller along with the SMC to adjust to the user intention ability \cite{torabi2018robust}. A similar method of model-based SMC was used by Babaiasl \textit{et. al} to control an upper limb exoskeleton \cite{babaiasl2015sliding}. In \cite{long2016robust} a genetic algorithm was used to tune the parameters of an SMC for a lower limb exoskeleton. The parameters were tuned in MATLAB/SIMULINK. While successful, they did not model a connection between the human and exoskeleton and did not use an adaptive admittance controller. 
+SMC is a popular method in assistive controllers due to their insensitivity to disturbances and handling of non-linearity better than a traditional PD controller \cite{nasir2010performance} \cite{sanngoen2020review} \cite{fischer-SMC}. SMC works by using a switching function to drive the system along a sliding surface. Torabi \textit{et al.} used a model-based SMC controller to drive a lower limb exoskeleton. This controller also used an adaptive admittance controller along with the SMC to adjust to the user intention ability \cite{torabi2018robust}. A similar method of model-based SMC was used by Babaiasl \textit{et. al} to control an upper limb exoskeleton \cite{babaiasl2015sliding}. In \cite{long2016robust} a genetic algorithm was used to tune the parameters of an SMC for a lower limb exoskeleton. The parameters were tuned in MATLAB/SIMULINK. While successful, they did not model a connection between the human and the exoskeleton and did not use an adaptive admittance controller. 
 
 \begin{figure}
     \centering
-    \includegraphics{images/controllers/SMC.png}
+    \includegraphics[width=\linewidth]{images/controllers/SMC.png}
     \caption{Sliding mode control and the switching phase}
     \label{fig:SMC}
 \end{figure}
 
 \subsection{Development of Cooperative Controller and Tuning Methods}
 
-In this section a method of developing a closed loop assastive controller will be discussed. First a simplified system is presented so that the controller can be developed. The simplified system constitutes of two double pendulums connected by a mass-spring dampener at each link. Then a method of tuning the parameters is presented along with the effects on effort reduction and system misalignment.
+In this section, a method of developing a closed-loop assistive controller will be discussed. First, a simplified system is presented so the controller can be developed. The simplified system consists of two double pendulums connected by a mass-spring dampener at each link. A method of tuning the parameters is presented, along with the effects on effort reduction and system misalignment.
 
-\autoref{fig:double_pend} illustrates the simplified system. Because one set of pendulums is being assisted by the other set, one pendulum is the \textit{assistie} and the other pendulum is the \textit{assisitor} system. The \textit{assisitor} system provides additional torques to help the \textit{assistie} to move through some desired motion. This model and controller are based on the work by Tu \textit{et. al} \cite{tu2020adaptive}, however the system was modified so that \textit{assistie} system is driven by a closed-loop controller. These changes add complexity to the system since the \textit{assistor} system has to handle the errors that arise in the attached closed-loop controller. With two closed-loop systems connected, the controller commands are magnified when handling the errors \cite{tu2020adaptive}. \autoref{fig:controlDiagram} shows the control diagram. The first model has a pendulum that is controlled by a simple closed-loop PD controller. The second model is controlled by an Admittance-Sliding Mode Controller (A-SMC), which has useful properties for handling non-linear dynamics and disturbances. Additionally, a gradient descent method is used to auto-tune the PD controller parameters and the A-SMC. 
+\subsubsection{Simplified System}
+\autoref{fig:double_pend} illustrates the simplified system. Since one set of pendulums is being assisted by the other set, one pendulum is the \textit{assistie} and the other pendulum is the \textit{assisitor} system. The \textit{assisitor} system provides additional torques to help the \textit{assistie} to move through some desired motion. This model and controller are based on the work by Tu \textit{et. al} \cite{tu2020adaptive}, however the system was modified so the \textit{assistie} system is driven by a closed-loop controller. These changes add complexity to the system since the \textit{assistor} system has to handle the errors that arise in the attached closed-loop controller. With two closed-loop systems connected, the controller commands are magnified when handling the errors \cite{tu2020adaptive}. \autoref{fig:controlDiagram} shows the control diagram. The first model has a pendulum that a simple closed-loop PD controller controls. The second model is controlled by an Admittance-Sliding Mode Controller (A-SMC), having useful properties for handling non-linear dynamics and disturbances. Additionally, a gradient descent method is used to auto-tune the PD controller parameters and the A-SMC. 
 
 The problem with A-SMC controllers is the large number of parameters that need to be tuned. These parameters can have non-linear and hard-to-determine effects on the response of the system \cite{slotine1983tracking}. These parameters include SMC parameters and the variable admittance model parameters. Both of which scale with the dimensions of the system. Having a comprehensive method to determine these parameters allows the system to be tuned automatically.  
 
 \begin{figure}
     \centering
     \includegraphics[scale=1.5]{images/controllers/double_pend.png}
-    \caption{Double connected pendulum. Spring-dampeners connect the two pendulum (\textit{assistor} and \textit{assistie}) }
+    \caption[Double connected pendulum]{Double connected pendulum. Spring-dampeners connect the two pendulum (\textit{assistor} and \textit{assistie}) }
     \label{fig:double_pend}
 \end{figure}
 
-\begin{figure*}
+\begin{figure}
     \centering
-    \includegraphics[scale=0.9]{images/controllers/SMC_control_diagram_overview.png}
-    \caption{Control diagram for A-SMC }
+    \includegraphics[width=\linewidth]{images/controllers/SMC_control_diagram_overview.png}
+    \caption[Control diagram for A-SMC]{Control diagram for A-SMC}
     \label{fig:controlDiagram}
-\end{figure*}
+\end{figure}
 
-\autoref{eq:CooPdyn} describes the dynamics for the \textit{assistor} (abbreviated has \textit{tor}) and \textit{assistie} (abbreviated has \textit{tie}) respectively.  It should be noted that $q$ is the joint state for the respective model that they describe. The $F$ terms are the forces generated as a result of being coupled by a spring dampener described by \autoref{eq:coupling}. Additionally, $J$ is the Jacobian of each link to the connection point of the spring dampener system. Although any point on the link could be used to calculate the Jacobian matrix, the connection point is at the end of each link. This assumption does change the process, only the calculation of the Jacobian matrix. It can later be adjusted to the location of the straps of an exoskeletons.
+\autoref{eq:CooPdyn} describes the dynamics for the \textit{assistor} (abbreviated has \textit{tor}) and \textit{assistie} (abbreviated has \textit{tie}) respectively.  It should be noted that $q$ is the joint state for the respective model that they describe. The $F$ terms are the forces generated as a result of being coupled by a spring dampener described by \autoref{eq:coupling}. Additionally, $J$ is the Jacobian of each link to the connection point of the spring dampener system. Although any point on the link could be used to calculate the Jacobian matrix, the connection point is at the end of each link. This assumption does change the process, only the calculation of the Jacobian matrix. It can later be adjusted to the location of the straps of the exoskeleton.
 
 \begin{equation} 
 \begin{aligned}
@@ -56,12 +56,12 @@ The problem with A-SMC controllers is the large number of parameters that need t
 \end{equation}
 
 
-The \textit{assisitie} system was controlled by \autoref{eq:PDcnrl}. This is simple PD control framework. $K_p$ and $K_d$ are gain matrixs and $\vec{q}_d$ is the desired position. This torque however was capped to not exceed an absolute max toque value. This was accomplished using the following method, $| \vec{\tau}_{tie}|> \vec{\tau}_{max} \rightarrow \vec{\tau}_{tie} = sign(\vec{\tau}_{tie})*\vec{\tau}_{max}$.  This did not allow the controller to generate the required torque. 
+The \textit{assisitie} system was controlled by \autoref{eq:PDcnrl}. This is simple PD control framework. $K_p$ and $K_d$ are gain matrixs and $\vec{q}_d$ is the desired position. This torque however was capped to not exceed an absolute max torque value. This was accomplished using the following method, $| \vec{\tau}_{tie}|> \vec{\tau}_{max} \rightarrow \vec{\tau}_{tie} = sign(\vec{\tau}_{tie})*\vec{\tau}_{max}$.  This did not allow the controller to generate the required torque. 
 
-% \begin{equation}
-%         \tau_{tie} = K_p( \vec{q}_d - \vec{q}_{tie} ) + K_d ( \dot{\vec{q}}_d - \dot{\vec{q}}_{tie} ) 
-%     \label{eq:PDcnrl}
-% \end{equation}
+\begin{equation}
+        \tau_{tie} = K_p( \vec{q}_d - \vec{q}_{tie} ) + K_d ( \dot{\vec{q}}_d - \dot{\vec{q}}_{tie} ) 
+    \label{eq:PDcnrl}
+\end{equation}
 
 The admittance controls the virtual dynamics of the system and how the systems interact \cite{faulring2005haptic}. If the \textit{assastie} system is capable of following the desired motion, the \textit{assasitor} system will be less aggressive. This interaction is controlled by \autoref{eq:addmittance}, where $x_a$ is the location of the virtual system and $x_d$ is the location of the point on the pendulum link. A separate spring-dampener system is on each of the links of the system. The virtual system is defined by the following terms $M_d$, $B_d$, and $K_d$ are inertia, dampening, and stiffness, respectively. As previously stated, it is desirable to have these parameters adjust on the fly to the intention and ability of the \textit{assistie} system. The variability is controlled by \autoref{eq:intention} and \autoref{eq:varible}. Here $\alpha_{n,p}$ and $\gamma_{n,p}$ are tuning variables for the damping and stiffness of the admittance controller. The admittance will control how quickly and aggressively the \textit{assistor} system will respond. If the stiffness or dampening is too large, the model will not track the desired motion.   
 
@@ -92,10 +92,10 @@ The admittance controls the virtual dynamics of the system and how the systems i
 \end{equation}
 
 
-The A-SMC controller suffers from an abundance of tunable parameters. The admittance controller and SMC have parameters requiring synergistic tuning since these systems are connected.  A gradient descent method is used to find optimal parameters based on various cost functions and constraints for the controller.  Gradient descent is used since it should arrive quickly to a solution  \cite{piltan2012performance} \cite{wang1996course}. The goal is to minimize the objective function by updating parameters. This method will iterate until the objective function converges to a locally optimal location. The tunable parameters for this controller are the variable admittance parameters ($K_{n,p}$, $B_{n,p}$, $\alpha_{n,p}$, $\gamma_{n,p}$) and the sliding mode controller variables ($\rho$, $\Lambda$, $\beta$).  Another important variable is the limit of the torque that the \textit{assistor} system can provide, and this limitation is important since physical real systems cannot produce infinite torque. Motors and gearboxes present real limitations on the system. This method allows for the maximum torque to be used, has a hard limitation, and allows for the minimal limit to be found.
+The A-SMC controller suffers from an abundance of tunable parameters. The admittance controller and SMC have parameters requiring synergistic tuning since these systems are connected.  A gradient descent method is used to find optimal parameters based on various cost functions and constraints for the controller.  Gradient descent is used since it should arrive quickly to a solution  \cite{piltan2012performance} \cite{wang1996course}. The goal is to minimize the objective function by updating parameters. This method will iterate until the objective function converges to a locally optimal location. The tunable parameters for this controller are the variable admittance parameters ($K_{n,p}$, $B_{n,p}$, $\alpha_{n,p}$, $\gamma_{n,p}$) and the sliding mode controller variables ($\rho$, $\Lambda$, $\beta$).  Another important variable is the limit of the torque that the \textit{assistor} system can provide, and this limitation is important since real physical systems cannot produce infinite torque. Motors and gearboxes present real limitations on the system. This method allows for the maximum torque to be used, has a hard limitation, and allows for the minimal limit to be found.
 
 
-The optimization was calculated using Simulink Response Optimization\footnote{https://www.mathworks.com/help/sldo/response-optimization.html}. Several cost functions were tested to find the optimal performance, and the model was trained to follow a polynomial trajectory. Root mean squared error (RMSE) was used for the cost function shown in \autoref{eq:RMSE}, where $x$ is the observation and $\hat{x}$ is the reference, either position or velocity. The error is summed along both the trajectory and the joints to get a scalar value. If both the position and velocity RMSE is used, it is then summed.
+The optimization was calculated using Simulink Response Optimization\footnote{https://www.mathworks.com/help/sldo/response-optimization.html}. Several cost functions were tested to find the optimal performance, and the model was trained to follow a polynomial trajectory. Root mean squared error (RMSE) was used for the cost function shown in \autoref{eq:RMSE}, where $x$ is the observation and $\hat{x}$ is the reference, either position or velocity. The error is summed along both the trajectory and the joints to get a scalar value. If both the position and velocity RMSE are used, it is summed.
 
 The gain parameters $K_p$ and $K_d$ in \autoref{eq:PDcnrl} were also tuned using the same method. The controller assumed that no assistance was provided by the \textit{assistor} system. These gains were set for the \textit{assistie} controller in the closed-loop system.
 
@@ -103,3 +103,258 @@ The gain parameters $K_p$ and $K_d$ in \autoref{eq:PDcnrl} were also tuned using
     e = \sqrt{ \frac{ \sum_1^N ( \hat{x}_i - x_i )^2 }{N}  }
     \label{eq:RMSE}
 \end{equation}
+
+\subsubsection{Tuning of Cooperative Controller}
+Several different cost functions were tested to arrive at a cost function for parameter tuning. It was assumed that the \textit{assistie} system was nonobservable and therefore could not be used for the optimization of the parameters. The only criteria used for the cost functions were those that could be measured by the \textit{assistor} system. Three different cost functions were tested, one based on position, another on velocity, and finally, one used both position and velocity.
+
+
+\autoref{fig:cost_function_optimization} shows the conversions of the cost functions used for optimization. All the cost functions converged to a steady value after approximately ten iterations; this means that the tuned controllers' parameters reached a local point where the system's performance was steady as defined by the cost. This is not a direct correlation to the actual system performance. By examining the system's state space, the performance of the controller can be a better detriment.
+
+
+
+
+
+\begin{figure}[ht]
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{images/controllers/pos_cost.png}
+        \caption[Position cost function]{Convergence of position cost function}
+        \label{fig:pos_cost}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.9\linewidth]{images/controllers/vel_cost.png}
+        \caption[Velocity cost function]{Convergence of velocity cost function}
+        \label{fig:vel_cost}
+    \end{subfigure}
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.45\linewidth]{images/controllers/all_cost.png}
+        \caption[Combined cost function]{Convergence of combined cost function}
+        \label{fig:all_cost}
+    \end{subfigure}
+    \caption{Cost function convergence for the different cost functions}
+    \label{fig:cost_function_optimization}
+\end{figure}
+
+
+The state-space of the system response is shown in  \autoref{fig:statespace}. The output of each of the tuning methods was compared throughout this paper. The untuned gains are also shown for reference to show the improvement of the output. The response optimizer was tuned until the cost function converged. The untuned gains performed poorly and were able to reach the settling point. Using the position tuning caused a significant spike in the sliding surface for both joints. Using position and velocity had similar results as just using velocity to the cost function. 
+
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\linewidth]{images/controllers/statespace.eps}
+    \caption[A-SMC State Space]{Comparing different cost functions used to tune the A-SMC controller}
+    \label{fig:statespace}
+\end{figure}
+
+Different involvement of the \textit{assistie}  using the tuned gains, reduced involvement, time-varying, and no involvement were tested. Additional varying alignment methods were tested to show the effect of the systems not being perfectly aligned with the length of the \textit{assistor}. The alignment methods included changing the links by $\pm 5\%$ of the \textit{assistie} link lengths. \autoref{fig:no_effort} shows the effects with no involvement from the \textit{assistie} system. All the effort is being supplied by the \textit{assistor} system's A-SMC. As shown \autoref{fig:no_effort_traj}, the controller was able to track the desired trajectory. 
+
+\begin{figure*}[h!]
+    \centering
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/none_torque.png}
+        \caption[Double Pendulum: No Torque-Effort]{Torque applied to the double pendulum}
+        \label{fig:no_effort_torque}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/none_traj.png}
+        \caption[Double Pendulum: No Torque-Trajectory]{Trajectories of double pendulum}
+        \label{fig:no_effort_traj}
+    \end{subfigure}
+    \caption[Double Pendulum: No Torque]{Double pendulum model responses with no \textit{assistie} torques.}
+    \label{fig:no_effort}
+\end{figure*}
+
+\autoref{fig:reduced_effort} shows the effects with a reduced involvement from the \textit{assistie} system. The \textit{assistie} system was only capable of producing approximately 20\%  of the required torque. The PD controller controlling the \textit{assistie} system worked together with the A-SMC controlling the \textit{assistor} to track the desired motions.
+
+\begin{figure*}[h!]
+    \centering
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/reduced_torque.png}
+        \caption[Double Pendulum: Reduced Torque-Effort]{Torque applied to the double pendulum}
+        \label{fig:reduced_effort_torque}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/reduced_traj.png}
+        \caption[Double Pendulum: Reduced Torque-Trajectory]{Trajectories of double pendulum}
+        \label{fig:reduced_effort_traj}
+    \end{subfigure}
+    \caption[Double Pendulum: Reduced Torque]{Double pendulum model responses with reduced \textit{assistie} torques.}
+    \label{fig:reduced_effort}
+\end{figure*}
+
+\autoref{fig:time_varying} shows the effects with a reduced involvement from the \textit{assistie} system. The \textit{assistie} system was only capable of producing approximately 20\%, and it was reduced over time by multiplying it $e^{-\xi t}sin(t)$; this was done to simulate a reduction in torque over time. The A-SMC controlling the \textit{assistor} had to handle the change in involvement over time. 
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/time_varying_torque.png}
+        \caption[Double Pendulum: Time varying Torque-Effort]{Torque applied to the double pendulum}
+        \label{fig:time_varying_torque}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/time_varying_traj.png}
+        \caption[Double Pendulum: Time Varying Effort-Trajectory]{Trajectories of double pendulum}
+        \label{fig:time_varying_traj}
+    \end{subfigure}
+    \caption[Double Pendulum: Time Varying Torque]{Double pendulum model responses with time varying reduced \textit{ assistie} torques.}
+    \label{fig:time_varying}
+\end{figure}
+
+
+Additionally, the effects of the controller were tested with a misalignment between the \textit{assistie} and \textit{assistor} systems. The time-varying control signal was used for these tests. The length of the \textit{assistor} system was changed by $\pm 5\%$; this would simulate an exoskeleton that does not perfectly align with the person. The effects are shown in misalignment are shown in \autoref{fig:small_length} and \autoref{fig:larger_length}.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/small_length_torque.png}
+        \caption[Double Pendulum: Negative Alignment-Effort]{Torque applied to the double pendulum}
+        \label{fig:small_length_torque}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/small_length_traj.png}
+        \caption[Double Pendulum: Negative Alignment-Trajectory]{Trajectories of double pendulum}
+        \label{fig:small_length_traj}
+    \end{subfigure}
+    \caption[Double Pendulum: Negative Alignment]{Double pendulum model responses with at 0.95x of the human length \textit{assistie} torques.}
+    \label{fig:small_length}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/larger_length_torque.png}
+        \caption[Double Pendulum: Positive Alignment-Effort]{Torque applied to the double pendulum}
+        \label{fig:small_length_torque}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/larger_length_traj.png}
+        \caption[Double Pendulum: Positive Alignment-Trajectory]{Trajectories of double pendulum}
+        \label{fig:small_length_traj}
+    \end{subfigure}
+    \caption[Double Pendulum: Positive Alignment]{Double pendulum model responses with at 1.05x of the human length \textit{assistie} torques.}
+    \label{fig:larger_length}
+\end{figure}
+
+
+The controller performance increased by tuning the parameters of the SMC controller. The non-optimal parameters should have a significant deviation from the sliding surface. Using a cost function that considers velocity only has nearly the identical performance as the cost function that used both position and velocity; both performed better than the position only cost function. Using these results allows the velocity or the position and velocity to be good metrics for a cost function to tune the parameters of the A-SMC controller. The results show the importance of using the correct cost function to tune the controller gains. By selecting the wrong criteria for the tuning controller parameters, the controller will produce unstable results. It is important to note that the admittance controller parameters must be tuned in addition to the parameters of the SMC. If the variability parameters are too large, the admittance controller will lag/lead aggressively and not track the desired motion. 
+
+\autoref{tab:error} summarizes the RMSE in degrees of the joint angles of the \textit{assistie} and \textit{assistor} systems. The largest error was caused with no  \textit{assistie} involvement. This is presumably caused by the non-rigid connection between the  \textit{assistie} and \textit{assistor} systems. The A-SMC controller does not have an understanding of the current state of the \textit{assistie} system, so it cannot directly control the position. However, since this was done in simulation, the error can be presented for comparison. The Sping-Dampener connection between the systems causes the \textit{assistie} to lag behind the \textit{assistie} system. Despite the \textit{assistie} it still only has an RSME error of $18.2^{\circ}$ on joint 1 and $16.7^{\circ}$ on joint 2; this is confirmed by examining the joint error of the reduced and time-varying simulations. The reduced test had the smallest RMSE, and the time-varying RMSE was between reduced and no-involvement simulations. 
+
+
+Testing the variability in alignment allows for testing of the controller when the systems are not perfectly aligned. This problem arises for real systems where the person's joints may not align perfectly with the exoskeleton joints. As shown \autoref{fig:small_length} and \autoref{fig:larger_length} the tracking signals were close to the time-varying signals with only a slight variation in the tracking RMSE.
+
+
+\begin{table}[h!]
+\centering
+ \begin{tabular}{||c |c c c c||} 
+ \hline
+    involvement  & \textit{assistor J1} & \textit{assistor J2} & \textit{assistie J1} & \textit{assistor J2}\\ [0.5ex] 
+ \hline\hline
+ None & 5.9^{\circ} & 9.5^{\circ} & 18.2^{\circ} & 16.7^{\circ} \\ 
+ Reduced & 8.4^{\circ} & 6.3^{\circ} & 7.8^{\circ}  & 5.2^{\circ}\\
+ Time Varying & 9.6^{\circ} & 6.2^{\circ} & 10.3^{\circ}  & 9.6^{\circ}\\ 
+ 0.95x length & 9.9^{\circ} & 6.6^{\circ} & 10.0^{\circ}  & 9.4^{\circ}\\
+ 1.05x length & 9.3^{\circ} & 6.3^{\circ}  & 10.7^{\circ}   & 9.8^{\circ}  \\[1ex] 
+ \hline
+ \end{tabular}
+ \caption{Joint RSME in degrees}
+  \label{tab:error}
+\end{table}
+
+
+\subsection{Application of Tuning Methodology}
+
+The tuning methodology developed for the simplified was applied to tune the cooperative controller for the LARRE. A Simulink model was built with ROS communication to tune the parameters. A model was built to calculate the forward and inverse dynamics on the fly using the \textit{ambf\_control\_system} package. Since this framework used the same AMBF simulation model, it is a good representation of the dynamics.   
+
+
+
+\subsection{Tuning of LARRE controller}
+
+The above method was then to tune the controller for LARRE. The model dynamics were calculated using the \textit{ambf\_control\_system} package for both the inverse and forward dynamics, allowing the system's response to be estimated on an identical model to the AMBF model but without the need to run AMBF, which would complicate the learning process. This was accomplished using the built-in ROS-Simulink bridge. 
+
+The tuning was done on a Ryzen$\texttrademark$ 5900x\footnote{https://www.amd.com/en/products/cpu/amd-ryzen-9-5900x} with $32Gb$ of memory and a Nvidia$\texttrademark$ 2700S GPU\footnote{https://www.nvidia.com/en-us/geforce/graphics-cards/rtx-2070-super/}. Due to many parameters (74 parameters assume that matrix elements off the diagonal are 0), the tuning process had to be done in batches.  If too many iterations were attempted, the computer would run out of memory running, causing the computer to crash. To solve this problem, only five iterations at a time then restarting the process with the final parameters of an iteration being the initial parameters of the next run. 
+
+
+
+
+\autoref{fig:coopCost} Show the converges of the response optimization. For systems with many parameters, upper and lower bound must be defined; this helps bound the search space and reduce optimization time. While the upper bound is hard to determine, the lower bound is known to be greater than 0, the $\beta$ parameter is bound between $0$ and $1$. It is also important to ensure the off-diagonal of the matrix is strictly 0 since only the diagonal elements are required. \autoref{fig:coopParams} shows how the parameters changed over the iterations. Twice the number of iterations is displayed because two resets were allowed in the optimization. They are split into different graphs since the parameters of different magnitudes and this allows for values to be better displayed. While it is difficult to determine how the parameters affect the overall model, all the parameters are correlated, and the system is highly non-linear. However, we can see that the magnitude of the parameters is critical. While the parameters did vary over time, they did not change magnitude.  
+
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/coop_cost.jpg}
+        \caption[Cost for LARRE Controller]{Cost of tuning the LARRE controller.}
+        \label{fig:coopCost}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/all_params.png}
+        \caption[Double Pendulum: Positive Alignment-Trajectory]{Trajectories of double pendulum}
+        \label{fig:coopParams}
+    \end{subfigure}
+    \caption[Parameter updates for LARRE Controller]{Parameter updates for LARRE Controller.}
+    \label{fig:coopParams}
+\end{figure}
+
+
+
+\autoref{fig:SMC_connection} shows a high-level overview of the system connections. A virtual machine (VMWare\footnote{https://www.vmware.com/products/workstation-player.html}) was required to run a ROS master due to a bug in the deployment of the Simulink ROS node. The main control system sends set points the Simulink control along with receiving constant state feedback. The Simulink control node calculates the effort and sends it back to the main controller, which sends it down to AMBF. Additionally, the \textit{ambf\_control\_system} is used to calculate the inverse dynamics of the model.   
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{images/controllers/simulink_connection.png}
+    \caption[SMC Connection Overview]{SMC Connection Overview.}
+    \label{fig:SMC_connection}
+\end{figure}
+
+
+The sliding surfaces are shown in \autoref{fig:simple_statespace}. The graphs are shown for the hip, knee, and ankle. The graphs are now as smooth as the simple double pendulum model graphs and converge slightly before reaching 0. This can be repeating the optimization method described above until more optimal parameters are calculated. This can also be used to solve the slight bend in all the graphs.  
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{images/controllers/statespace_simple.png}
+    \caption[Controller State Space]{Controller state space graphs}
+    \label{fig:simple_statespace}
+\end{figure}
+
+
+\subsection{Complication of ROS-Simulink Integration}
+
+The bridge connecting ROS to Simulink seems to be built assuming that a virtual machine (VM) runs Linux with the host computer running either Windows or OSX. There are built-in tools to set a connect and use a remote host for ROS. This allows for connection to deploy the node to a robot or allows for development on a non-Linux OS. When are remote host is selected (i.e. not using local host) the Simulink node compiled to the catkin\_ws on the VM. 
+
+A bug in the ROS-Simulink framework was discovered during development. While MATLAB as a process of integrating and using custom message in Simulink, it has a bug where is will only build and compile when you set up a VM to be the ROS master and compile to that VM. It does work when you just use the \textit{Play} method; however, this is an order of magnitude slower as shown in \autoref{fig:SimulinkTimingComparison}. By building and compiling the controller into a ROS node as a lower mean and variance than just playing the model. This is important since if the controller runs too slowly and the timing is inconsistent, the controller will not perform properly. This also means that the VM catkin\_ws needs a full copy of all the relevant packages and decencies. This bugs was reported to MathWorks\footnote{https://www.mathworks.com/}, who are now fully aware of the bug and are working on a patch for a future release. 
+
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.35]{images/controllers/timing_comparison.png}
+    \caption[Simulink Timing Comparison]{Timing Comparison of using the \textit{Build and Run} vs \textit{Play} method}
+    \label{fig:SimulinkTimingComparison}
+\end{figure}
+
+Additionally, another problem was with the ROS-Simulink communication, which caused the MATLAB to lose track of message definitions and enter an inescapable loop that seized the OS's focus and corrupted the matlabpref file. This problem could only be solved by hard rebooting the computer. Once the computer was rebooted, the \textit{matlabpref} had to be deleted, and all the custom ROS message files had to be re-linked. The cause of this bug is still unknown.
+
+
+
+\subsection{Contributions}
+
