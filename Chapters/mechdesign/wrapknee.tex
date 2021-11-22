@@ -2,9 +2,9 @@
 \section{Wrap Spring Knee Orthosis}
 \label{sec:knee}
 
-The work done in this section was in collaboration with  Vishnu Aishwaryan. I managed the overall mechanical design and the manufacturing process. I also aided in the design and running of the experimental validation.
+The work done in this section was in collaboration with  Vishnu Aishwaryan \cite{mani2020design}. I managed the overall mechanical design and the manufacturing process. I also aided in the design and running of the experimental validation.
 
-Knee orthosis, despite the body of literature, only a few report the essential quantitative measurements, such as static or dynamic torque, safety, weight, and size. The lack of critical information made it difficult to arrive at design criteria. The design of the knee orthosis was based on the design criteria and the trade study found here \cite{subra2020design}. In the trade study, each criterion was assigned a different weight of importance, totaling 100 points, and allowed for the mechanism and parameters for the knee orthosis to be selected. The study concluded that a wrap spring clutch mechanism was the best design due to its highest score. The results are summarized in \autoref{tab:trade}.
+Despite the body of literature about knee orthosis, only a few report the essential quantitative measurements, such as static or dynamic torque, safety, weight, and size. The lack of critical information made it difficult to arrive at design criteria. The design of the knee orthosis was based on the design criteria, and the trade study found here \cite{subra2020design}. In the trade study, each criterion was assigned a different weight of importance, totaling 100 points, and allowed for the mechanism and parameters for the knee orthosis to be selected. The study concluded that a wrap spring clutch mechanism was the best design due to its highest score. The results are summarized in \autoref{tab:trade}.
 
 
 \begin{table}[h!]
@@ -105,7 +105,7 @@ Diametric Interference    &   $0.70358mm$ ($0.0277in$) \\
 % \end{itemize}
 
 
-The arbor's initial design had a larger diameter than the spring's inner diameter to establish an interference between the spring and the arbor. This interference creates an initial contact pressure, and when the arbor starts to rotate, the frictional force starts to increase. \autoref{eq:forces}  calculates the average and tangential forces across this region. The Normal and Tangential Forces are used to calculate the holding torque.
+The arbor's initial design had a larger diameter than the spring's inner diameter to establish an interference between the spring and the arbor. This interference created an initial contact pressure, and when the arbor started to rotate, the frictional force started to increase. \autoref{eq:forces}  calculates the average and tangential forces across this region. The Normal and Tangential Forces are used to calculate the holding torque.
 
 \begin{equation}
 \large
@@ -135,13 +135,13 @@ $d\Phi$ = small angle
 
 $\phi$ = total angle \\
 
-During midstance, the relative motion between the shank and thigh links in the direction of knee flexion, causing the spring to wrap around the arbor, which produces the wrapping effect. During this condition, the movement between the segments is locked, thus transferring the load to the ground. The brake has to be disengaged to allow free movement during the swing phase, and this is achieved using a linear actuator where the end of the actuator is connected to the spring's free leg. Thus by energizing the actuator, the spring can be unwound. This unwrapping effect of the spring disengages the brake and allows for free knee movement. This normally-closed brake ensures user safety during power failures, and its quasi-passive nature helps sustain the battery for longer cycles of gait. 
+During midstance, the relative motion between the shank and thigh links in the direction of knee flexion, causing the spring to wrap around the arbor, which produces the wrapping effect. The movement between the segments is locked during this condition, thus transferring the load to the ground. The brake has to be disengaged to allow free movement during the swing phase, and this is achieved using a linear actuator where the end of the actuator is connected to the spring's free leg. Thus by energizing the actuator, the spring can be unwound. This unwrapping effect of the spring disengages the brake and allows for free knee movement. This normally-closed brake ensures user safety during power failures, and its quasi-passive nature helps sustain the battery for longer cycles of gait. 
 
 Several experiments were conducted in simulation and on the physical model to measure the knee's mechanical properties. The objective of the experiments was to document the properties and limitations of the wrap spring clutch knee. In \cite{SubraMani2020} the experiments are expanded in greater detail. 
 
-A test bed was designed to evaluate the braking torque characteristics and study the relationship between interference and contact forces. A potentiometer was used to measure the knee angle change and a load cell to evaluate the applied load. Based on the collected data, the holding torque of the knee was estimated.
+A test-bed was designed to evaluate the braking torque characteristics and study the relationship between interference and contact forces. A potentiometer was used to measure the knee angle change and a load cell to evaluate the applied load. Based on the collected data, the holding torque of the knee was estimated.
 
-The extension test bed shown in \autoref{fig:Extent_test_bed} was designed to study the frictional force behavior in the knee extension direction. The force on the shank link increased by adding additional mass until the clutch slipped. The point that the system slipped is referred to as the deflection point.
+The extension test-bed shown in \autoref{fig:Extent_test_bed} was designed to study the frictional force behavior in the knee extension direction. The force on the shank link increased by adding additional mass until the clutch slipped. The point that the system slipped is referred to as the deflection point.
 
 \begin{figure}
 \centering
@@ -168,7 +168,7 @@ five different interference measurements. The black dots are the points of defle
 \end{figure} 
 
 
-\autoref{fig:Flexion_test_bed} shows the flexion test bed used to estimate the static and dynamic holding torque behavior of the knee joint. The load applied direction, and the knee flexion direction was along the direction of gravity. The load on the knee was applied at a distance of $0.46m$ from the knee center. The load was applied over several days to measure the durability of the system. This test bed was utilized to find RoM and the brake release force.
+\autoref{fig:Flexion_test_bed} shows the flexion test-bed used to estimate the static and dynamic holding torque behavior of the knee joint. The load applied direction, and the knee flexion direction was along the direction of gravity. The load on the knee was applied at a distance of $0.46m$ from the knee center. The load was applied over several days to measure the durability of the system. This test-bed was utilized to find RoM and the brake release force.
 
 
 

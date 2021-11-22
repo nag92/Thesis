@@ -4,11 +4,42 @@
 \subsection{Overview Cooperative Controllers}
 Assistive controllers have long been implemented in rehabilitative exoskeletons. This includes the MIT-MANUS \cite{ju2005rehabilitation}, BLEEX\cite{kazerooni2006hybrid}, HAL\cite{kawamoto2004power} and many others robotic systems including several exoskeletons \cite{kim2012admittance,ott2010unified,huo2011control}. These systems use assistive controllers to help guide the person's arm or leg through a desired trajectory or to complete tasks. This method is typically used because the person has difficulty generating the necessary torques due to medical problems such as a stroke or spinal cord injury. The difficulty in designing these systems is in handling the non-linearity and distances from being connected to a person, which the controller will have to overcome. Many of these controllers implement either admittance or impedance models. Admittance controllers transform forces and torques to the desired position and orientation. Impedance controllers are the mirror to admittance controllers calculating displacements from applied forces and torques. Impedance controllers allow for virtual stiffness, which is useful for controlling the human-robot interactions \cite{keemink2018admittance}. 
 
-The admittance controller has shown better results when implemented into an exoskeleton. They are easier to implement and can measure the intention of the user. Admittance controllers allow for the adjustment of the stiffness to meet the on-the-fly demand by either being more or less aggressive in the supplied force \cite{aguirre2007active,newman1994stable}. This problem is solved by using variable admittance, where the parameters are adjusted based on the user's intention and ability.
+The admittance controller has shown better results when implemented into an exoskeleton. They are easier to implement and can measure the intention of the user because movement is easier to measure then precises torques. Admittance controllers allow for the adjustment of the stiffness to meet the on-the-fly demand by either being more or less aggressive in the supplied force \cite{aguirre2007active,newman1994stable}. This problem is solved by using variable admittance, where the parameters are adjusted based on the user's intention and ability.
 
-Oh \textit{et. al} proposed a generalized framework for assistive controllers \cite{oh2015generalized}. The proposed controller combined a model-based method with feed-forward disturbance rejection—this method models the interaction as a disturbance to the system instead of an interactive force.  Additionally, a PD controller was used, in contrast to a Sliding Mode Controller (SMC), which has been shown to have better performance in controlling non-linear systems. They both have robust and adaptive properties that are ideal for assistive systems \cite{slotine1991applied}.
+Oh \textit{et. al} proposed a generalized framework for assistive controllers \cite{oh2015generalized}. The proposed controller combined a model-based method with feed-forward disturbance rejection—this method models the interaction as a disturbance to the system instead of an interactive force.  Additionally, a Sliding Mode Controller (SMC) controller was used, in contrast to a PD, which has been shown to have better performance in controlling non-linear systems \cite{slotine1991applied}.
 
-SMC is a popular method in assistive controllers due to their insensitivity to disturbances and handling of non-linearity better than a traditional PD controller \cite{nasir2010performance} \cite{sanngoen2020review} \cite{fischer-SMC}. SMC works by using a switching function to drive the system along a sliding surface. Torabi \textit{et al.} used a model-based SMC controller to drive a lower limb exoskeleton. This controller also used an adaptive admittance controller along with the SMC to adjust to the user intention ability \cite{torabi2018robust}. A similar method of model-based SMC was used by Babaiasl \textit{et. al} to control an upper limb exoskeleton \cite{babaiasl2015sliding}. In \cite{long2016robust} a genetic algorithm was used to tune the parameters of an SMC for a lower limb exoskeleton. The parameters were tuned in MATLAB/SIMULINK. While successful, they did not model a connection between the human and the exoskeleton and did not use an adaptive admittance controller. 
+
+\subsection{Sliding Mode Controller}
+
+SMC is a popular method in assistive controllers due to their insensitivity to disturbances and handling of non-linearity better than a traditional PD controller \cite{nasir2010performance} \cite{sanngoen2020review} \cite{fischer-SMC}. SMC works by using a switching function to drive the system along a sliding surface. Torabi \textit{et al.} used a model-based SMC controller to drive a lower limb exoskeleton. This controller also used an adaptive admittance controller along with the SMC to adjust to the user intention ability \cite{torabi2018robust}. A similar method of model-based SMC was used by Babaiasl \textit{et. al} to control an upper limb exoskeleton \cite{babaiasl2015sliding}.
+
+
+A SMC controller can be defined using \autoref{eq:SMC} where, $e(t) = x_d(t) - x(t)$ and $\dot{e}(t) = \dot{x}_d(t) - \dot{x}(t)$. A major problem  is that the $sign$ function is not continuous, which causes high-frequency chatter along the sliding surface, which is undesirable. This problem can be solved by swapping out the $sign$  function for different functions, which will produce a smoother transition by defining a boundary layer around the sliding surface \cite{babaiasl2015sliding}. One such function is the $\tanh$ function, which is an approximation of the $sin$. The $\tanh$ is continuous with adaptive gains and steepness \cite{aghababa2012chattering}. The swapping of functions is is done by using $\tanh(\sigma / \beta)$ where $\beta$ is the width of the boundary layer; this can be specified for each individual joint. Here $\vec{\sigma}$ is the sliding manifold, which is a vector with a length equal to the joint space of the system. $\Lambda$ is a diagonal matrix that handles a system's response, which affects the controller's rise time. Finally, $\rho$ is also a diagonal matrix that handles eliminating the disturbance in the system, and this should be larger than the anticipated noise.  \autoref{eq:SMCcnrl} shows the model-based SMC controller.
+
+\begin{equation}
+   \begin{aligned} 
+        \vec{\sigma} &=  \dot{e}  + \Lambda e \\
+        \vec{u} &= \ddot{x}_d - \Lambda \dot{e} - \rho * sign(\vec{\sigma})
+    \end{aligned}
+    \label{eq:SMC}
+\end{equation}
+
+
+
+
+
+
+\begin{equation}
+        \tau_{tor} = M(q) \Big( \ddot{q}_d  - \Lambda e - \rho \tanh(\frac{\sigma}{\beta}) \Big) + C( q, \dot{q} ) + G(q) 
+    \label{eq:SMCcnrl}
+\end{equation}
+
+
+
+
+
+
+In \cite{long2016robust} a genetic algorithm was used to tune the parameters of an SMC for a lower limb exoskeleton. The parameters were tuned in MATLAB/SIMULINK. While successful, they did not model a connection between the human and the exoskeleton and did not use an adaptive admittance controller. 
 
 \begin{figure}
     \centering
@@ -21,8 +52,7 @@ SMC is a popular method in assistive controllers due to their insensitivity to d
 
 In this section, a method of developing a closed-loop assistive controller will be discussed. First, a simplified system is presented so the controller can be developed. The simplified system consists of two double pendulums connected by a mass-spring dampener at each link. A method of tuning the parameters is presented, along with the effects on effort reduction and system misalignment.
 
-\subsubsection{Simplified System}
-\autoref{fig:double_pend} illustrates the simplified system. Since one set of pendulums is being assisted by the other set, one pendulum is the \textit{assistie} and the other pendulum is the \textit{assisitor} system. The \textit{assisitor} system provides additional torques to help the \textit{assistie} to move through some desired motion. This model and controller are based on the work by Tu \textit{et. al} \cite{tu2020adaptive}, however the system was modified so the \textit{assistie} system is driven by a closed-loop controller. These changes add complexity to the system since the \textit{assistor} system has to handle the errors that arise in the attached closed-loop controller. With two closed-loop systems connected, the controller commands are magnified when handling the errors \cite{tu2020adaptive}. \autoref{fig:controlDiagram} shows the control diagram. The first model has a pendulum that a simple closed-loop PD controller controls. The second model is controlled by an Admittance-Sliding Mode Controller (A-SMC), having useful properties for handling non-linear dynamics and disturbances. Additionally, a gradient descent method is used to auto-tune the PD controller parameters and the A-SMC. 
+To develop the tuning methods a simplified system was developed. \autoref{fig:double_pend} illustrates the simplified system. Since one set of pendulums is being assisted by the other set, one pendulum is the \textit{assistie} and the other pendulum is the \textit{assisitor} system. The \textit{assisitor} system provides additional torques to help the \textit{assistie} to move through some desired motion. This model and controller are based on the work by Tu \textit{et. al} \cite{tu2020adaptive}, however the system was modified so the \textit{assistie} system is driven by a closed-loop controller. These changes add complexity to the system since the \textit{assistor} system has to handle the errors that arise in the attached closed-loop controller. With two closed-loop systems connected, the controller commands are magnified when handling the errors \cite{tu2020adaptive}. \autoref{fig:controlDiagram} shows the control diagram. The first model has a pendulum that a simple closed-loop PD controller controls. The second model is controlled by an Admittance-Sliding Mode Controller (A-SMC), having useful properties for handling non-linear dynamics and disturbances. Additionally, a gradient descent method is used to auto-tune the PD controller parameters and the A-SMC. 
 
 The problem with A-SMC controllers is the large number of parameters that need to be tuned. These parameters can have non-linear and hard-to-determine effects on the response of the system \cite{slotine1983tracking}. These parameters include SMC parameters and the variable admittance model parameters. Both of which scale with the dimensions of the system. Having a comprehensive method to determine these parameters allows the system to be tuned automatically.  
 
@@ -44,7 +74,7 @@ The problem with A-SMC controllers is the large number of parameters that need t
 
 \begin{equation} 
 \begin{aligned}
-    M_{tor}(q) \ddot{q} + C_{tor} (q,\dot{q}) + G_{tor}(q) &= \tau_{tor} + J_{tor}^T F \\
+    M_{tor}(q) \ddot{q} + C_{tor} (q,\dot{q}) + G_{tor}(q) &= \tau_{tor} - J_{tor}^T F \\
     M_{tie}(q) \ddot{q} + C_{tie} (q,\dot{q}) + G_{tie}(q) &= \tau_{tie} + J_{tie}^T F
 \end{aligned}
     \label{eq:CooPdyn}
@@ -67,7 +97,7 @@ The admittance controls the virtual dynamics of the system and how the systems i
 
 \begin{equation}
     \begin{aligned}
-        \tau_{int} &= M_d \ddot{e}_a + K_d e_a + B_d \dot{e}_a  \\
+        \tau_{int} &= M_d^{-1}( K_d e_a + B_d \dot{e}_a)  \\
         e_a &= x_a - x_d 
     \end{aligned}
     \label{eq:addmittance}
@@ -105,7 +135,7 @@ The gain parameters $K_p$ and $K_d$ in \autoref{eq:PDcnrl} were also tuned using
 \end{equation}
 
 \subsubsection{Tuning of Cooperative Controller}
-Several different cost functions were tested to arrive at a cost function for parameter tuning. It was assumed that the \textit{assistie} system was nonobservable and therefore could not be used for the optimization of the parameters. The only criteria used for the cost functions were those that could be measured by the \textit{assistor} system. Three different cost functions were tested, one based on position, another on velocity, and finally, one used both position and velocity.
+Several different cost functions were tested to arrive at a cost function for parameter tuning. It was assumed that the \textit{assistie} system. Three different cost functions were tested, one based on position, another on velocity, and finally, one used both position and velocity.
 
 
 \autoref{fig:cost_function_optimization} shows the conversions of the cost functions used for optimization. All the cost functions converged to a steady value after approximately ten iterations; this means that the tuned controllers' parameters reached a local point where the system's performance was steady as defined by the cost. This is not a direct correlation to the actual system performance. By examining the system's state space, the performance of the controller can be a better detriment.
@@ -280,79 +310,149 @@ Testing the variability in alignment allows for testing of the controller when t
 \end{table}
 
 
+
+
+
 \subsection{Application of Tuning Methodology}
 
-The tuning methodology developed for the simplified was applied to tune the cooperative controller for the LARRE. A Simulink model was built with ROS communication to tune the parameters. A model was built to calculate the forward and inverse dynamics on the fly using the \textit{ambf\_control\_system} package. Since this framework used the same AMBF simulation model, it is a good representation of the dynamics.   
+The tuning methodology discussed above was implemented on a the leg of the LARRE using the dynamics server to calculate the inverse and forward dynamics. This was due to complicated in the ROS-Simulink bridge, which is discussed below. 
 
+To tune the controller each of the joints of the leg where command to follow a polynomial trajectory. This was done to allow for the boundary conditions of the path to be controlled for testing. The tuning method discussed above. This model added complexity to tuning process since it added another dimension that need to be tuned. An assumption that was made that while the thigh and shank of the exoskeleton where connected via a spring-dampener system, the foot of the exoskeleton and human where rigidly connected. Additionally, the closed loop PD controller is assumed to be a FES type devices that can transform displacement into torque through pulse width and frequency modulation \cite{rouhani2017pid, ha2015approach,Model_Ferrarin}. The hip and knee joints of the exoskeleton controller is assumed to be powered by BLDC motors as discussed in \autoref{chap:mech}.
 
-
-\subsection{Tuning of LARRE controller}
-
-The above method was then to tune the controller for LARRE. The model dynamics were calculated using the \textit{ambf\_control\_system} package for both the inverse and forward dynamics, allowing the system's response to be estimated on an identical model to the AMBF model but without the need to run AMBF, which would complicate the learning process. This was accomplished using the built-in ROS-Simulink bridge. 
-
-The tuning was done on a Ryzen$\texttrademark$ 5900x\footnote{https://www.amd.com/en/products/cpu/amd-ryzen-9-5900x} with $32Gb$ of memory and a Nvidia$\texttrademark$ 2700S GPU\footnote{https://www.nvidia.com/en-us/geforce/graphics-cards/rtx-2070-super/}. Due to many parameters (74 parameters assume that matrix elements off the diagonal are 0), the tuning process had to be done in batches.  If too many iterations were attempted, the computer would run out of memory running, causing the computer to crash. To solve this problem, only five iterations at a time then restarting the process with the final parameters of an iteration being the initial parameters of the next run. 
-
-
-
-
-\autoref{fig:coopCost} Show the converges of the response optimization. For systems with many parameters, upper and lower bound must be defined; this helps bound the search space and reduce optimization time. While the upper bound is hard to determine, the lower bound is known to be greater than 0, the $\beta$ parameter is bound between $0$ and $1$. It is also important to ensure the off-diagonal of the matrix is strictly 0 since only the diagonal elements are required. \autoref{fig:coopParams} shows how the parameters changed over the iterations. Twice the number of iterations is displayed because two resets were allowed in the optimization. They are split into different graphs since the parameters of different magnitudes and this allows for values to be better displayed. While it is difficult to determine how the parameters affect the overall model, all the parameters are correlated, and the system is highly non-linear. However, we can see that the magnitude of the parameters is critical. While the parameters did vary over time, they did not change magnitude.  
-
-
-\begin{figure}[h]
-    \centering
-    \begin{subfigure}{\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/controllers/coop_cost.jpg}
-        \caption[Cost for LARRE Controller]{Cost of tuning the LARRE controller.}
-        \label{fig:coopCost}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/controllers/all_params.png}
-        \caption[Double Pendulum: Positive Alignment-Trajectory]{Trajectories of double pendulum}
-        \label{fig:coopParams}
-    \end{subfigure}
-    \caption[Parameter updates for LARRE Controller]{Parameter updates for LARRE Controller.}
-    \label{fig:coopParams}
-\end{figure}
-
-
-
-\autoref{fig:SMC_connection} shows a high-level overview of the system connections. A virtual machine (VMWare\footnote{https://www.vmware.com/products/workstation-player.html}) was required to run a ROS master due to a bug in the deployment of the Simulink ROS node. The main control system sends set points the Simulink control along with receiving constant state feedback. The Simulink control node calculates the effort and sends it back to the main controller, which sends it down to AMBF. Additionally, the \textit{ambf\_control\_system} is used to calculate the inverse dynamics of the model.   
+\autoref{fig:LARRE_TUNING} shows the cost convergence over the optimization. A single leg was tuned to lower the amount of parameters that needed to be optimized. The optimization lowers the RSME cost from 2.66 to 0.6 which is a 77.44\% reduction. At each step in the iterations the parameters are changed in attempt to lower the cost function. The parameters being tuned have different magnitudes are thus graphed in separately to accurately show the change at each step.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{images/controllers/simulink_connection.png}
-    \caption[SMC Connection Overview]{SMC Connection Overview.}
-    \label{fig:SMC_connection}
+    \includegraphics[width=\columnwidth]{images/controllers/trajs/cost.png}
+    \caption[LARRE Cost Optimization]{Cost of Tuning a single leg of LARRE}
+    \label{fig:LARRE_TUNING}
 \end{figure}
-
-
-The sliding surfaces are shown in \autoref{fig:simple_statespace}. The graphs are shown for the hip, knee, and ankle. The graphs are now as smooth as the simple double pendulum model graphs and converge slightly before reaching 0. This can be repeating the optimization method described above until more optimal parameters are calculated. This can also be used to solve the slight bend in all the graphs.  
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{images/controllers/statespace_simple.png}
-    \caption[Controller State Space]{Controller state space graphs}
-    \label{fig:simple_statespace}
+    \includegraphics[width=\columnwidth]{images/controllers/trajs/params_splite.png}
+    \caption[LARRE Parameters Optimization]{Parameters Changing Over Iterations}
+    \label{fig:LARRE_PARAMS}
 \end{figure}
+
+
+
+While \autoref{fig:LARRE_PARAMS} shows how the parameters change over time it does not give insight to the relative importance of the tuning parameters. A global sensitivity analysis was done to examine which parameters have the largest effect on the cost function. The goal of the analysis is to apportioning the uncertainty in outputs to the uncertainty. A global sensitivity analysis is when all the parameters are varied simultaneously over the entire range of the the inputs factors \cite{saltelli2008global}. This can be done by examining several different correlation methods listed below. Additional, these methods can also be examined as \textit{Ranked} methods. A ranked correlation method measures an ordinal association between the different variables. The ranking is is the assignment of the ordered labels. 
+
+\begin{itemize}
+    \item \textbf{Correlation}: Statistical relationship between two variables. 
+    \item \textbf{Kendall}: Measure the ordinal association between two measured quantities \cite{abdi2007kendall}.
+    \item \textbf{Standardized Regression}: A regression analysis where the underlying data is standardized so the variance of dependence can be compared \cite{SIEGEL2016355}.  
+    \item \textbf{Partial Correlation}: Measures the degree of association between two random variables, with the effect of a set of controlling random variables removed \cite{PARTIALCORRELATION}. 
+\end{itemize}
+
+
+
+
+\autoref{fig:paramStats} shows the relative importance of the parameters, here the graphs is defined between -1 and 1. The closer the value is to $\|1\|$ the higher its sensitivity Where a 1 indicates that changing that parameters will increase the cost function and a value closer -1 indicates that changing the parameter will lower the cost function.
+
+This data can be used to choose the more important parameters when optimizing the system. This is important for systems with a large number of parameters. Examining the results indicates the variable $M_d$ have a little impact on the cost function. This low impact is expected since the $M_d$ variable is a constant post multiplier the $K_d$ and $B_d$ terms (see \autoref{eq:addmittance}-\autoref{eq:varible}). The relative high importance of $\rho$ can be explained by its effect on the SMC. The $\rho$ are with the sliding mode gains, which controls the chattering in the system as show in \autoref{eq:SMCChattering}, where $T_s$ is the time and $\Delta$ is the chattering. The $\alpha$ parameter controls how the variable admittance controller reacts. Changes to this varible will impact the value of the $Kn$ and $Kp$ gains, which also have a relative high importance which controls the torque to generate for a difference in position between the two systems. If the two systems drift apart the controller increase the gain to align the systems. In contrast the $Bn$, $Bp$, and $\gamma$ terms have relatively low importance which indicates that the two systems generally had the same velocity so increase the gains had little effect on the system. 
+
+
+
+\begin{equation}
+    \Delta = \rho T_s
+    \caption[SMC Chattering]{SMC Chattering}
+    \label{eq:SMCChattering}
+\end{equation}
+
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{images/controllers/trajs/stats.png}
+    \caption[Relative Parameters Importance]{Relative Parameters Importance}
+    \label{fig:paramStats}
+\end{figure}
+
 
 
 \subsection{Complication of ROS-Simulink Integration}
 
 The bridge connecting ROS to Simulink seems to be built assuming that a virtual machine (VM) runs Linux with the host computer running either Windows or OSX. There are built-in tools to set a connect and use a remote host for ROS. This allows for connection to deploy the node to a robot or allows for development on a non-Linux OS. When are remote host is selected (i.e. not using local host) the Simulink node compiled to the catkin\_ws on the VM. 
 
-A bug in the ROS-Simulink framework was discovered during development. While MATLAB as a process of integrating and using custom message in Simulink, it has a bug where is will only build and compile when you set up a VM to be the ROS master and compile to that VM. It does work when you just use the \textit{Play} method; however, this is an order of magnitude slower as shown in \autoref{fig:SimulinkTimingComparison}. By building and compiling the controller into a ROS node as a lower mean and variance than just playing the model. This is important since if the controller runs too slowly and the timing is inconsistent, the controller will not perform properly. This also means that the VM catkin\_ws needs a full copy of all the relevant packages and decencies. This bugs was reported to MathWorks\footnote{https://www.mathworks.com/}, who are now fully aware of the bug and are working on a patch for a future release. 
+A bug in the ROS-Simulink framework was discovered during development. While MATLAB as a process of integrating and using custom message in Simulink, it has a bug where is will only build and compile when you set up a VM to be the ROS master and compile to that VM. This also means that the VM catkin\_ws needs a full copy of all the relevant packages and decencies. This bugs was reported to MathWorks\footnote{https://www.mathworks.com/}, who are now fully aware of the bug and are working on a patch for a future release. While it is possible to set up such a pipeline adding a VM into the system significantly complicate the pipeline and add uncertainly into the timing of the controller performs. 
 
 
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.35]{images/controllers/timing_comparison.png}
-    \caption[Simulink Timing Comparison]{Timing Comparison of using the \textit{Build and Run} vs \textit{Play} method}
-    \label{fig:SimulinkTimingComparison}
-\end{figure}
+% \subsection{Application of Tuning Methodology}
 
-Additionally, another problem was with the ROS-Simulink communication, which caused the MATLAB to lose track of message definitions and enter an inescapable loop that seized the OS's focus and corrupted the matlabpref file. This problem could only be solved by hard rebooting the computer. Once the computer was rebooted, the \textit{matlabpref} had to be deleted, and all the custom ROS message files had to be re-linked. The cause of this bug is still unknown.
+% The tuning methodology developed for the simplified was applied to tune the cooperative controller for the LARRE. A Simulink model was built with ROS communication to tune the parameters. A model was built to calculate the forward and inverse dynamics on the fly using the \textit{ambf\_control\_system} package. Since this framework used the same AMBF simulation model, it is a good representation of the dynamics.   
+
+
+
+% \subsection{Tuning of LARRE controller}
+
+% The above method was then to tune the controller for LARRE. The model dynamics were calculated using the \textit{ambf\_control\_system} package for both the inverse and forward dynamics, allowing the system's response to be estimated on an identical model to the AMBF model but without the need to run AMBF, which would complicate the learning process. This was accomplished using the built-in ROS-Simulink bridge. 
+
+% The tuning was done on a Ryzen$\texttrademark$ 5900x\footnote{https://www.amd.com/en/products/cpu/amd-ryzen-9-5900x} with $32Gb$ of memory and a Nvidia$\texttrademark$ 2700S GPU\footnote{https://www.nvidia.com/en-us/geforce/graphics-cards/rtx-2070-super/}. Due to many parameters (74 parameters assume that matrix elements off the diagonal are 0), the tuning process had to be done in batches.  If too many iterations were attempted, the computer would run out of memory running, causing the computer to crash. To solve this problem, only five iterations at a time then restarting the process with the final parameters of an iteration being the initial parameters of the next run. 
+
+
+
+
+% \autoref{fig:coopCost} Show the converges of the response optimization. For systems with many parameters, upper and lower bound must be defined; this helps bound the search space and reduce optimization time. While the upper bound is hard to determine, the lower bound is known to be greater than 0, the $\beta$ parameter is bound between $0$ and $1$. It is also important to ensure the off-diagonal of the matrix is strictly 0 since only the diagonal elements are required. \autoref{fig:coopParams} shows how the parameters changed over the iterations. Twice the number of iterations is displayed because two resets were allowed in the optimization. They are split into different graphs since the parameters of different magnitudes and this allows for values to be better displayed. While it is difficult to determine how the parameters affect the overall model, all the parameters are correlated, and the system is highly non-linear. However, we can see that the magnitude of the parameters is critical. While the parameters did vary over time, they did not change magnitude.  
+
+
+% \begin{figure}[h]
+%     \centering
+%     \begin{subfigure}{\textwidth}
+%         \centering
+%         \includegraphics[width=\linewidth]{images/controllers/coop_cost.jpg}
+%         \caption[Cost for LARRE Controller]{Cost of tuning the LARRE controller.}
+%         \label{fig:coopCost}
+%     \end{subfigure}
+%     \begin{subfigure}{\textwidth}
+%         \centering
+%         \includegraphics[width=\linewidth]{images/controllers/all_params.png}
+%         \caption[Double Pendulum: Positive Alignment-Trajectory]{Trajectories of double pendulum}
+%         \label{fig:coopParams}
+%     \end{subfigure}
+%     \caption[Parameter updates for LARRE Controller]{Parameter updates for LARRE Controller.}
+%     \label{fig:coopParams}
+% \end{figure}
+
+
+
+% \autoref{fig:SMC_connection} shows a high-level overview of the system connections. A virtual machine (VMWare\footnote{https://www.vmware.com/products/workstation-player.html}) was required to run a ROS master due to a bug in the deployment of the Simulink ROS node. The main control system sends set points the Simulink control along with receiving constant state feedback. The Simulink control node calculates the effort and sends it back to the main controller, which sends it down to AMBF. Additionally, the \textit{ambf\_control\_system} is used to calculate the inverse dynamics of the model.   
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=\textwidth]{images/controllers/simulink_connection.png}
+%     \caption[SMC Connection Overview]{SMC Connection Overview.}
+%     \label{fig:SMC_connection}
+% \end{figure}
+
+
+% The sliding surfaces are shown in \autoref{fig:simple_statespace}. The graphs are shown for the hip, knee, and ankle. The graphs are now as smooth as the simple double pendulum model graphs and converge slightly before reaching 0. This can be repeating the optimization method described above until more optimal parameters are calculated. This can also be used to solve the slight bend in all the graphs.  
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=\textwidth]{images/controllers/statespace_simple.png}
+%     \caption[Controller State Space]{Controller state space graphs}
+%     \label{fig:simple_statespace}
+% \end{figure}
+
+
+% \subsection{Complication of ROS-Simulink Integration}
+
+% The bridge connecting ROS to Simulink seems to be built assuming that a virtual machine (VM) runs Linux with the host computer running either Windows or OSX. There are built-in tools to set a connect and use a remote host for ROS. This allows for connection to deploy the node to a robot or allows for development on a non-Linux OS. When are remote host is selected (i.e. not using local host) the Simulink node compiled to the catkin\_ws on the VM. 
+
+% A bug in the ROS-Simulink framework was discovered during development. While MATLAB as a process of integrating and using custom message in Simulink, it has a bug where is will only build and compile when you set up a VM to be the ROS master and compile to that VM. It does work when you just use the \textit{Play} method; however, this is an order of magnitude slower as shown in \autoref{fig:SimulinkTimingComparison}. By building and compiling the controller into a ROS node as a lower mean and variance than just playing the model. This is important since if the controller runs too slowly and the timing is inconsistent, the controller will not perform properly. This also means that the VM catkin\_ws needs a full copy of all the relevant packages and decencies. This bugs was reported to MathWorks\footnote{https://www.mathworks.com/}, who are now fully aware of the bug and are working on a patch for a future release. 
+
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[scale=0.35]{images/controllers/timing_comparison.png}
+%     \caption[Simulink Timing Comparison]{Timing Comparison of using the \textit{Build and Run} vs \textit{Play} method}
+%     \label{fig:SimulinkTimingComparison}
+% \end{figure}
+
+% Additionally, another problem was with the ROS-Simulink communication, which caused the MATLAB to lose track of message definitions and enter an inescapable loop that seized the OS's focus and corrupted the matlabpref file. This problem could only be solved by hard rebooting the computer. Once the computer was rebooted, the \textit{matlabpref} had to be deleted, and all the custom ROS message files had to be re-linked. The cause of this bug is still unknown.
 
 
 

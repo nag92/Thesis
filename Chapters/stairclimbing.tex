@@ -1,10 +1,10 @@
 \chapter{Generalization of Stair Climbing}
 
 \section{Introduction}
-Stair climbing is an important ADL. It is important for exoskeleton to be able generate trajectories to climb the stairs. This work focuses on the generation of the trajectory from the start to the goal, not taking into consideration balance and stability. This research assumes that the goal point is within the exoskeletons support polygon using zero moment point \cite{kajita2003biped}.
+Stair climbing is an important ADL. Exoskeletons need to be able to generate trajectories to climb the stairs. This work focuses on generating the trajectory from the start to the goal, not considering balance and stability. This research is not focused on the dynamics of maintaining upper body stability. It is directed on learning joint trajectories and therefore assumes that the goal point is within the exoskeletons support polygon using zero moment point \cite{kajita2003biped}.
 
 
-By combined Stair Climbing LfD methods step motions can be generalized and reproduced. Allow for demonstrations of single stair height to be used to generate trajectories for different climbing heights. This simplifies the training process since it all possible step heights cannot be collected for training data. Additionally since the foot location is used as the training set, it abstracted the leg lengths and thus the height of the person. This allows for the motion to be reproduced for people of different heights. A similar recording method described in \cite{hicks2011lower} was used as the basis for the study. \autoref{fig:stairoverlay} shows the Vicon image of a person climbing the stairs. The collected data set was then generalized with GMM and GMR. This collection and encoding method allowed for robust data collection to be combined with a well studied framework of teaching a lower limb exoskeleton trajectories. These methods together allow a compilation of data to generalize a trajectory for stair climbing for people and stairs of different heights. This model shows that there is no need to retrain the trajectory for each person and different stair heights.
+By combining Stair Climbing LfD methods, step motions can be generalized and reproduced. Allowing for demonstrations of a single stair height to generate trajectories for different climbing heights simplifies the training process since all possible step heights cannot be collected for training data. Additionally, since the foot location is used as the training set, it abstracted the leg lengths and thus the person's height, allowing the motion to be reproduced for people of different heights. A similar recording method described in \cite{hicks2011lower} was used as the basis for the study. \autoref{fig:stairoverlay} shows the Vicon image of a person climbing the stairs. The collected data set was generalized with GMM and GMR. This collection and encoding method allowed robust data collection combined with a well-studied framework of teaching lower limb exoskeleton trajectories. Together, these methods allow a compilation of data to generalize a trajectory for stair climbing for people and stairs of different heights. This model shows that there is no need to retrain the trajectory for each person and different stair heights.
 
 
 
@@ -18,10 +18,10 @@ By combined Stair Climbing LfD methods step motions can be generalized and repro
 \section{Learning of the Trajectories}
 
 
-\autoref{fig:stick} shows the coordinate layout used in this paper. The $X$ axis is perpendicular to the plane and is not considered. \autoref{fig:stick} shows a diagram of subject in motion. In this diagram, the toe's position is being controlled from the ground to the first step of the staircase. GMM (\autoref{eq:Mstep},\autoref{eq:Estep}) is used to learn the $Z$ and $Y$ marker position. The human demonstration (\autoref{chap:gaitdata}) was pared to find the stepping motion of the subject. Using GMR (\autoref{eq:GMR_Prop}, \autoref{eq:GMR_mu} ) the driving forcing is calculated. The forcing function is used to drive the model along the trajectory. DMPs (\autoref{eq:DMP_force}, \autoref{eq:DMP_Model} ) are used to replicate and alter the the trajectory to climb stairs of various heights.  
+\autoref{fig:stick} shows the coordinate layout used in this paper. The $X$ axis is perpendicular to the plane and is not considered since the exoskeleton does not have actuation along the $X$ axis. \autoref{fig:stick} shows a diagram of the subject in motion. In this diagram, the toe's position is controlled from the ground to the first step of the staircase. GMM (\autoref{eq:Mstep},\autoref{eq:Estep}) is used to learn the $Z$ and $Y$ marker position. The human demonstration (\autoref{chap:gaitdata}) was paired to find the stepping motion of the subject. Using GMR (\autoref{eq:GMR_Prop}, \autoref{eq:GMR_mu} ) the driving forcing is calculated. The forcing function is used to drive the model along the trajectory. DMPs (\autoref{eq:DMP_force}, \autoref{eq:DMP_Model} ) are used to replicate and alter the the trajectory to climb stairs of various heights.  
 
 
-The limb length of the subject used for training were measured using a calibration phase. However, the limb length segments can be estimated using the height of the subject \cite{anthropomorphic}. It is assumed that the relative location of stairs is known with respect to the person. The motion has to be transferred to joint space using inverse kinematics of the leg. To avoid a collision of the toe with the lip of the stairs, a constraint that the foot has to be parallel to the ground is imposed. In addition, some rehabilitation exoskeletons do not have actuated ankle joints and therefore cannot be controlled.  \autoref{eq:IK} is the inverse kinematics of the leg with a constrained ankle where hip: $q_1$, knee: $q_2$, ankle: $q_3$, thigh: $l_1$, shank: $l_2$, ankle height: $l_3$, foot length: $l_4$, $z_{toe}$ and $y_{toe}$ is the coordinate of the toe. Opposed to forward kinematics, inverse kinematics allows for the encoding of the stair height. 
+The limb length of the subject used for training was measured using a calibration phase. However, the limb length segments can be estimated using the height of the subject \cite{anthropomorphic}. It is assumed that the relative location of stairs is known with respect to the person. The motion has to be transferred to joint space using inverse kinematics of the leg. To avoid a collision of the toe with the lip of the stairs, a constraint that the foot must be parallel to the ground is imposed. In addition, some rehabilitation exoskeletons do not have actuated ankle joints and therefore cannot be controlled.  \autoref{eq:IK} is the inverse kinematics of the leg with a constrained ankle where hip: $q_1$, knee: $q_2$, ankle: $q_3$, thigh: $l_1$, shank: $l_2$, ankle height: $l_3$, foot length: $l_4$, $z_{toe}$ and $y_{toe}$ is the coordinate of the toe. Inverse kinematics allows for the encoding of the stair height as opposed to forward kinematics. 
 
 \begin{equation} 
     \begin{aligned} 
@@ -43,7 +43,7 @@ The limb length of the subject used for training were measured using a calibrati
     \label{fig:stick}
 \end{figure} 
 
-\autoref{fig:DTWStairs} shows the alignment of a trajectory against a demonstration. This demonstration was taken from stair climbing data set. The blue line is demo 1, and the orange line is demo 2. DTW aligns demo 2 with demo 1. The green line represents the aligned trajectory and the red line represents a polynomial fit to the aligned trajectory. The cost map shows the closest fit of points from $P$ to $T$. The white spots are the hills and the black spots are the valleys, with the path being the minimum cost from start to goal. The total path cost associated with the Euclidean was $17652.35$, and the cost of the Manhattan path was $33.50$. This is the cost of aligning the demonstration with the model trajectory. The Manhattan metric had a much lower cost than the Euclidean metric, allowing for a better fit. 
+\autoref{fig:DTWStairs} shows the alignment of a trajectory against a demonstration. This demonstration was taken from stair climbing data set. The blue line is demo 1, and the orange line is demo 2. DTW aligns demo 2 with demo 1. The green line represents the aligned trajectory and the red line represents a polynomial fit to the aligned trajectory. The cost map shows the closest fit of points from $P$ to $T$. The white spots are the hills and the black spots are the valleys, with the path being the minimum cost from start to goal. The total path cost associated with the Euclidean was $17652.35$, and the cost of the Manhattan path was $33.50$. These are the costs of aligning the demonstration with the model trajectory. The Manhattan metric had a much lower cost than the Euclidean metric, allowing for a better fit. 
 
 \begin{figure}[h]
      \centering 
@@ -54,7 +54,7 @@ The limb length of the subject used for training were measured using a calibrati
 
 
 
-The BIC score was used optimize the number of required bins for the GMM proccess. \autoref{fig:BIC} shows the BIC score calculated for several bin sizes (1-25) for the $ Y $ and $ Z $ trajectories of the toe marker. This calculation limits the number of bins. The two graphs are generated using a single demonstration from each of the eight subjects in the config0 data set (see \autoref{tab:stairs}). The optimal number of bins for the $Z$ axis is 6 bins and the optimal number of bins for the $Y$ axis is 7 bins. 
+The BIC score was used to optimize the number of required bins for the GMM process. \autoref{fig:BIC} shows the BIC score calculated for several bin sizes (1-25) for the $ Y $ and $ Z $ trajectories of the toe marker. This calculation limits the number of bins. The two graphs are generated using a single demonstration from each of the eight subjects in the config0 data set (see \autoref{tab:stairs}). The optimal number of bins for the $Z$ axis is 6 bins and the optimal number of bins for the $Y$ axis is 7 bins. 
 
 
 \begin{figure}[h!]
@@ -76,7 +76,7 @@ The BIC score was used optimize the number of required bins for the GMM proccess
     \label{fig:BIC} 
 \end{figure}  
 
-To find the number of subjects required to train the model. The demonstrations trajectories were randomly sampled to avoid bias. The number of samples used to train the model was varied from 1-7 training demonstrations. Several demonstrations were excluded due to obstructed marker data and to have a demonstration to compare the model against. \autoref{tab:error} shows the imitation cost for a model trained with a single subject and a model trained using multiple subjects (see \autoref{eq:metric}). Both models were compared against a demonstration that was not used to train either model. This demonstrated that increasing the number of demonstrations reduce the metric of imitation and is able to follow the desired trajectories closer.   
+To find the number of subjects required to train the model. The demonstration trajectories were randomly sampled to avoid bias. The number of samples used to train the model was varied from 1-7 training demonstrations. Several demonstrations were excluded due to obstructed marker data. \autoref{tab:error} shows the imitation cost for a model trained with a single subject and a model trained using multiple subjects (see \autoref{eq:metric}). Both models were compared against a demonstration that was not used to train either model; this demonstrated that increasing the number of demonstrations reduces the metric of imitation and can follow the desired trajectories closer.   
 
 
 \begin{table}[h]
@@ -95,7 +95,7 @@ To find the number of subjects required to train the model. The demonstrations t
      \label{tab:error} 
 \end{table} 
 
-\autoref{fig:trajLearning} shows the result of the learning of the $Y$ and $Z$ models using config0 subject data(see \autoref{tab:stairs}). The thick lines represent the generated model that was learned from the demonstrations using optimal number of bins and demonstrations.  The oscillations are caused by the DTW fitting of the demonstrations and the polynomial smoothing. The demonstrations with few points are being fit to the models with more points. The polynomial fitting ensure that the trajectories are smooth and not jagged.
+\autoref{fig:trajLearning} shows the result of the learning of the $Y$ and $Z$ models using config0 subject data(see \autoref{tab:stairs}). The thick lines represent the generated model learned from the demonstrations using the optimal number of bins and demonstrations.  The oscillations are caused by the DTW fitting of the demonstrations and the polynomial smoothing. The demonstrations with few points are being fit to the models with more points. The polynomial fitting ensures that the trajectories are smooth and not jagged.
 
 \begin{figure}[h!] 
   \centering 
@@ -122,7 +122,7 @@ To find the number of subjects required to train the model. The demonstrations t
 \section{Application of Generalized Stair Climbing}
 
 
-\autoref{fig:singleSubject} shows a comparison of the model reproducing the motion of climbing several different stair heights.  The solid line is the raw trajectory, and the dotted line is the reproduced line The height of the model was changed using DMPs by altering the goal ($g$). Each of the solid lines  The model was compared against a demonstration that was not used for the training of the model.  The model is able to follow a foot trajectory for a different stair height. This trajectory was not one of the demonstrations used to train the model.
+\autoref{fig:singleSubject} shows a comparison of the model reproducing the motion of climbing several different stair heights.  The solid line is the raw trajectory and the dotted line is the reproduced line. The height of the model was changed using DMPs by altering the goal ($g$). Each of the solid lines represents the marker trajectories, and the dotted lines represent the reproduced trajectories.  The model was compared against a demonstration that was not used for the training of the model.  The model can follow a foot trajectory for a different stair height. This trajectory was not one of the demonstrations used to train the model.
 
 \begin{figure}[h]
     \centering
@@ -131,7 +131,7 @@ To find the number of subjects required to train the model. The demonstrations t
     \label{fig:singleSubject}
 \end{figure}
 
-The inverse kinematics and the anthropomorphic parameters were used to calculate the desired joint angle for the exoskeleton. \autoref{fig:stairsclimbing} shows the movement of the leg through a stepping trajectory. Here the location of the toe is being controlled through controlling the joint angles. In this model the ankle is constrained to be parallel to the ground. This constraint is to prevent the toe from catching on the edge of the stairs.
+The inverse kinematics and the anthropomorphic parameters were used to calculate the desired joint angle for the exoskeleton. \autoref{fig:stairsclimbing} shows the movement of the leg through a stepping trajectory. Here the location of the toe is being controlled by controlling the joint angles. In this model, the ankle is constrained to be parallel to the ground. This constraint is to prevent the toe from catching on the edge of the stairs.
 
 
 \begin{figure}[h!]
@@ -153,9 +153,9 @@ The inverse kinematics and the anthropomorphic parameters were used to calculate
 \end{figure}   
 
 
-\section{Contribuitions}
+\section{Contributions}
 
-This contribution of this method was to show how to build an imitation model by learning stair climbing trajectories using mocap and GMM/GMR. This work showed a trajectory generation of the joint trajectories for the exoskeletons joint angles to be generalized so it can be used by people of all leg lengths on variable stair heights. This method allow the model to handle different stair heights by changing the start and goal inputs to the DMP controller. As apposed to other methods that relay on hand generated trajectory generation from then start to the goal, this methods allows for biological stair climbing trajectories to be used that can be dynamically manipulated to climb different stair heights. The contribution were presented here\cite{goldfarb2021towards}.
+This contribution of this method was to show how to build an imitation model by learning stair climbing trajectories using mocap and GMM/GMR. This work showed a trajectory generation of the joint trajectories for the exoskeletons joint angles to be generalized so it can be used by people of all leg lengths on variable stair heights. This method allows the model to handle different stair heights by changing the start and goal inputs to the DMP controller. Unlike other methods that rely on hand-generated trajectory generation from start to the goal, this method allows biological stair climbing trajectories to be used that can be dynamically manipulated to climb different stair heights. The contribution was presented here\cite{goldfarb2021towards}.
 
 
 % The stair location can be found using LIDAR or distance sensors (see \autoref{fig:sensors}). 
