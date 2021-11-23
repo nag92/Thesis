@@ -93,7 +93,7 @@ The \textit{assisitie} system was controlled by \autoref{eq:PDcnrl}. This is sim
     \label{eq:PDcnrl}
 \end{equation}
 
-The admittance controls the virtual dynamics of the system and how the systems interact \cite{faulring2005haptic}. If the \textit{assastie} system is capable of following the desired motion, the \textit{assasitor} system will be less aggressive. This interaction is controlled by \autoref{eq:addmittance}, where $x_a$ is the location of the virtual system and $x_d$ is the location of the point on the pendulum link. A separate spring-dampener system is on each of the links of the system. The virtual system is defined by the following terms $M_d$, $B_d$, and $K_d$ are inertia, dampening, and stiffness, respectively. As previously stated, it is desirable to have these parameters adjust on the fly to the intention and ability of the \textit{assistie} system. The variability is controlled by \autoref{eq:intention} and \autoref{eq:varible}. Here $\alpha_{n,p}$ and $\gamma_{n,p}$ are tuning variables for the damping and stiffness of the admittance controller. The admittance will control how quickly and aggressively the \textit{assistor} system will respond. If the stiffness or dampening is too large, the model will not track the desired motion.   
+The admittance controls the virtual dynamics of the system and how the systems interact \cite{faulring2005haptic}. If the \textit{assastie} system is capable of following the desired motion, the \textit{assasitor} system will be less aggressive. This interaction is controlled by \autoref{eq:addmittance}, where $x_a$ is the location of the virtual system and $x_d$ is the location of the point on the pendulum link. A separate spring-dampener system is on each of the links of the system. The virtual system is defined by the following terms $M_d$, $B_d$, and $K_d$ are inertia, dampening, and stiffness, respectively. As previously stated, it is desirable to have these parameters adjust on the fly to the intention and ability of the \textit{assistie} system. The variability is controlled by \autoref{eq:intention} and \autoref{eq:varible}. Here $\gamma_{n,p}$ and $\alpha_{n,p}$ are tuning variables for the damping and stiffness of the admittance controller. The admittance will control how quickly and aggressively the \textit{assistor} system will respond. If the stiffness or dampening is too large, the model will not track the desired motion.   
 
 \begin{equation}
     \begin{aligned}
@@ -115,8 +115,8 @@ The admittance controls the virtual dynamics of the system and how the systems i
 
 \begin{equation}
     \begin{bmatrix} K_d \\ B_d \end{bmatrix} = \begin{cases}
-        \begin{bmatrix} K_{p} \\ B_{p} \end{bmatrix} + \mu  \begin{bmatrix} \gamma_p  \\ \alpha_p \end{bmatrix}, intent = 1 \\
-        \begin{bmatrix} K_{n} \\ B_{n} \end{bmatrix} - \mu  \begin{bmatrix} \gamma_n  \\ \alpha_n \end{bmatrix}, intent = 0
+        \begin{bmatrix} K_{p} \\ B_{p} \end{bmatrix} + \mu  \begin{bmatrix} \alpha_p  \\ \gamma_p \end{bmatrix}, intent = 1 \\
+        \begin{bmatrix} K_{n} \\ B_{n} \end{bmatrix} - \mu  \begin{bmatrix} \alpha_n  \\ \gamma_n \end{bmatrix}, intent = 0
   \end{cases}
   \label{eq:varible}
 \end{equation}
@@ -313,28 +313,40 @@ Testing the variability in alignment allows for testing of the controller when t
 
 
 
-\subsection{Application of Tuning Methodology}
+\subsection{Application of Tuning Methodology on a Simple Trajectory}
 
 The tuning methodology discussed above was implemented on a the leg of the LARRE using the dynamics server to calculate the inverse and forward dynamics. This was due to complicated in the ROS-Simulink bridge, which is discussed below. 
 
 To tune the controller each of the joints of the leg where command to follow a polynomial trajectory. This was done to allow for the boundary conditions of the path to be controlled for testing. The tuning method discussed above. This model added complexity to tuning process since it added another dimension that need to be tuned. An assumption that was made that while the thigh and shank of the exoskeleton where connected via a spring-dampener system, the foot of the exoskeleton and human where rigidly connected. Additionally, the closed loop PD controller is assumed to be a FES type devices that can transform displacement into torque through pulse width and frequency modulation \cite{rouhani2017pid, ha2015approach,Model_Ferrarin}. The hip and knee joints of the exoskeleton controller is assumed to be powered by BLDC motors as discussed in \autoref{chap:mech}.
 
-\autoref{fig:LARRE_TUNING} shows the cost convergence over the optimization. A single leg was tuned to lower the amount of parameters that needed to be optimized. The optimization lowers the RSME cost from 2.66 to 0.6 which is a 77.44\% reduction. At each step in the iterations the parameters are changed in attempt to lower the cost function. The parameters being tuned have different magnitudes are thus graphed in separately to accurately show the change at each step.
+\autoref{fig:LARRE_TUNING} shows the cost convergence over the optimization. A single leg was tuned to lower the amount of parameters that needed to be optimized. The optimization lowers the RSME cost from 2.66 to 0.6 which is a 77.44\% reduction. At each step in the iterations the parameters are changed in attempt to lower the cost function. The parameters being tuned have different magnitudes are thus graphed in separately to accurately show the change at each step. \autoref{fig:LARRE_Train_Trajectory} shows how the joints of the training trajectories. As shown the initial starting position has some wobbling in the ankle position be the converged to the desired trajectory. This can be due to the initial conditions in the admittance controller or the value of $\lambda$ being large which effect the rise time.  
 
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{images/controllers/trajs/cost.png}
-    \caption[LARRE Cost Optimization]{Cost of Tuning a single leg of LARRE}
-    \label{fig:LARRE_TUNING}
-\end{figure}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=0.8\columnwidth]{images/controllers/trajs/init_traj.png}
+        \caption[LARRE Training Trajectory]{LARRE Training Trajectory}
+        \label{fig:LARRE_Train_Trajectory}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=0.8\columnwidth]{images/controllers/trajs/cost.png}
+        \caption[LARRE Cost Optimization]{Cost of Tuning a single leg of LARRE}
+        \label{fig:LARRE_TUNING}
+    \end{subfigure}
+  
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=0.8\columnwidth]{images/controllers/trajs/params_splite.png}
+        \caption[LARRE Parameters Optimization]{Parameters Changing Over Iterations}
+        \label{fig:LARRE_PARAMS}
+    \end{subfigure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\columnwidth]{images/controllers/trajs/params_splite.png}
-    \caption[LARRE Parameters Optimization]{Parameters Changing Over Iterations}
-    \label{fig:LARRE_PARAMS}
+    \caption{Output for Training LARRE Graphs}
+    \label{fig:traj_training_graph}
 \end{figure}
-
 
 
 While \autoref{fig:LARRE_PARAMS} shows how the parameters change over time it does not give insight to the relative importance of the tuning parameters. A global sensitivity analysis was done to examine which parameters have the largest effect on the cost function. The goal of the analysis is to apportioning the uncertainty in outputs to the uncertainty. A global sensitivity analysis is when all the parameters are varied simultaneously over the entire range of the the inputs factors \cite{saltelli2008global}. This can be done by examining several different correlation methods listed below. Additional, these methods can also be examined as \textit{Ranked} methods. A ranked correlation method measures an ordinal association between the different variables. The ranking is is the assignment of the ordered labels. 
@@ -362,14 +374,144 @@ This data can be used to choose the more important parameters when optimizing th
 \end{equation}
 
 
-
-
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{images/controllers/trajs/stats.png}
     \caption[Relative Parameters Importance]{Relative Parameters Importance}
     \label{fig:paramStats}
 \end{figure}
+
+
+
+To examine the effect of the the model gains and the ability of the controller to adapt to to varying human interaction. The same trajectory was repeated three times. This was done to show how the steady state behavior of controller. Additionally, the foot is omitted since it is considered to be rigidly attached to the exoskeleton foot. 
+To examine the effects of the human effort were applied to the system from full human interaction to zero human interaction including 80\% involvement, 50\% involvement, 20\%, and a time decaying involvement. The percentage involvement was defined by examine the torque generated at 100\% involvement which was approximate $10Nm$. 
+
+\autoref{fig:StateSpaceTrajectory} shows the state space of the hip and knee joint. They show the joints move towards the sliding surface and converge towards zero with minimal chattering.  As shown in \autoref{fig:TripleTrajectory} the initial start part of the trajectory takes some time to settle to the trajectory. After the initail part of the motion the settles. The hip motion is slightly off the desired motion. The exoskeleton torque was capped to not exceed a maximum which should be raised to track the motion. This is shown since the knee motion tracks smoothly. 
+
+
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\columnwidth]{images/controllers/trajs/statespace.png}
+        \caption[State Space Trajectory]{State Space Trajectory}
+        \label{fig:StateSpaceTrajectory}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\columnwidth]{images/controllers/trajs/triple_traj.png}
+        \caption[Triple Trajectory]{Triple Trajectory}
+        \label{fig:TripleTrajectory}
+    \end{subfigure}
+    \caption[Triple Trajectory LARRE]{Triple Trajectories}
+    \label{fig:TripleTraj}
+\end{figure}
+
+
+
+The human interaction is shown in \autoref{fig:humantripletraj}. For the varying interaction levels the human effort was saturated, this is shown since the toque cannot exceed the capped value. The fatigue started at 80\% human interaction and reduced as an exponential sine wave to 0\% interaction as shown in \author{fig:fatprofile}. While this may not be an accurate model it represents a decreasing torque over time. Additional fatigue is difficult to model as it depends on the patient muscle atrophy, the muscle being activated, and the pulse width used to activate the muscle \cite{reiner1998patient}. As expected the fatigue interaction contains a wave like motion as the PD controller attempts to handle the varying engagement levels. 
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{images/controllers/gait/fat_profile.png}
+    \caption[Fatigue Profile]{Fatigue Profile}
+    \label{fig:fatprofile}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{images/controllers/trajs/human.png}
+    \caption[Human Torque over Triple Trajectory]{Human Torque over Triple Trajectory}
+    \label{fig:humantripletraj}
+\end{figure}
+
+
+\autoref{fig:SMCTripleFull} shows the effort supplied by the SMC for each of the engagement levels. \autoref{fig:SMCTripleZoom} is a zoomed of the same graph. As shown the as the human engagement increased the SMC magnitude of the effort decreased for both hip and knee joints. This shows that the SMC controller is adapting the human engagement level. 
+
+
+\begin{figure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\columnwidth]{images/controllers/trajs/SMC_full.png}
+        \caption[SMC Torque over Triple Trajectory]{SMC Torque over Triple Trajectory}
+        \label{fig:SMCTripleFull}
+    \end{subfigure}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\columnwidth]{images/controllers/trajs/SMC_zoom.png}
+        \caption[SMC Torque over Triple Trajectory Zoomed]{SMC Torque over Triple Trajectory Zoomed In}
+        \label{fig:SMCTripleZoom}
+    \end{subfigure}
+    \caption{SMC Effort applied over the Triple Trajectory}
+    \label{fig:SMCEffortTriple}
+\end{figure}
+
+The interaction torques between the LARRE and the human is wait provides the assastive torques. The spring-dampener systems generates the force which are transformed in the the torques. \autoref{fig:InteractionTripleTraj} shows the interaction trajectories, as expected the the magnitude interaction torque increases when then the human involvement decrease this is because the human motion is lagging behind the location of exoskeleton thus generating larger forces. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{images/controllers/trajs/interactions.png}
+    \caption[Triple Trajectory Interaction Torques]{Triple Trajectory Interaction Torques}
+    \label{fig:InteractionTripleTraj}
+\end{figure}
+
+
+\subsection{Application of Tuning Methodology to Follow a Gait Cycle}
+
+
+Using the parameters calculated above the model was then used to follow a three gait cycle to observer the steady state motion of the controller. The trajectory was auto generated by combining three gait cycles.  One of the important changes to the model was the using the torques pre-calculated  by the iLQR method (see \autoref{sec:ilqr}) as the standard interaction torques.  This is instead of using a inverse dynamic model since the iLQR controller should produce optimal torques to follow the gait trajectory. The A-SMC then compensates for the disturbances in the system. \autoref{fig:CoopSimulink} shows the Simulink model used to control the gait following model. The outputs torques that are highlighted go to dynamics server which double integrates the output to get the joint positions and velocity. Which are then feedback as the input joint states. The interaction dynamics are the spring-dampener equations which calculate the coupled forces.  
+
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\columnwidth]{images/controllers/upper_model_simulink_edit.png}
+    \caption[Simulink Model Cooperative Controller]{Simulink Model of the Cooperative Gait Controller }
+    \label{fig:CoopSimulink}
+\end{figure}
+
+
+\author{fig:TripleGaitMotion} shows gait motion with varying human engagement levels. The SMC controller was able to compensate the for the lack of human involvement and track the gait cycle which is more complex then the previous simple trajectory. The initial start of the controller varies slightly however it converges to a steady state operation and track the other gait cycles closely. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{images/controllers/gait/traj.png}
+    \caption{Triple Gait Cycle}
+    \label{fig:TripleGaitMotion}
+\end{figure}
+
+
+
+\autoref{fig:TorqueOverGaitCycles} shows the torques generated to follow the gait cycles. \autoref{fig:HumanTripleGaitMotion} shows the human torques over the gait cycle. The maximum torque is capped at the different levels. This can been seen where the the torque does not surpass the maximum activation level. The same fatigue profile shown in \autoref{fig:fatprofile} was used to simulate the muscle fatigue. \autoref{fig:SMCTripleGaitMotion} shows the SMC controller torques generated over the gait cycle. \autoref{fig:InteractionTripleGaitInteration} shows the interaction torques between the human and LARRE. Unlike in the simple trajectory model the human torque profile shown here spikes to the saturation limit. The SMC controller torque contain a similar profiles that were observed in the simple trajectory where as the human torque decrees the SMC troque increases. Additional the controller was able to compensate for the time varying fatigue, which is critical for operation where the user may not be able to maintain the required torque through the gait cycle. 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.8\linewidth}
+        \centering
+        \includegraphics[width=\columnwidth]{images/controllers/gait/SMC.png}
+        \caption[SMC Torque Over Gait Cycles]{SMC Torque Over Gait Cycles}
+        \label{fig:SMCTripleGaitMotion}
+    \end{subfigure}
+    \begin{subfigure}{0.8\linewidth}
+        \centering
+        \includegraphics[width=\columnwidth]{images/controllers/gait/human.png}
+        \caption[Human Torque Over Gait Cycles]{Human Torque Over Gait Cycles}
+        \label{fig:HumanTripleGaitMotion}
+    \end{subfigure}
+        \begin{subfigure}{0.8\linewidth}
+        \centering
+        \includegraphics[width=\columnwidth]{images/controllers/gait/feedback.png}
+        \caption[Human Torque Over Gait Cycles]{Human Torque Over Gait Cycles}
+        \label{fig:InteractionTripleGaitInteration}
+    \end{subfigure}
+    \caption{Torque Over Gait Cycles}
+    \label{fig:TorqueOverGaitCycles}
+\end{figure}
+
 
 
 
@@ -456,5 +598,5 @@ A bug in the ROS-Simulink framework was discovered during development. While MAT
 
 
 
-\subsection{Contributions}
+
 

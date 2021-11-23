@@ -21,3 +21,16 @@ All the controllers are implemented using the control architecture discussed in 
 
 \input{Chapters/Controllers/iLQR_Controller}
 \input{Chapters/Controllers/optimization}
+
+
+\section{Contributions}
+
+Several contributions were made to the field of controller development. Both the iLQR controller and the A-SMC cooperative controller introduced new methods that expand on previous applications and research. Both the controller have application outside the field outside of lower limb exoskeletons. The generalized forms of the controller can be used for assastive control applications and to generate optimal control signals for non-linear robotic systems. 
+
+
+The iLQR controller introduced a new method of integrating an optimal controller with learning from demonstration to control a lower limb exoskeleton. This controller method allows a trajectory to be learned from multiple demonstrations and uses a non-linear dynamic model to learn an optimal control signal.  Using a non-linear model allows for the complex dynamics to be encoded into the control signal. The PD controller allows feedback to account for non-modeled dynamics. 
+
+
+
+The new tuning method of an A-SMC controller was presented, allowing for the parameters to be automatically determined. This method was shown to improve the state space of the SMC. Using a position and velocity cost function allows for the gains to be automatically tuned to the system. This generalization of the tuning method allows it to be used for more complex systems with more joints or complex dynamics.  Additionally, it was shown that the controller was able to handle varying alignment and involvements of the \textit{assitie} system; this is important since these controllers are often incorporated into \textit{assistive} exoskeleton systems. 
+

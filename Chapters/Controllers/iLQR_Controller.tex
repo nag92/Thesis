@@ -1,5 +1,5 @@
 \section{iterative Linear Quadratic Regulator}
-
+\label{sec:ilqr}
 
 \subsection{Overview of iLQR Controller}
 
@@ -127,7 +127,7 @@ To find the $R$ matrix's values; the values were iteratively changed to find a m
     \label{eq:R_cost}
 \end{equation}
 
-The high dimensionality and non-linear dynamics make it challenging to weight values of the matrix \cite{park2012multi}. The complexity of the motor behaviors also increases the difficulty of finding the $R$ matrix. Therefore, a brute-force method was implemented to go through values in different magnitudes and select the optimal result. The control signal was tested by forward integrating using RK4.  
+The high dimensional and non-linear dynamics make it challenging to weight values of the matrix \cite{park2012multi}. The complexity of the motor behaviors also increases the difficulty of finding the $R$ matrix. Therefore, a brute-force method was implemented to go through values in different magnitudes and select the optimal result. The control signal was tested by forward integrating using RK4.  
 
 % \autoref{fig:error_digram} show the optimal trajectory and one unfit case:
 
