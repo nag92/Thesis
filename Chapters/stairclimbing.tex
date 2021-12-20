@@ -11,14 +11,12 @@ By combining Stair Climbing LfD methods, step motions can be generalized and rep
 \begin{figure}
     \centering
     \includegraphics{images/stairs/mocap_overlay_stairs.jpg}
-    \caption[Stair mocap overlay]{Person with mocap overlay climbing the stair case}
+    \caption[Stair Mocap Overlay]{Person with Mocap Overlay Climbing the Staircase}
     \label{fig:stairoverlay}
 \end{figure}
 
 \section{Learning of the Trajectories}
-
-
-\autoref{fig:stick} shows the coordinate layout used in this paper. The $X$ axis is perpendicular to the plane and is not considered since the exoskeleton does not have actuation along the $X$ axis. \autoref{fig:stick} shows a diagram of the subject in motion. In this diagram, the toe's position is controlled from the ground to the first step of the staircase. GMM (\autoref{eq:Mstep},\autoref{eq:Estep}) is used to learn the $Z$ and $Y$ marker position. The human demonstration (\autoref{chap:gaitdata}) was paired to find the stepping motion of the subject. Using GMR (\autoref{eq:GMR_Prop}, \autoref{eq:GMR_mu} ) the driving forcing is calculated. The forcing function is used to drive the model along the trajectory. DMPs (\autoref{eq:DMP_force}, \autoref{eq:DMP_Model} ) are used to replicate and alter the the trajectory to climb stairs of various heights.  
+This work was published in IEEE Transactions on Medical Robotics and Bionics\cite{goldfarb2021towards}. \autoref{fig:stick} shows the coordinate layout used in this paper. The $X$ axis is perpendicular to the plane and is not considered since the exoskeleton does not have actuation along the $X$ axis. \autoref{fig:stick} shows a diagram of the subject in motion. In this diagram, the toe's position is controlled from the ground to the first step of the staircase. GMM (\autoref{eq:Mstep},\autoref{eq:Estep}) is used to learn the $Z$ and $Y$ marker position. The human demonstration (\autoref{chap:gaitdata}) was paired to find the stepping motion of the subject. Using GMR (\autoref{eq:GMR_Prop}, \autoref{eq:GMR_mu} ) the driving forcing is calculated. The forcing function is used to drive the model along the trajectory. DMPs (\autoref{eq:DMP_force}, \autoref{eq:DMP_Model} ) are used to replicate and alter the the trajectory to climb stairs of various heights.  
 
 
 The limb length of the subject used for training was measured using a calibration phase. However, the limb length segments can be estimated using the height of the subject \cite{anthropomorphic}. It is assumed that the relative location of stairs is known with respect to the person. The motion has to be transferred to joint space using inverse kinematics of the leg. To avoid a collision of the toe with the lip of the stairs, a constraint that the foot must be parallel to the ground is imposed. In addition, some rehabilitation exoskeletons do not have actuated ankle joints and therefore cannot be controlled.  \autoref{eq:IK} is the inverse kinematics of the leg with a constrained ankle where hip: $q_1$, knee: $q_2$, ankle: $q_3$, thigh: $l_1$, shank: $l_2$, ankle height: $l_3$, foot length: $l_4$, $z_{toe}$ and $y_{toe}$ is the coordinate of the toe. Inverse kinematics allows for the encoding of the stair height as opposed to forward kinematics. 
@@ -54,7 +52,7 @@ The limb length of the subject used for training was measured using a calibratio
 
 
 
-The BIC score was used to optimize the number of required bins for the GMM process. \autoref{fig:BIC} shows the BIC score calculated for several bin sizes (1-25) for the $ Y $ and $ Z $ trajectories of the toe marker. This calculation limits the number of bins. The two graphs are generated using a single demonstration from each of the eight subjects in the config0 data set (see \autoref{tab:stairs}). The optimal number of bins for the $Z$ axis is 6 bins and the optimal number of bins for the $Y$ axis is 7 bins. 
+The BIC score was used to optimize the number of required bins for the GMM process. \autoref{fig:BIC} shows the BIC score calculated for several bin sizes (1-25) for the $ Y $ and $ Z $ trajectories of the toe marker. This calculation limits the number of bins. The two graphs are generated using a single demonstration from each of the eight subjects in the config0 data set (see \autoref{tab:stairs}). The optimal number of bins for the $Z$ axis is 11 bins and the optimal number of bins for the $Y$ axis is 14 bins. 
 
 
 \begin{figure}[h!]
@@ -62,14 +60,14 @@ The BIC score was used to optimize the number of required bins for the GMM proce
     \centering 
     \ContinuedFloat
     \includegraphics[ scale=0.6]{images/stairs/ybic7.png}
-    \caption[BIC Score for $Y$ Toe]{BIC score for toe marker $Y$ position trajectory. The BIC score has its first local minimum at a size of 7 bins.} 
+    \caption[BIC Score for $Y$ Toe]{BIC score for toe marker $Y$ position trajectory. The BIC score has its first local minimum at a size of 14 bins.} 
     \label{fig:BICY} 
   \end{subfigure}  
 \begin{subfigure}{\linewidth} 
     \centering 
     \ContinuedFloat
     \includegraphics[ scale=0.6]{images/stairs/zbic6.png} 
-    \caption[BIC Score for $Z$ Toe]{BIC score for toe marker $Z$ position trajectory. The BIC score has its first local minimum at a size of 6 bins.} 
+    \caption[BIC Score for $Z$ Toe]{BIC score for toe marker $Z$ position trajectory. The BIC score has its first local minimum at a size of 11 bins.} 
     \label{fig:BICZ} 
   \end{subfigure}  
     \caption[Stair BIC Score]{The BIC score (smaller is better) was calculated for numerous bins size for the $Y$ and $Z$ trajectory.} 
@@ -155,7 +153,7 @@ The inverse kinematics and the anthropomorphic parameters were used to calculate
 
 \section{Contributions}
 
-This contribution of this method was to show how to build an imitation model by learning stair climbing trajectories using mocap and GMM/GMR. This work showed a trajectory generation of the joint trajectories for the exoskeletons joint angles to be generalized so it can be used by people of all leg lengths on variable stair heights. This method allows the model to handle different stair heights by changing the start and goal inputs to the DMP controller. Unlike other methods that rely on hand-generated trajectory generation from start to the goal, this method allows biological stair climbing trajectories to be used that can be dynamically manipulated to climb different stair heights. The contribution was presented here\cite{goldfarb2021towards}.
+This contribution of this method was to show how to build an imitation model by learning stair climbing trajectories using mocap and GMM/GMR. This work showed a trajectory generation of the joint trajectories for the exoskeletons joint angles to be generalized so it can be used by people of all leg lengths on variable stair heights. This method allows the model to handle different stair heights by changing the start and goal inputs to the DMP controller. Unlike other methods that rely on hand-generated trajectory generation from start to the goal, this method allows biological stair climbing trajectories to be used that can be dynamically manipulated to climb different stair heights.
 
 
 % The stair location can be found using LIDAR or distance sensors (see \autoref{fig:sensors}). 

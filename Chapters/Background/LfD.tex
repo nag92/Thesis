@@ -186,13 +186,13 @@ where,
 \begin{equation} 
     \begin{aligned} 
       \hat{\mu_i^o} &= \mu_i^o + \Sigma_i^{OI}\Sigma_i^{I-1}(\xi_t^I - \mu_i^I)\\ 
-      \hat{\Sigma_i^O} &= \Sigma_i^O - \Sigma_i^{OI}\Sigma_i^{I-1}(\xi_t^I - \mu_i^I) \\ 
+      \hat{\Sigma_i^O} &= \Sigma_i^O - \Sigma_i^{OI}\Sigma_i^{I-1} \Sigma^{IO}_i \\ 
        h_{i} &= \frac{\pi_i \mathcal{N}(\xi_t^I | \mu_i^j , \Sigma_i^j )}{ \sum_k^K \pi_k \mathcal{N}(\xi_t^I | \mu_k^j , \Sigma_k^j ) }   
     \end{aligned} 
     \label{eq:GMR_mu} 
 \end{equation} 
 
-The number of bins $ K $ used in TPGMM are found using the Bayesian Information Criterion (BIC); if too few bins are used, the model will be poorly fit; if too many are used, it will over-fit the demonstrations. BIC is a method to overcome this limitation and find the optimal number of bins \cite{calinon2007learning}. \autoref{eq:BIC} calculates the BIC score; it is a trade-off between optimizing the likelihood and minimizing the number of states to encode.  $\mathcal{L}$ is the log-likelihood, $ N $ is the number of mixture models, $ K $ is the number of components, and $ D $ is the dimension of the data points. \cite{calinon2007learning} \cite{}. 
+The number of bins $ K $ used in TPGMM are found using the Bayesian Information Criterion (BIC); if too few bins are used, the model will be poorly fit; if too many are used, it will over-fit the demonstrations. BIC is a method to overcome this limitation and find the optimal number of bins \cite{calinon2007learning}. \autoref{eq:BIC} calculates the BIC score; it is a trade-off between optimizing the likelihood and minimizing the number of states to encode.  $\mathcal{L}$ is the log-likelihood, $ N $ is the number of mixture models, $ K $ is the number of components, and $ D $ is the dimension of the data points. 
 
 
 \begin{equation} 
@@ -209,7 +209,12 @@ A reproduction model's accuracy is measured by calculating the imitation cost; t
 \end{equation}
 
 
- 
+ \begin{figure}
+     \centering
+     \includegraphics[scale=0.42]{images/background/GMM_reproduction.png}
+     \caption[Simple Reproduction Example]{Demonstration of how LfD reproduces trajectories with the labeled components. This Model was generated using two demonstrations collected from stair climbing data. }
+     \label{fig:SimpleGMMExample}
+ \end{figure}
 
 \subsection{Applications of LfD}
 \label{sec:applfd}

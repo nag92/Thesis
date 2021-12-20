@@ -1,0 +1,50 @@
+\chapter{Discussion}
+
+\section{Overview}
+
+A majority of this work was focused on open source development of new methods and tools. This method of development severed two purposes, the first to start the lower limb exoskeleton development in the AIM lab and second provide tools for other research's to build and develop their own exoskeleton without having to rebuilt the fundamental building blocks and tools required conduct motion capture research, use the AMBF simulation package, and build an exoskeleton. 
+
+\section{Mechanical Development}
+
+Development of lower limb exoskeletons should be designed to meet the needs of the person. They have to mimic real gait motion and provide the necessary torques to the joints. Additionally it is important that the exoskeletons do not have sharp edges or pinch points that could harm the person. This is especially important because people with SCI have limited sensory ability and would not be able to if they are injured. 
+
+One of the primary goals of the development of LARRE was to assemble and provide models for other researchers to use, develop, and improve their own lower limb exoskeletons. The current lower limb exoskeletons on the market are expensive and cannot be easily accessed by researches. By releasing the components open source it allows for other to develop on top of the base platform. This is crucially for new research, software and hardware should be released open source, so the development can be pushed further. The modular natural of LARRE enables other systems to be built upon. 
+
+Several different knee mechanism were developed and tested in the dissertation; the wrap-spring clutch knee and the bio-knee. They are different knees both with their own pros and cons. The wrap-spring clutch knee is designed for passive motion and support. It does not require a motor for actuation since it relies on the swing motion of the leg. With out the need for a motor the knee has less mass which then lowers the overall inertia that the hip motor has to carry. This allows for a power efficient system. It was shown that this design can withstand the anticipated force for a prolonged time period.   
+
+The bio-knee is focus on attempting to replicate the underling bio-mechanics of a knee. It is attempting to lower the stress on the persons by not simplifying the knee joint to a simple pin joint. Integrating a maxon motor and harmonic gearbox into the knee allows for the knee to be powered and used for actuation and trajectory control. This has the advantage that is can be used for precised control of the knee. Additionally the knee is simple to build and customize to the individual. Unlike other systems that use complicatd cams or pulls, this design has a single part that has to be customized. All the components are either common off the shelf parts or can be 3D printed out of PLA. This is ideal for personalized medican since it can be quickly and easily manufactured. The disadvantage is that is adds complexity into the system and additional mass and inertia. The additional mass has to be carried by the hip motors and gearboxes.
+
+
+\section{Open Source Software and Human Motion Data}
+
+Several software packages were developed to enable the research presented in this dissertation. The open-source tools kits enable other research's to accesses and study their data using a well built API. The Vicon toolkit fills in a much need gap in the tools that are provided in marker analysis. The Vicon toolkit provides the lower level access to the marker and provides the linear algebra tools to transform and manipulate the markers. While their are other software package provided tools to examine human motion, they do not necessary allow direct access to the markers or rigid bodies where as the Vicon toolkit does offer these tools. This is important since the marker contain vital information. This information can be used for learning motion and comparing the relative position of markers over the trial. 
+
+This dissertation released additional gait and stair climbing data for other to use. This gait data contains rich marker information to study and examine how people move. By releasing the data to the community other can study gait motion without having to conduct their own human motion trials. This can be both expensive and time consuming. 
+
+The Open source software and gait data provide a full package of rich open source data and powerful tool to manipulate and analysis the data. The collected gait data was used to learn generalized gait cycles and climb stairs. Using the open source toolkit the gait cycles from the different trials can be easily compared and used to learn a generalized trajectory. 
+
+
+\section{Learning Motion}
+
+
+Using multiple human demonstrations allows for the generalized trajectories to be learned. These generalized trajectories can then be replicated and reproduced. By using the multiple demonstrations the leg length can be encoded into the model allowing for abstraction. This was shown by using the stair trajectories to generate joint trajectories for different stair heights. This is important since it shows that you can use a limited data set to generate a wide variety of joint trajectories. 
+
+Using the GMM process with DMPs multiple trajectories can be used for training and reproduction. The use of smoothing on the training models decrees the metric of imitation for the training model. By ensure that the demonstrations  are continuously differentable which could cause the forcing function to inaccurately trace the desired motion. 
+
+
+\section{AMBF and Dynamic Server}
+
+
+The AMBF simulation is still new and experimental. It is not yet ready for the control a bipedal walking pattern. There are still frictional patterns that half to be overcome to allow the foot to make contact with the ground and prevent the model from sliding. However if the simulation is used for contact less dynamics trajectory tracking it work well. The AMBF simulation was used to test the varies controllers to test the real time control. The AMBF simulation platform has a lot of potential for future application and testing of controllers and models. 
+
+The open-source dynamics and controller server expands the functionality of AMBF by allowing the dynamics of the model to be calculated for use in custom controllers. The dynamics server parses the AMBF model files into the RBDL model. This pipeline ensures that the RBDL model matches the AMBF model which is crital for model based controllers. Additionally by using a ROS abstraction layer it allows for developer to use any language to communicate with the server. This is important for community use and development since the community does not need to have an understanding the the kinematics and dynamics of there robot to build a controller. The controller server perfectly meshes with the dynamics server to build a concise pipeline to control robots in the AMBF. These package were released open source for community development. Release packages open source is crucial for proper research, it allows other to build and expand upon your work without having to rebuild and redevelop everything the previous accomplished.   
+
+
+\section{iLQR and A-SMC Controllers}
+
+The two controllers developed in this dissertation were the iLQR and A-SMC cooperative controller. Both expand on the current models and added new features. The iLQR controller Incorporated non-linear models to overcome the limitation of linear models and incorporated the output parameters of GMM to calculate the path and co-variance values along the desired motion. Using this methodology it allows for all but the the $R$ matrix to be calculated in a consises pipeline from demonstration collection to generation of the model torques. The $R$ matrix can be calculated using a gradient descent method. However due to the nature of the iLQR controller, it does good for real time control since the toque has to be calculated offline. This can be overcome using a iLQR torque as a feed forward term and using a PD controller for closed loop distribute rejection.  Additionally it is well suited to be combined with the A-SMC for the standard interaction torque. 
+
+The presented A-SMC controller expands on the literature by introducing a closed loop human controller and a iLQR input as the standard interaction torque. The closed human controller can simulate a FES type controller which is typical for hybrid lower limb exoskeletons. It show shown that the A-SMC controller was able to adapt to the changing torque provided by the human. IT produced lower torque when the human controller provided sufficient torque and  produced more when the human controller could not provided enough torque. The A-SMC was also to adapt on the fly to torque change that could arise during fatigue. 
+
+The tuning methodology presented to tune A-SMC allows for the high parameters of the controller to be optimally tuned. This is contributaion is valuable since A-SMC controller have a large number of parameters the scale with the dimensionalality of the system. These parameters have complex coupling making it difficult to tune by hand and can lead to non-optimal parameter selection. The presented method is capably of tuning high parameters systems and be designed to optimize a cost function ensure the parameters find a local minima. 
+

@@ -32,6 +32,8 @@
 \usepackage{enumitem}
 \usepackage{tocloft}
 \setlist{nolistsep}
+
+\usepackage[nottoc,notlot,notlof]{tocbibind}
 %New colors defined below
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -161,7 +163,7 @@ Professor Karen Troy,  Committee Member
 Professor Jing Xiao,  Committee Member
 
 
-\vspace{0.5in}
+\vspace{0.25in}
 \rule{3in}{0.8pt}
 
 % This is also constant :)
@@ -209,10 +211,11 @@ Professor Berk Calli,  Committee Member
 % have wasted in Word getting this thing updated without crashing
 % the system) :).
 
-\tableofcontents
 
 % THAT'S IT. REALLY. Everything else is automatic. No formatting, no headline.
 % All predefined.
+
+\tableofcontents
 
 % Now - just as easy - the List of Figures.
 % This will catch all objects enclosed in \begin{figure}\end{figure}
@@ -223,6 +226,7 @@ Professor Berk Calli,  Committee Member
 % This will catch all objects enclosed in \begin{table}\end{table}
 % statements.
 \listoftables
+
 
 
 % \newcommand{\listequationsname}{List of Equations}
@@ -256,8 +260,13 @@ Professor Berk Calli,  Committee Member
 \input{Chapters/stairclimbing}
 \input{Chapters/simulation}
 \input{Chapters/Controllers/controllers}
+\input{Chapters/discussion}
+\input{Chapters/futurework}
+
 
 \bibliographystyle{ieeetr}
+% \addcontentsline{toc}{chapter}{Bibliography} 
+
 \bibliography{bibliography/lfd,bibliography/SCI, bibliography/strokes, bibliography/mech_design,bibliography/exo_background, bibliography/software,  bibliography/sim, bibliography/gait, bibliography/stair, bibliography/controllers }
 
 

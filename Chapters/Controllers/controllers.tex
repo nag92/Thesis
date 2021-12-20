@@ -30,7 +30,15 @@ Several contributions were made to the field of controller development. Both the
 
 The iLQR controller introduced a new method of integrating an optimal controller with learning from demonstration to control a lower limb exoskeleton. This controller method allows a trajectory to be learned from multiple demonstrations and uses a non-linear dynamic model to learn an optimal control signal.  Using a non-linear model allows for the complex dynamics to be encoded into the control signal. The PD controller allows feedback to account for non-modeled dynamics. 
 
-
+The new A-SMC was developed to handle closed loop controller attached to the asstive system. This builds upon the previous work that assumed the human controller was an open look controller. This closed loop controller can be implemented as a FES controller on the user leg muscles. Additional the standered interaction torques were generated using the iLQR controller which allows for optimal control commands to be used in the A-SMC. The controller was tested with various dynamic system, various trajectories, and various involvment of from the  \textit{assitie} system. The A-SMC controller was able to track the desired trajectories. 
 
 The new tuning method of an A-SMC controller was presented, allowing for the parameters to be automatically determined. This method was shown to improve the state space of the SMC. Using a position and velocity cost function allows for the gains to be automatically tuned to the system. This generalization of the tuning method allows it to be used for more complex systems with more joints or complex dynamics.  Additionally, it was shown that the controller was able to handle varying alignment and involvements of the \textit{assitie} system; this is important since these controllers are often incorporated into \textit{assistive} exoskeleton systems. 
+
+A sensitivity analysis was conducted to examine the importance of the A-SMC. This analysis showed the sensitivity of the controller the parameter change and what parameters have the largest effect of the tuning of the controller. Without these analysis A-SMC controller would be very difficult to tune due to the high number of parameters in the controller, since these number of parameter scale with the degrees of freedom. Exoskeleton tend to have a large number of degrees of freedom this method is necessary for tuning and optimizing the controllers.   
+
+The A-SMC controller was implement on a dynamic model of a LARRE leg. This model has the same dynamics configuration of the simulated exoskeleton model. The controller was trained on the dynamics model using the methods described above to follow an arbitrary trajectory. These parameters were then used to follow a gait cycle. It was shown that the controller was able to compensate for different levels of the human involvement including varying fatigue torque and no human involvement.   
+
+
+
+
 

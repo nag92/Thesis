@@ -2,7 +2,7 @@
 \label{sec:ilqr}
 
 \subsection{Overview of iLQR Controller}
-
+This work was published in IEEE Engineering in Medicine and Biology 43rd annual Conference \cite{goldfarb2021control}
 The objective of this controller was to close the loop between the reproduction models and the controller. Current learning from demonstration methods has only been combined with linear quadratic regulators; this limits the applicability of processes since most robotic systems have non-linear dynamics. An iterative linear quadratic regulator is used to find an optimal control signal to drive the exoskeleton joints through the desired trajectories. A PD controller is added as a feed-forward control component for unmodeled dynamics and optimized using the Bayesian Information Criterion. We show how the trajectory is learned, and the control signal is optimized by reducing the required bins for learning. The framework presented produces optimal control signals to allow the exoskeleton's legs to follow human motion demonstrations.
 
 The Linear Quadratic Regulator (LQR) is a well-known method that provides optimally controlled feedback gains to enable the closed-loop and high-performance control \cite{kirk2004optimal}. The limitation of LQR is that it can only be implemented on a system with linear dynamics and has a linear cost function. In \cite{TPGMM_calinon2016}, Calinon \textit{et. al} used TPGMM/GMR with an LQR controller to develop a minimal intervention controller. This controller was used to control a Kuka robotic arm \cite{schreiber2010fast} through a series of movements. This method leads the inspiration to use a non-linear controller instead of the linear one used previously.  
@@ -14,8 +14,7 @@ This modification to LQR allows the control of non-linear system control problem
 iLQR controllers have been implemented on a wide variety of systems. In \cite{car} they used a modified form of iLQR called constrained iLQR to control the motion of a car. The car was subjected to several state and control constraints. iLQR also allows for the control of humanoid robots. Tassa \textit{et. al} used iLQR to control an HRP-2 robot's motion by controlling the joint angles \cite{iLQR_tassa2014}.
 
 \subsection{Methods and Implementation}
-
-The proposed approach is split into several phases; demonstration, encoding, and optimization. During the demonstration phase, gait data is collected, and the gait cycles are parsed to extract the joint angles. The demonstrations are encoded using TPGMM/GMR as discussed in \autoref{sec:lfd}. In the demonstration and encoding phases, the trajectories are learned and encoded. The controller is tested on the LARRE model in AMBF as discussed in \autoref{chap:sim}. 
+ The proposed approach is split into several phases; demonstration, encoding, and optimization. During the demonstration phase, gait data is collected, and the gait cycles are parsed to extract the joint angles. The demonstrations are encoded using TPGMM/GMR as discussed in \autoref{sec:lfd}. In the demonstration and encoding phases, the trajectories are learned and encoded. The controller is tested on the LARRE model in AMBF as discussed in \autoref{chap:sim}. 
 
 During the optimization phase, the control inputs calculated drive the system along the trajectory. There are two steps in the iLQR algorithm; a forward pass and a backward pass. The simulated forward LARRE is simulated forward along the trajectory using a dynamic model in the forward pass. 
 
