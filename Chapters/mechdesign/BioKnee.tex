@@ -1,10 +1,18 @@
 \section{Prototype of personalized bio-mechanical knee}
 
-The work done in this section was in collaboration with Alex Tacescu \cite{tacescu2021development} and presented at International Mechanical Engineering Congress 2021 [WAITING FOR CITATION]. I led and managed the focus of the project and came up with the idea. I was also involved with running the mocap experiments and the mechanical design. Another knee design was examined that focused on matching the knee motion profile to a human knee. Exoskeletons discussed in \autoref{sec:ExoBack} mostly use pin-type joints in their knee joints; this is in contrast to how the actual kinematics work in a human knew, which has a variable center of rotation \cite{morrison1970mechanics} \cite{koo2008knee}.
+The work done in this section was in collaboration with Alex Tacescu \cite{tacescu2021development} and presented at International Mechanical Engineering Congress 2021 [WAITING FOR CITATION]. I led and managed the focus of the project and came up with the idea. I was also involved with running the mocap experiments and the mechanical design. Another knee design was examined that focused on matching the knee motion profile to a human knee. Exoskeletons discussed in \autoref{sec:ExoBack} commonly use pin-type joints in their knee joints; this is in contrast to how the actual kinematics work in a human knew, which has a variable center of rotation \cite{morrison1970mechanics} \cite{koo2008knee}.  This is illustrated by examining MRI scans of knee which show that the femur and tibia have oblong heads\cite{MRIKneeScan}. This geometry translates the tibia as the knee rotates. 
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.5]{images/mech_design/High-resolution-knee-scan-Resolution-is-025x025x15mm.png}
+    \caption[Labled MRI of knee]{MRI of knee the blue oval is the femur head and the red is the tibia head. as the knee rotates the shape of the femur head causes translate of the tibia. As shown in the two position of the femur head.}
+    \label{fig:MRIKnee}
+\end{figure}
 
 Several recent designs have focused more on accounting for knee motion. Choi \textit{et. al} used multiple rolling cams to adapt to the changing center of rotation \cite{choi2017development}. This design fits a person's knee motion; it did not use modeling of the knee's tibiofemoral motion to design the cams. Additionally, the design is complicated and not easily reproducible. In another design Choi \textit{et. al} used multiple rollers and pulleys powered by electric linear actuators. However, rotary electric motors with rotary gearboxes can often achieve higher performance than electric linear actuators powered by rotary DC motors. Another knee design was presented in \cite{wang2018comfort}; this design prioritized the comfort of the user and the alignment of the knee joint. This design also uses pulleys and cables to model the knee motion. \cite{AdaptiveKneeJoint} presents a cam knee design that uses a model of the knee motion. This design is a significant improvement over previous designs that merely compensate for the motion. However, as the other designs discussed, they use linear actuators.  These designs do well at either mimicking or compensating for the knee motion; however, they are mechanically cumbersome to manufacture; they did not show mimicking of the center of rotation's theoretical movement and/or use a linear actuator to replicate rotary motion. In addition, the design does not allow for the knee to be customized and therefore cannot meet the specific motion of the patient. Thus, we propose a knee design that is readily configured to match a particular patient's knee joint motion, is designed for easy manufacturing, and allows the use of readily available rotary actuators and brake mechanisms.
 
-The variable center of rotation was found using previous work by Iwaki \textit{et. al} that used Magnetic Resonance Imaging (MRI) scans to determine and predict the knee's trajectory \cite{MRIKneeShape_Loaded, MRIKneeShape_Unloaded}. These studies used cadavers and actual patients to measure the motion of the knee in both loaded and unloaded scenarios. This MRI data was used in \cite{KinDynKneeJoint} to build a mathematical model of knee motion that considers both the flexion and extension degrees of freedom. They used ellipse to model the contact between the femur and tibia bones. Their work leads to the formulation of \autoref{eq:KneeExtensionFlexionNumeric}. This equation relates the rotation (in radians) of the knee to the translation of the tibia. In these equation $a$ is a scaling factor and $d$ is an initial offset \cite{wang2013adaptive}. Both of these values are patient specific and can be found using an MRI or motion capture study.  This motion and its derivative are shown in \autoref{fig:FlexExtRelationship}. This study was limited since it was based on the anthropomorphic parameters of a single person. These coefficients will vary slightly from person to person and can be found using MRIs or motion capture. 
+The variable center of rotation was found using previous work by Iwaki \textit{et. al} that used Magnetic Resonance Imaging (MRI) scans to determine and predict the knee's trajectory \cite{MRIKneeShape_Loaded, MRIKneeShape_Unloaded}. These studies used cadavers and actual patients to measure the motion of the knee in both loaded and unloaded scenarios. This MRI data was used in \cite{KinDynKneeJoint} to build a mathematical model of knee motion that considers both the flexion and extension degrees of freedom. They used ellipse to model the contact between the femur and tibia bones. Their work leads to the formulation of \autoref{eq:KneeExtensionFlexionNumeric}. This equation relates the rotation (in radians) of the knee to the translation of the tibia. In these equation $a$ is a scaling factor and $d$ is an initial offset \cite{wang2013adaptive}. Both of these values are patient specific and can be found using an MRI or motion capture study. \autoref{fig:a_varying} shows the effect of varying the scaling parameters.  This motion and its derivative are shown in \autoref{fig:FlexExtRelationship}. This study was limited since it was based on the anthropomorphic parameters of a single person. These coefficients will vary slightly from person to person and can be found using MRIs or motion capture. 
 
 
 \begin{equation}
@@ -12,10 +20,26 @@ The variable center of rotation was found using previous work by Iwaki \textit{e
     \label{eq:KneeExtensionFlexionNumeric}
 \end{equation}
 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{images/mech_design/scalar_varying_a_Annotated.png}
+    \caption[Scaling Parameter]{Varying the scaling parameter in \autoref{eq:KneeExtensionFlexionNumeric}[THIS IMAGE NEED TO BE FIXED!!] }
+    \label{fig:a_varying}
+\end{figure}
+
+% \begin{figure}[ht!]
+%     \centering
+%     \includegraphics[scale=0.9]{images/mech_design/FlexionCurve.png}
+%     \caption{Knee Flexion Curve}{Graphical representation of \autoref{eq:KneeExtensionFlexionNumeric} demonstrating the relationship between flexion and extension in a knee as measured by \cite{KinDynKneeJoint}. \(r(m)\) is the extension distance between the center of the knee and the center of mass of the lower leg. $0^\circ$ represents a perfectly extended knee joint.}
+%     \label{fig:FlexExtRelationship}
+% \end{figure} 
+
+
 \begin{figure}[ht!]
     \centering
-    \includegraphics[scale=0.9]{images/mech_design/FlexionCurve.png}
-    \caption{Knee Flexion Curve}{Graphical representation of \autoref{eq:KneeExtensionFlexionNumeric} demonstrating the relationship between flexion and extension in a knee as measured by \cite{KinDynKneeJoint}. \(r(m)\) is the extension distance between the center of the knee and the center of mass of the lower leg. $0^\circ$ represents a perfectly extended knee joint.}
+    \includegraphics[scale=0.9]{images/mech_design/knee_plate_main_annotated.png}
+    \caption{Knee Flexion Curve}{Graphical representation of \autoref{eq:KneeExtensionFlexionNumeric} demonstrating the relationship between flexion and extension in a knee as measured by \cite{KinDynKneeJoint}. \(r(m)\) is the extension distance between the center of the knee and the center of mass of the lower leg. $0^\circ$ represents a perfectly extended knee joint. The curve effects the shape of the red cam on the knee plate. }
     \label{fig:FlexExtRelationship}
 \end{figure} 
 
@@ -89,4 +113,16 @@ The design was validated using a motion capture system and SolidWorks motion ana
     \label{fig:KneeJointTestResults}
 \end{figure}
 
-This knee design is easily manufactured; the common parts are made from off-the-shelf parts. The only customizable component is the guide plate, 3D printed on a standard 3D printer. The path can be fitted to the individual's anthropomorphic parameters, 3D printed without understanding advanced manufacturing methods of techniques. 
+
+The presented prototype of the knee joint can move through the desired joint range and replicate the tibiofemoral path of a biological knee. \autoref{fig:LARRE_KneeJoint_Render} shows the presented knee in the rendering of LARRE. The motor produces the required torque, and the potentiometer and encoder in the motor allow for feedback control. The use of FEA showed that the knee could withstand the anticipated forces without structurally failing. These tests are necessary for ensuring that the knee can withstand force. The knee is a key joint for maintaining upright posture and preventing falling. If the knee joint fails during operation the patient could fall and be injured. 
+
+A key part of the design was ensuring that the system could be easily manufactured and customized. All of the parts are can be manufactured with minimal manufacturing experience. All of the custom components are 3D printable on inexpensive consumer-grade 3D printers with consumer-grade PLA filament. The other components are off-the-shelf components. The presented design is ideal for customization and manufacturing. The presented knee was designed to follow a previously established trajectory. Additional testing needs to be conducted to identify the patient-specific parameters so that the polynomial can be fitted to the individual. Using MRI images of the femur and tibia heads or potential using motion capture to measure the translation and rotation of the tibia relative to the femur, this work is currently ongoing. 
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.15]{images/mech_design/exo_with_bioknee.png}
+    \caption[Rendering of LARRE with the Bio-Knee]{A Rendering of LARRE with the Bio-knee}
+    \label{fig:LARRBio-Knee}
+\end{figure}
+
+
