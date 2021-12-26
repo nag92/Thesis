@@ -86,7 +86,7 @@ The problem with A-SMC controllers is the large number of parameters that need t
 \end{equation}
 
 
-The \textit{assisitie} system was controlled by \autoref{eq:PDcnrl}. This is a simple PD control framework. $K_p$ and $K_d$ are gain matrixs and $\vec{q}_d$ is the desired position. This torque however was capped to not exceed an absolute max torque value. This was accomplished using the following method, $| \vec{\tau}_{tie}|> \vec{\tau}_{max} \rightarrow \vec{\tau}_{tie} = sign(\vec{\tau}_{tie})*\vec{\tau}_{max}$.  This did not allow the controller to generate too much torque. 
+The \textit{assisitie} system was controlled by \autoref{eq:PDcnrl}. This is a simple PD control framework. $K_p$ and $K_d$ are gain matrix and $\vec{q}_d$ is the desired position. This torque however was capped to not exceed an absolute max torque value. This was accomplished using the following method, $ sign(\vec{\tau}_{tie})* min( | \vec{\tau}_{tie}|, \vec{\tau}_{max}) \rightarrow \vec{\tau}_{tie} $.  This did not allow the controller to generate too much torque. 
 
 \begin{equation}
         \tau_{tie} = K_p( \vec{q}_d - \vec{q}_{tie} ) + K_d ( \dot{\vec{q}}_d - \dot{\vec{q}}_{tie} ) 
@@ -474,14 +474,31 @@ The model was used to follow a three gait cycle to observe the steady-state moti
 \end{figure}
 
 
-\author{fig:TripleGaitMotion} shows gait motion with varying human engagement levels. The SMC controller compensated for the lack of human involvement and tracked the gait cycle, which is more complex than the previous simple trajectory. The initial start of the controller varies slightly; however, it converges to a steady-state operation and closely tracks the other gait cycles. 
+\author{fig:TripleGaitMotion} shows gait motion with varying human engagement levels. The SMC controller compensated for the lack of human involvement and tracked the gait cycle, which is more complex than the previous simple trajectory. The initial start of the controller varies slightly; however, it converges to a steady-state operation and closely tracks the other gait cycles. \autoref{fig:TripleGaitLeg} show how the position of human leg and the exoskeleton leg differ. There is a slight difference in position, which is expected since the legs are not rigidly connected but are connected through a spring-dampener system.  
+
 
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{images/controllers/gait/traj.png}
-    \caption{Triple Gait Cycle}
+    \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\columnwidth]{images/controllers/gait/traj.png}
+        \caption{Triple Gait Cycle}
+        \label{fig:TripleGaitJoint}
+    \end{subfigure}
+        \begin{subfigure}{\linewidth}
+        \centering
+        \includegraphics[width=\columnwidth]{images/controllers/gait/leg_frame_annotated.png}
+        \caption{Comparision of the leg motion with the different engagement levels}
+        \label{fig:TripleGaitLeg}
+    \end{subfigure}
+    \caption{Comparison of the effects of the different engagement levels with a lower limb.}
     \label{fig:TripleGaitMotion}
 \end{figure}
+
+
+
+
+
 
 
 
@@ -504,7 +521,7 @@ The model was used to follow a three gait cycle to observe the steady-state moti
         \begin{subfigure}{0.8\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/gait/feedback.png}
-        \caption[Human Torque Over Gait Cycles]{Human Torque Over Gait Cycles}
+        \caption[Human Torque Over Gait Cycles]{Feedback Torque Over Gait Cycles}
         \label{fig:InteractionTripleGaitInteration}
     \end{subfigure}
     \caption{Torque Over Gait Cycles}

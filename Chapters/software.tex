@@ -174,9 +174,9 @@ A least-squares method is used for the transformation between the markers point 
 The Vicon toolkit will automatically gather markers into rigid bodies and produce a transformation matrix for each rigid body for every point in the trial. The transformation is used to locate relative movement between the various bodies. The novelty of this package is its flexibility to generate rigid bodies from a set of markers. Due to the abstraction layer, it can be used for any mocap system. 
 
 
-\subsection{Addition Features}
+% \subsection{Addition Features}
 
-\subsubsection{Model Outputs}
+\subsection{Model Outputs}
 The Vicon Nexus software available from Vicon has several plug-in models (upper and lower) for fitting marker data to the human body. The plug-in models are used to calculate the joint angle, torque, power, and force output, and these values are critical for the analysis of gaits and human motion.  The Vicon package stores all of this data in the Newton class. The joint class stores the data for a single joint, such as the hip, shoulder, or knee. This structure allows for easy access to the joint kinematics and dynamics. \autoref{modeloutput} shows how to get the left hip angle of a subject while walking. In the above-referenced code, if the angle operator is replaced with "moment," the torque around the joint can be accessed. 
 
 
@@ -187,7 +187,7 @@ This package provides single-line access to all the model output information. Th
 
 
 
-\subsubsection{Visualization of Trial}
+\subsection{Visualization of Trial}
 The \textit{play()} function generates a 3D plot of every marker position through time. \autoref{fig:playFigure} show a frame from the \textit{play()} from a trial where a subject climbed a staircase. Markers and rigid bodies were placed on the subject's legs, and a rigid body was placed on each of the staircase steps to locate each step. The Vicon object also has a graphing method that will create and plot a selected field graph.
 
 \begin{figure}
@@ -196,6 +196,54 @@ The \textit{play()} function generates a 3D plot of every marker position throug
    \caption[Play Demonstration]{Marker locations in a single frame during a trial of climbing stairs. Each of the red dots is a marker. The marker clusters on the right hand side are rigid bodies placed on each stair. }
     \label{fig:playFigure}
 \end{figure}
+
+\subsection{Joint Calibration}
+Locating joints is a important part of analysis human motion capture data. There are two main types of joint in the human body; ball joints and hinge joints. Hips and ankle are typical modeled as ball joints that have a center of rotation (\textit{CoR}) and while knee joints are very complex with multiple degrees of freedom, they can simplified to hinge joints \cite{hefzy1996review}, however this is not ideal. Hinge joint rotate about an axis of rotation (\textit{AoR}) each point on the axis is a CoR \cite{halvorsen1999new}. A method presented by Hiniduma \textit{et. al} use several markers and successive frames to estimation the \textit{CoR} and \textit{AoR} of the model joints. The method of calculating the \textit{CoR} and \textit{AoR} is shown in \autoref{eq:CoR}, where $\overline{(v^p)^n} = 1/N \sum_{k=1}^N (v_k^p)^n$. For reference, when $n=2$, will $v$ be a scalar, and when $n=3$  will $v$ be a vector. Additionally, $p$, represents a marker in the frame, and $k$ is the current frame number. The \textit{AoR} is the Eigenvector corresponding to the minimum Eigenvalue.
+
+\begin{equation}
+    \begin{aligned}
+        A &= 2 \sum^{P}_{p=1} \Bigg[ \bigg\{  \frac{1}{N} \sum^{N}_{k=1} v_k^p (v_k^p)^T \bigg\} -  \overline{v^p}(\overline{v^p})^T \Bigg] \\
+        b &= \sum^{P}_{p=1} \Big[ \overline{(v^p)^3} - \overline{v^p} (\overline{(v^p)^2)} \Big] \\
+        CoR &= A \backslash b\\
+        AoR &=  eigenVector(A)
+\end{aligned}
+        \label{eq:CoR}
+\end{equation}
+
+A problem with the method above is that the \textit{AoR} has infinite \textit{CoR}. This is not ideal since, the true center of rotation should be within the constrains of the rigid bodies that are rotating about the axis. This method can be improved by using a Sequential Least-Squares Programming method calculate the correct CoR along the axis \cite{Least-Squares-Fitting}. This method worked by finding the minimum distance between a point on the leg and the axis. The objective function and constraints are shown in \autoref{eq:min}. The parameters were point(s)($p_i$) , the \textit{AoR} ($axis$), and the \textit{CoR}. The objective was to find the minimum distance between the center of mass of the two bodies along the \textit{AoR}. 
+
+The effects of the optimzation method are illiustrated in \autoref{fig:KneeLocation}, which shows a mocap frame of a person with lower body markers. Each of the red dots is a mark and the blue dot and line are the \textit{CoR} and \textit{AoR} respectively. \autoref{fig:BadKnee} shows the location of the \textit{CoR} without the optimization, which appears outside the thigh and shank marker clusters. \autoref{fig:GoodKnee} shows the location of the \textit{CoR} with the optimization, which appears inside the thigh and shank marker clusters.
+
+
+
+\begin{figure}[]
+    \centering
+    \begin{subfigure}{.45\textwidth}
+        \centering
+        \includegraphics[scale=0.40]{images/software/bad_knee.png}
+        \caption[Incorrect Knee Location]{Incorrect Knee Location with out the optimization step}
+        \label{fig:BadKnee}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}{.45\textwidth}
+        \centering
+        \includegraphics[scale=0.40]{images/software/good_knee.png}
+        \caption[Correct Knee Location]{Correct Knee Location using optimization method}
+        \label{fig:GoodKnee}
+    \end{subfigure}
+    \caption[Finding Knee location]{Finding Knee Location. The blue dot is the \textit{CoR}, red dots are marker}
+    \label{fig:KneeLocation}
+\end{figure}
+
+\begin{equation}
+    \begin{aligned}
+        x &= \begin{bmatrix} x_1 & x_2  & x_3 & x_4 \end{bmatrix} \\
+        min f(p,x) &= \sum_{n=0}^{N} \big[(p_{i}^x - x_1)^2 + (p_{i}^y - x_2)^2 +(p_{i}^z - x_3)^2 \big]^{0.5}     \\
+        g(x) &= \begin{bmatrix} x_1 & x_2  & x_3 \end{bmatrix}^T -\hat{x}_{initial} - x_4 (axis) 
+    \end{aligned}
+    \caption{Minimize the center, p_i represents a point, and $axis$ is line to search along }
+    \label{eq:min}
+\end{equation}
 
 
 \section{Gait Analysis Package}
@@ -209,7 +257,7 @@ While the Vicon package provides comprehensive tools to handle the mocap data, t
     \item Learning of gait trajectories
 \end{itemize}
 
-These tools were developed to compare the gait motion collected during the trial. The toolkit will separate the gait motions into individual gait cycles. The gait cycles can be compared within the trial or against other trials or subjects, allowing for features of the trajectory to be compared to find patterns. 
+The presented tools were developed to compare the gait motion collected during the trial. The toolkit will separate the gait motions into individual gait cycles. The gait cycles can be compared within the trial or against other trials or subjects, allowing for features of the trajectory to be compared to find patterns. 
 
 \subsection{Gait Detection}
 \autoref{fig:gaitDetection} show the extract gait cycles. It analyzes the first and second derivatives to find the max peaks and inflection points. This joint angle method can lead to a slight phase shift in a gait cycle; this can be improved using information from the force plates. Once the index of all the gait cycles is found, the devices and model data associated with the gait trail are separated by the indices. Each of the lines is a gait cycle extracted from a separate subject. 

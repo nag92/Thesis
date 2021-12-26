@@ -53,7 +53,6 @@ The dynamic properties of LARRE are essential for building the controller. The d
 
 A single patient study was conducted to measure the kinematics and dynamics of a gait while wearing LARRE. This study was not designed to measure the ability of the exoskeleton to induce movement but merely to observe the motion of the exoskeleton. The Vicon setup described in \autoref{sec:setup} was used with the custom marker layout shown in \autoref{fig:larremarker}. Additional markers were added to the plug-in gait model. \autoref{tab:exomarkerlayout} details the rigid bodies used and their location (see \autoref{fig:markers} for definition of the marker layout). The additional markers were added to ensure that there was no marker occlusion during the trial. 
 
-The joint kinematics are shown in \autoref{fig:exojointkin}. Only a single demonstration is shown; however, multiple demonstrations were recorded. Similarly, data were recorded for both legs, but just the right leg is shown. The heel strikes and toe-offs are pointed out in the graphs. These points are calculated using the Vicon plug-in gait tools. All of the data presented were extracted and analyzed using the tools discussed in \autoref{chap:software}. In this study, three steps were taken across the mocap floor. The first step was slightly off since it started with feet together; however, steps two and three aligned with the expected motion. The gait cycles are presented over the collected frames; the Vicon records at 100FPS, so the presented trial is approximately $14.04s$. LARRE was able to move through the desired joint range for a gait cycle. Similarly, with the moments shown in \autoref{fig:larregaitmoments}, the first step did not contain relevant data since the moments can only be calculated when the force plates embedded on the floor are stepped on. The moments are presented in $\frac{Nm}{Kg}$ which allows for the torque to be abstracted and calculated for the different masses. 
 
 \begin{table}[h!]
     \begin{centering}
@@ -82,6 +81,12 @@ The joint kinematics are shown in \autoref{fig:exojointkin}. Only a single demon
         \label{tab:exomarkerlayout}
     \end{centering}
 \end{table}
+
+The joint kinematics are shown in \autoref{fig:exojointkin}. Only a single demonstration is shown; however, multiple demonstrations were recorded. Similarly, data were recorded for both legs, but just the right leg is shown. The heel strikes and toe-offs are pointed out in the graphs. These points are calculated using the Vicon plug-in gait tools. All of the data presented were extracted and analyzed using the tools discussed in \autoref{chap:software}. In this study, three steps were taken across the mocap floor. The first step was slightly off since it started with feet together; however, steps two and three aligned with the expected motion. The gait cycles are presented over the collected frames; the Vicon records at $100fps$, so the presented trial is approximately $14.04s$. LARRE was able to move through the desired joint range for a gait cycle. Similarly, with the moments shown in \autoref{fig:larregaitmoments}, the first step did not contain relevant data since the moments can only be calculated when the force plates embedded on the floor are stepped on. The moments are presented in $\frac{Nm}{Kg}$ which allows for the torque to be abstracted and calculated for the different masses. 
+
+
+
+
 
 
 
@@ -125,13 +130,37 @@ The joint kinematics are shown in \autoref{fig:exojointkin}. Only a single demon
         \includegraphics[width=\textwidth, frame]{images/mech_design/exo_joint_moments.png}}
         \caption[LARRE gait cycle moments]{Gait cycle moments of the LARRE}
         \label{fig:larregaitmoments}
-    \end{subfigure}    
+    \end{subfigure}
     \caption{Gait cycles kinematics for LARRE}
     \label{fig:exojointkin}
 \end{figure}
 
 
 
+
+\autoref{fig:positioncomparison} compares the position of the LARRE to the that human. The positional difference has a maximum displacement between $10mm-20mm$. \autoref{fig:markerpositiondiagram} shows a diagram of the marker position on the thigh segment and LARRE with a simplified model that illustrates the calculation.  This difference was measured be using the front and back rigid body plates on the legs and on the side of the exoskeleton. The centroid of the front/back markers was taken as the location of that body segment. The mean position was removed to only show the average change in position over the course of the trial.  
+
+\begin{figure}[h!]
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \captionsetup{justification=centering}
+        \centerline{
+        \includegraphics[width=\textwidth, frame]{images/mech_design/position_comparison.png}}
+        \caption[Comparison of Difference of Human and LARRE Position]{Comparison of the human position vs. LARRE position}
+        \label{fig:positioncomparison}
+    \end{subfigure}
+        \begin{subfigure}{\textwidth}
+        \centering
+        \captionsetup{justification=centering}
+        \centerline{
+        \includegraphics[width=0.5\textwidth, frame]{images/mech_design/side_marker_positioning.png}}
+        \caption[Diagram of Marker Segment Measurement]{Diagram of Marker Segment Measurement}
+        \label{fig:markerpositiondiagram}
+    \end{subfigure}
+    \caption[Comparison of LARRE and human positions]{Comparison of the positional difference of LARRE and the human.}
+    \label{fig:exohumanmarkercompare}
+\end{figure}
 
 
 
