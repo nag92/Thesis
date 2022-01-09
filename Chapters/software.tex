@@ -220,14 +220,14 @@ The effects of the optimzation method are illiustrated in \autoref{fig:KneeLocat
     \centering
     \begin{subfigure}{.45\textwidth}
         \centering
-        \includegraphics[scale=0.40]{images/software/bad_knee.png}
+        \includegraphics[scale=0.40]{images/software/bad_knee_edit.png}
         \caption[Incorrect Knee Location]{Incorrect Knee Location with out the optimization step}
         \label{fig:BadKnee}
     \end{subfigure}%
     \hfill
     \begin{subfigure}{.45\textwidth}
         \centering
-        \includegraphics[scale=0.40]{images/software/good_knee.png}
+        \includegraphics[scale=0.40]{images/software/good_knee_edit.png}
         \caption[Correct Knee Location]{Correct Knee Location using optimization method}
         \label{fig:GoodKnee}
     \end{subfigure}
@@ -260,10 +260,10 @@ While the Vicon package provides comprehensive tools to handle the mocap data, t
 The presented tools were developed to compare the gait motion collected during the trial. The toolkit will separate the gait motions into individual gait cycles. The gait cycles can be compared within the trial or against other trials or subjects, allowing for features of the trajectory to be compared to find patterns. 
 
 \subsection{Gait Detection}
-\autoref{fig:gaitDetection} show the extract gait cycles. It analyzes the first and second derivatives to find the max peaks and inflection points. This joint angle method can lead to a slight phase shift in a gait cycle; this can be improved using information from the force plates. Once the index of all the gait cycles is found, the devices and model data associated with the gait trail are separated by the indices. Each of the lines is a gait cycle extracted from a separate subject. 
+\autoref{fig:gaitDetection} show the extract gait cycles. It analyzes the first and second derivatives to find the max peaks and inflection points. This joint angle method can lead to a slight phase shift in a gait cycle; this can be improved using information from the force plates. Once the index of all the gait cycles is found, the devices and model data associated with the gait trail are separated by the indices. Each of the lines is a gait cycle extracted from a separate subject. The start and end points should be approximately the same value, slight difference might since it is matching the start and end of different steps which might vary.   
 
 \begin{figure}[h]
-   \centering
+  \centering
     \includegraphics[scale=0.5]{images/software/gaitcycle.png}
     \caption[Gait Cycles]{The joint angle during a gait cycle. Each line represents a different subjects gait. The trajectories were re-sampled to be the same length}
     \label{fig:gaitDetection}
@@ -281,7 +281,7 @@ The LfD algorithms are built in this package to learn the record bio-mechanical 
         \centering
         \captionsetup{justification=centering}
         \centerline{
-        \includegraphics[scale=0.25]{images/software/flowchart.png}}
+        \includegraphics[scale=0.25]{images/software/software_layers.png}}
         \caption{Learning flow chart}
         \label{fig:flowchart}
     \end{subfigure}

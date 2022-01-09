@@ -6,12 +6,20 @@ Marker-based motion capture systems(mocap) are popular methods of collecting bio
 
 Biomechanists and engineers use this data for kinematics, dynamics, and kinetics of human motion analysis, and to learn motion primitives of human motion \cite{10.7717/peerj.918}. It has been used for the assessment of orthosis \cite{kobetic2009development},  to analyze gait motion for people with lower-limb impairments \cite{lauer2005application} \cite{hicks2011lower}  \cite{cutler2015using} , and to learn and replicate human motion \cite{ott2008motion} \cite{chalodhorn2007learning}. 
 
-The human leg is built with three joints; a hip, a knee and an ankle. The hip can be modeled as a ball and socket joint allowing for abduction/adduction, and transverse external/internal rotation \cite{faptakinesiology}. The knee is not a simple hinge joint, and the tibia extends during flexion/extension rotation. It allows slight abduction/adduction and internal/external rotation. The knee is also responsible for taking loads during a gait cycle \cite{kuo2007six}. The ankle joint is a synovial joint that helps absorb loads during a gait cycle. These joints are essential for understanding the gait cycle.
+The human leg is built with three joints; a hip, a knee and an ankle as shown in \autoref{fig:leg_with_label}. The hip can be modeled as a ball and socket joint allowing for abduction/adduction, and transverse external/internal rotation \cite{faptakinesiology}. The knee is not a simple hinge joint, and the tibia extends during flexion/extension rotation. It allows slight abduction/adduction and internal/external rotation. The knee is also responsible for taking loads during a gait cycle \cite{kuo2007six}. The ankle joint is a synovial joint that helps absorb loads during a gait cycle. These joints are essential for understanding the gait cycle.
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics{images/gait_data/leg_joints_label.png}
+    \caption[Leg with Hip, Knee, Ankle Labels]{Leg with Hip, Knee, Ankle Labels.}
+    \label{fig:leg_with_label}
+\end{figure}
 
 
 \section{Motion Capture Trials}
 
-One of the Motion Caption Trial's goals is to collect enough data to mimic the motion of a healthy gait.  Despite how widely studied and researched the gait cycle and the numerous gait trials conducted, there is very little open-source raw data available, the most popular is the Winter $\it{et. al}$ database \cite{winter1991biomechanics}, yet this library only contains a few subjects. There are other gait data libraries available, but small and have additional restrictions for use. There is a need for additional data to be released for public use. The more data available, the better it helps to train robotics systems and develop exoskeletons and orthosis \cite{moore2015elaborate}. Additional gait and human motion data were collected and released open-source in Github \footnote{https://github.com/WPI-AIM/AIM\_GaitData} to solve this problem. The gait database comprises measurements of how gait varies from person to person when walking across the floor several times and climbing stairs of varying heights. 
+One of the Motion Capture Trial's goals is to collect enough data to mimic the motion of a healthy gait.  Despite how widely studied and researched the gait cycle and the numerous gait trials conducted, there is very little open-source raw data available, the most popular is the Winter $\it{et. al}$ database \cite{winter1991biomechanics}, yet this library only contains a few subjects. There are other gait data libraries available, but small and have additional restrictions for use. There is a need for additional data to be released for public use. The more data available, the better it helps to train robotics systems and develop exoskeletons and orthosis \cite{moore2015elaborate}. Additional gait and human motion data were collected and released open-source in Github \footnote{https://github.com/WPI-AIM/AIM\_GaitData} to solve this problem. The gait database comprises measurements of how gait varies from person to person when walking across the floor several times and climbing stairs of varying heights. 
 
 
 \subsection{System setup}
@@ -92,7 +100,7 @@ Eleven able-bodied subjects participated in the study (5F, 6M). The Institutiona
  \begin{figure}[h]
     \centering 
     \includegraphics[scale=0.1,frame]{images/gait_data/stairs_EDIT.jpg}
-    \caption[Motion Capture Area]{Motion capture area with custom staircases. The stairs had sliding planes to adjust the heights. Seven of the camera are shown and indicated with the green arrows and additional three camera are located off the image.  }
+    \caption[Motion Capture Area]{Motion capture area with custom staircases. The stairs had sliding plates to adjust the heights. Seven of the camera are shown and indicated with the green arrows and additional three camera are located off the image.  }
     \label{fig:mocap} 
 \end{figure} 
  
@@ -120,19 +128,19 @@ Eleven able-bodied subjects participated in the study (5F, 6M). The Institutiona
 
 \section{Analysis of Human Gait}
 
-The goal of collecting the human motion data was to build a model for replicating the gait cycle to allow the exoskeleton to follow a natural joint motion. Using multiple demonstrations to train a stable estimation of a multi-dimensional dynamic system of nonlinear motion can be learned \cite{li2018development}. The mocap provides an abundance of data to study the motion of human movement. The individual marker location is used to learn the motion of a body segment. Since it is desired to generate a walking motion, the joint angles throughout the gait cycle create the training demonstrations.  A single gait cycle was extracted from each of the gait cycles,  \autoref{fig:TrainingDemosGait} shows the extracted gait cycles. Each of the lines represents a different subject. As expected, the gait cycles follow a similar trajectory with slight variation in starting and endpoints. 
+The goal of collecting the human motion data was to build a model for replicating the gait cycle to allow the exoskeleton to follow a natural joint motion. Using multiple demonstrations to train a stable estimation of a multi-dimensional dynamic system of nonlinear motion can be learned \cite{li2018development}. The mocap provides an abundance of data to study the motion of human movement. The individual marker location is used to learn the motion of a body segment. Since it is desired to generate a walking motion, the joint angles throughout the gait cycle create the training demonstrations.  A single gait cycle was extracted from each of the gait cycles,  \autoref{fig:TrainingDemosGait} shows the extracted gait cycles. Each of the lines represents a different subject. As expected, the gait cycles follow a similar trajectory with slight variation in starting and endpoints. The slight different in the beginning of some of the demonstrations is due to the extraction method. This does not effect how the demonstrations are used to learn the trajectory. The gait cycles for each individual were consistent.
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.30]{images/gait_data/gaittraining.png}
-    \caption[Raw Joint Trajectories Collected from the Subjects]{Neutral Joint With Markers}
+    \caption[Raw Joint Trajectories Collected from the Subjects]{Joint With Markers}
     \label{fig:TrainingDemosGait}
 \end{figure}
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.060]{images/gait_data/Joint_direction_mocap.png}
-    \caption[Gait Training Demos]{Joint angle markers and joint angle direction}
+    \caption[Gait Training Demos]{Diagram of the joint angle directions (shown as the yellow arrows) and limb offsets angle (shown as the red arrows) the neutral axis}
     \label{fig:TrainingJointPosition}
 \end{figure}
 
@@ -188,8 +196,10 @@ The TPGMM process places the Gaussians that drive the system along the trajector
 %     \label{fig:learnedModel}
 % \end{figure}
 
-In addition to learning the joint angles, the forward kinematics of the leg were recorded by using the marker on the toe as a training source. \autoref{fig:learnedToe} shows the forcing function and replicated gait motion using a marker placed on the toe of the subjects—the $Z$ and $X$ axis as referenced in \autoref{fig:TrainingJointPosition}. The $Y$ was not learned since the system is contrasted to the sagittal plane. In all four graphs, the blue lines are the training demonstrations for the model. The green ovals in the upper two graphs are the Gaussians, with the red dot being the mean. In the lower two graphs, the black lines are replicated, motion model. Using BIC, it was determined that 7 was the optimal number of bins to use. AS shown in \autoref{fig:FK_BIC}, 3-15 bins were tested 10 times to ensure proper convergence and ensured that a local minimization was found. In all but two iterations, the BIC score remained identical. In the two remaining cases, the BIC score differed in the final bin size and did not affect the minimum BIC score.
+In addition to learning the joint angles, the forward kinematics of the leg were recorded by using the marker on the toe as a training source. This data was collected from multiple demonstration of normally ablied walking in the exoskeleton. \autoref{fig:learnedToe} shows the forcing function and replicated gait motion using a marker placed on the toe of the subjects—the $Z$ and $X$ axis in the plane of motion as referenced in \autoref{fig:TrainingJointPosition}. The $Y$ out of plane was not learned since the system is contrasted to the sagittal plane. In all four graphs, the blue lines are the training demonstrations for the model. The green ovals in the upper two graphs are the Gaussians, with the red dot being the mean. In the lower two graphs, the black lines are replicated, motion model. Using BIC, it was determined that 7 was the optimal number of bins to use. As shown in \autoref{fig:FK_BIC}, 3-15 bins were tested 10 times to ensure proper convergence and ensured that a local minimization was found. In all but two iterations, the BIC score remained identical. In the two remaining cases, the BIC score differed in the final bin size and did not affect the minimum BIC score.
 
+
+Similarly \autoref{fig:learnedToeTransformed} shows the toe marker position transformed into the body frame located on the back of the subject. This transformation allows for more generalized trajectory planing since it is located in the frame of the person. However, on aspected of this transformation is that is natural encodes the subjects height into the model. If applied the offset will have to be accounted during replication.
 
 \begin{figure}
     \centering
@@ -199,12 +209,27 @@ In addition to learning the joint angles, the forward kinematics of the leg were
 \end{figure}
 
 
-\begin{figure}[!htb]
+
+\begin{figure}
     \centering
-    \includegraphics[scale=0.35]{images/gait_data/toe_maker_pos.png}
-    \caption[Toe Marker Position]{Learning of the toe position during a single gait cycle, upper two graphs are the forcing functions. The lower two graphs are the replicated models an the training demonstrations.}
-    \label{fig:learnedToe}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[scale=0.35]{images/gait_data/toe_maker_pos.png}
+        \caption[Toe Marker Position]{Learning of the toe position during a single gait cycle, upper two graphs are the forcing functions. The lower two graphs are the replicated models an the training demonstrations.}
+        \label{fig:learnedToe}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[scale=0.35]{images/gait_data/toe_position_body_frame.png}
+        \caption[Toe Marker Position Transformed]{Learning of the toe position transformed into the body frame during a single gait cycle, upper two graphs are the forcing functions. The lower two graphs are the replicated models an the training demonstrations.}
+        \label{fig:learnedToeTransformed}
+    \end{subfigure}
+    \caption{Forward Kinematics of the foot over a gait cycle}
+    \label{fig:toeposition}
 \end{figure}
+
+
+
 
 Once the model is encoded using the tools discussed in \autoref{chap:software} can reproduce the joint trajectories. The processes to learn and reproduce the trajectories are separate systems allowing the encoding to be conducted offline and reproduced online. These models are used to generate the gait cycle for the exoskeleton in simulation. 
 

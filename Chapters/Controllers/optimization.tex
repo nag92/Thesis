@@ -2,9 +2,11 @@
 
 
 \subsection{Overview Cooperative Controllers}
-Assistive controllers have long been implemented in rehabilitative exoskeletons. This includes the MIT-MANUS \cite{ju2005rehabilitation}, BLEEX\cite{kazerooni2006hybrid}, HAL\cite{kawamoto2004power} and many others robotic systems including several exoskeletons \cite{kim2012admittance,ott2010unified,huo2011control}. These systems use assistive controllers to help guide the person's arm or leg through the desired trajectory or to complete tasks. This method is typically used because the person has difficulty generating the necessary torques due to medical problems such as a stroke or spinal cord injury. The difficulty in designing these systems is in handling the non-linearity and distances from being connected to a person, which the controller will have to overcome. Many of these controllers implement either admittance or impedance models. Admittance controllers transform forces and torques to the desired position and orientation. Impedance controllers are the mirror to admittance controllers, calculating displacements from applied forces and torques. Impedance controllers allow for virtual stiffness, which is useful for controlling the human-robot interactions \cite{keemink2018admittance}. 
+Assistive controllers have long been implemented in rehabilitative exoskeletons. This includes the MIT-MANUS \cite{ju2005rehabilitation}, BLEEX\cite{kazerooni2006hybrid}, HAL\cite{kawamoto2004power} and many others robotic systems including several exoskeletons \cite{kim2012admittance,ott2010unified,huo2011control}. These systems use assistive controllers to help guide the person's arm or leg through the desired trajectory or to complete tasks. This method is typically used because the person has difficulty generating the necessary torques due to medical problems such as a stroke or spinal cord injury. These types of controllers can also have positive effects  psychological and increase motor learning by increasing the motivation of the subject. This can lead to better   therapeutic and neurological outcomes.
 
-The admittance controller has shown better results when implemented into an exoskeleton. They are easier to implement and can measure the user's intention because movement is easier to measure than precise torques. Admittance controllers allow for the adjustment of the stiffness to meet the on-the-fly demand by either being more or less aggressive in the supplied force \cite{aguirre2007active,newman1994stable}. This problem is solved by using variable admittance, where the parameters are adjusted based on the user's intention and ability.
+The difficulty in designing these systems is in handling the non-linearity and distances from being connected to a person, which the controller will have to overcome. Many of these controllers implement either admittance or impedance models. Admittance make incremental position and velocity based on applied force, while impedance control directly adjust the joint force, torque, and stiffness. Impedance controllers allow for virtual stiffness, which is useful for controlling the human-robot interactions \cite{keemink2018admittance}. 
+
+The admittance controller has shown better results when implemented into an exoskeleton. They are easier to implement and can measure the user's intention because movement is easier to measure than precise torques. Variable Admittance controllers can be used to adjust the stiffness of the system by adjusting the virtual stiffness to meet the on-the-fly demand of the system \cite{aguirre2007active,newman1994stable}.
 
 Oh \textit{et. al} proposed a generalized framework for assistive controllers \cite{oh2015generalized}. The proposed controller combined a model-based method with feed-forward disturbance rejection—this method models the interaction as a disturbance to the system instead of an interactive force.  Additionally, a Sliding Mode Controller (SMC) controller was used, in contrast to a PD, which has been shown to have better performance in controlling non-linear systems \cite{slotine1991applied}.
 
@@ -66,7 +68,7 @@ The problem with A-SMC controllers is the large number of parameters that need t
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{images/controllers/SMC_control_diagram_overview.png}
-    \caption[Control diagram for A-SMC]{Control diagram for A-SMC}
+    \caption[Control diagram for A-SMC]{Control diagram for A-SMC. Model 1 represents the human model controlled by a simple PD controller and summed with the interaction torques. The Jacobian is used to transform the spring-dampener forces into torques. Model 2 is the exoskeleton controller controlled by the A-SMC. The standard interaction torque is the iLQR controller. The interaction torque is subtracted to lower the applied exoskeleton torque. }
     \label{fig:controlDiagram}
 \end{figure}
 
@@ -93,7 +95,7 @@ The \textit{assisitie} system was controlled by \autoref{eq:PDcnrl}. This is a s
     \label{eq:PDcnrl}
 \end{equation}
 
-The admittance controls the virtual dynamics of the system and how the systems interact \cite{faulring2005haptic}. If the \textit{assastie} system is capable of following the desired motion, the \textit{assasitor} system will be less aggressive. This interaction is controlled by \autoref{eq:addmittance}, where $x_a$ is the location of the virtual system and $x_d$ is the location of the point on the pendulum link. A separate spring-dampener system is on each of the links of the system. The virtual system is defined by the following terms $M_d$, $B_d$, and $K_d$ are inertia, dampening, and stiffness, respectively. As previously stated, it is desirable to have these parameters adjust on the fly to the intention and ability of the \textit{assistie} system. The variability is controlled by \autoref{eq:intention} and \autoref{eq:varible}. Here $\gamma_{n,p}$ and $\alpha_{n,p}$ are tuning variables for the damping and stiffness of the admittance controller. The admittance will control how quickly and aggressively the \textit{assistor} system will respond. If the stiffness or dampening is too large, the model will not track the desired motion.   
+The admittance controls the virtual dynamics of the system and how the systems interact \cite{faulring2005haptic}. If the \textit{assistie} system is capable of following the desired motion, the \textit{assisitor} system will be less aggressive. This interaction is controlled by \autoref{eq:addmittance}, where $x_a$ is the location of the virtual system and $x_d$ is the location of the point on the pendulum link. A separate spring-dampener system is on each of the links of the system. The virtual system is defined by the following terms $M_d$, $B_d$, and $K_d$ are inertia, dampening, and stiffness, respectively. As previously stated, it is desirable to have these parameters adjust on the fly to the intention and ability of the \textit{assistie} system. The variability is controlled by \autoref{eq:intention} and \autoref{eq:varible}. Here $\gamma_{n,p}$ and $\alpha_{n,p}$ are tuning variables for the damping and stiffness of the admittance controller. The admittance will control how quickly and aggressively the \textit{assistor} system will respond. If the stiffness or dampening is too large, the model will not track the desired motion.   
 
 \begin{equation}
     \begin{aligned}
@@ -260,7 +262,7 @@ Additionally, the effects of the controller were tested with a misalignment betw
         \caption[Double Pendulum: Negative Alignment-Trajectory]{Trajectories of double pendulum}
         \label{fig:small_length_traj}
     \end{subfigure}
-    \caption[Double Pendulum: Negative Alignment]{Double pendulum model responses with at 0.95x of the human length \textit{assistie} torques.}
+    \caption[Double Pendulum: Negative Alignment]{Double Pendulum model responses with at 0.95x of the human length \textit{assistie} torques.}
     \label{fig:small_length}
 \end{figure}
 
@@ -315,7 +317,15 @@ Testing the variability in alignment allows for testing of the controller when t
 
 \subsection{Application of Tuning Methodology on a Simple Trajectory}
 
-The tuning methodology discussed above was implemented on a leg of the LARRE using the dynamics server to calculate the inverse and forward dynamics; this was due to complications in the ROS-Simulink bridge, discussed below. 
+The tuning methodology discussed above was implemented on a leg of the LARRE using the dynamics server to calculate the inverse and forward dynamics. This new system is illustrated in \autoref{fig:LegModel}. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=2]{images/controllers/leg.png}
+    \caption[Leg Model used for Optimization and Control]{Leg Model used for Optimization and Control. Here the black circle are the joint  location and the purple circle are the center of masses. The shown location does not represent the actual center or mass.}
+    \label{fig:LegModel}
+\end{figure}
+
 
 The tuning method discussed above was used to tune the controller. Each of the leg joints was commanded to follow a polynomial trajectory; this allowed for the boundary conditions of the path to be controlled for testing. This model added complexity to the tuning process since it added another dimension that needed to be tuned. An assumption was made that while the thigh and shank of the exoskeleton were connected via a spring-dampener system, the foot of the exoskeleton and human were rigidly connected. Additionally, the closed-loop PD controller is assumed to be an FES type device that can transform displacement into torque through pulse width, and frequency modulation \cite{rouhani2017pid, ha2015approach,Model_Ferrarin}. The hip and knee joints of the exoskeleton controller are assumed to be powered by BLDC motors as discussed in \autoref{chap:mech}.
 
@@ -363,13 +373,13 @@ While \autoref{fig:LARRE_PARAMS} shows how the parameters change over time, it d
 
 \autoref{fig:paramStats} shows the relative importance of the parameters; here, the graphs are defined between -1 and 1. The closer the value is to $\|1\|$, the higher its sensitivity. As the parameter approaches 1, the cost function will increase; the cost function will decrease as the parameter approaches -1. 
 
-This data can be used to choose the more important parameters when optimizing the system; this is important for systems with many parameters. Examining the results indicates that the variable $M_d$ has little impact on the cost function. This low impact is expected since the $M_d$ variable is a constant post multiplier the $K_d$ and $B_d$ terms (see \autoref{eq:addmittance}-\autoref{eq:varible}). The relatively high importance of $\rho$ can be explained by its effect on the SMC. The $\rho$ is with the sliding mode gains, which controls the chattering in the system as shown in \autoref{eq:SMCChattering}, where $T_s$ is the time, and $\Delta$ is the chattering. The $\alpha$ parameter controls how the variable admittance controller reacts. Changes to this variable will impact the value of the $Kn$ and $Kp$ gains, which have relatively high importance controlling the torque to generate a difference in position between the two systems; if the two systems drift apart, the controller increases the gain to align the systems. In contrast, the $Bn$, $Bp$, and $\gamma$ terms have relatively low importance, indicating that the two systems generally had the same velocity, so increasing the gains had little effect on the system. 
+This data can be used to choose the more important parameters when optimizing the system; this is important for systems with many parameters. Examining the results indicates that the variable $M_d$ has little impact on the cost function. This low impact is expected since the $M_d$ variable is a constant post multiplier the $K_d$ and $B_d$ terms (see \autoref{eq:addmittance}-\autoref{eq:varible}). The relatively high importance of $\rho$ can be explained by its effect on the A-SMC. The $\rho$ is with the sliding mode gains, which controls the chattering in the system as shown in \autoref{eq:SMCChattering}, where $T_s$ is the time, and $\Delta$ is the chattering. The $\alpha$ parameter controls how the variable admittance controller reacts. Changes to this variable will impact the value of the $Kn$ and $Kp$ gains, which have relatively high importance controlling the torque to generate a difference in position between the two systems; if the two systems drift apart, the controller increases the gain to align the systems. In contrast, the $Bn$, $Bp$, and $\gamma$ terms have relatively low importance, indicating that the two systems generally had the same velocity, so increasing the gains had little effect on the system. 
 
 
 
 \begin{equation}
     \Delta = \rho T_s
-    \caption[SMC Chattering]{SMC Chattering}
+    \caption[A-SMC Chattering]{A-SMC Chattering}
     \label{eq:SMCChattering}
 \end{equation}
 
@@ -429,23 +439,23 @@ The human interaction is shown in \autoref{fig:humantripletraj}. The human effor
 \end{figure}
 
 
-\autoref{fig:SMCTripleFull} shows the effort supplied by the SMC for each of the engagement levels. \autoref{fig:SMCTripleZoom} is a zoom of the same graph. As shown, as the human engagement increased, the SMC magnitude of the effort decreased for both hip and knee joints; this shows that the SMC controller is adapting the human engagement level. 
+\autoref{fig:SMCTripleFull} shows the effort supplied by the A-SMC for each of the engagement levels. \autoref{fig:SMCTripleZoom} is a zoom of the same graph. As shown, as the human engagement increased, the A-SMC magnitude of the effort decreased for both hip and knee joints; this shows that the A-SMC controller is adapting the human engagement level. 
 
 
 \begin{figure}
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/trajs/SMC_full.png}
-        \caption[SMC Torque over Triple Trajectory]{SMC Torque over Triple Trajectory}
+        \caption[A-SMC Torque over Triple Trajectory]{A-SMC Torque over Triple Trajectory}
         \label{fig:SMCTripleFull}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/trajs/SMC_zoom.png}
-        \caption[SMC Torque over Triple Trajectory Zoomed]{SMC Torque over Triple Trajectory Zoomed In}
+        \caption[A-SMC Torque over Triple Trajectory Zoomed]{A-SMC Torque over Triple Trajectory Zoomed In}
         \label{fig:SMCTripleZoom}
     \end{subfigure}
-    \caption{SMC Effort applied over the Triple Trajectory}
+    \caption{A-SMC Effort applied over the Triple Trajectory}
     \label{fig:SMCEffortTriple}
 \end{figure}
 
@@ -474,7 +484,9 @@ The model was used to follow a three gait cycle to observe the steady-state moti
 \end{figure}
 
 
-\author{fig:TripleGaitMotion} shows gait motion with varying human engagement levels. The SMC controller compensated for the lack of human involvement and tracked the gait cycle, which is more complex than the previous simple trajectory. The initial start of the controller varies slightly; however, it converges to a steady-state operation and closely tracks the other gait cycles. \autoref{fig:TripleGaitLeg} show how the position of human leg and the exoskeleton leg differ. There is a slight difference in position, which is expected since the legs are not rigidly connected but are connected through a spring-dampener system.  
+\author{fig:TripleGaitMotion} shows gait motion with varying human engagement levels. The A-SMC controller compensated for the lack of human involvement and tracked the gait cycle, which is more complex than the previous simple trajectory. The initial start of the controller varies slightly; however, it converges to a steady-state operation and closely tracks the other gait cycles. \autoref{fig:TripleGaitLeg} show how the position of human leg and the exoskeleton leg differ. There is a slight difference in position, which is expected since the legs are not rigidly connected but are connected through a spring-dampener system.  
+
+
 
 
 \begin{figure}
@@ -482,16 +494,16 @@ The model was used to follow a three gait cycle to observe the steady-state moti
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/gait/traj.png}
-        \caption{Triple Gait Cycle}
+        \caption[Triple Gait Cycle]{Triple Gait Cycle}
         \label{fig:TripleGaitJoint}
     \end{subfigure}
         \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/gait/leg_frame_annotated.png}
-        \caption{Comparision of the leg motion with the different engagement levels}
+        \caption[Engagement Levels of Leg Motion]{Comparison of the leg motion with the different engagement levels}
         \label{fig:TripleGaitLeg}
     \end{subfigure}
-    \caption{Comparison of the effects of the different engagement levels with a lower limb.}
+    \caption[Effects of the Different Engagement Levels]{Comparison of the effects of the different engagement levels with a lower limb.}
     \label{fig:TripleGaitMotion}
 \end{figure}
 
@@ -502,14 +514,35 @@ The model was used to follow a three gait cycle to observe the steady-state moti
 
 
 
-\autoref{fig:TorqueOverGaitCycles} shows the torques generated to follow the gait cycles. \autoref{fig:HumanTripleGaitMotion} shows the human torques over the gait cycle. The maximum torque is capped at the different levels; this can be seen where the torque does not surpass the maximum activation level. The same fatigue profile shown in \autoref{fig:fatprofile} was used to simulate the muscle fatigue, \autoref{fig:SMCTripleGaitMotion} shows the SMC controller torques generated over the gait cycle, and \autoref{fig:InteractionTripleGaitInteration} shows the interaction torques between the human and LARRE. Unlike in the simple trajectory model, the human torque profile shown here spikes to the saturation limit. The SMC controller torque contains similar profiles observed in the simple trajectory, whereas the human torque decrees, the SMC torque increases. Additionally, the controller compensated for the time-varying fatigue, which is critical for operations where the user may not maintain the required torque through the gait cycle. 
+\autoref{fig:TorqueOverGaitCycles} shows the torques generated to follow the gait cycles.  \autoref{tab:RMSE} shows the root mean squared error (RSME) of the gait motion. The largest error occurs with when there is no human involvement, which is the same as the fatigue involvement. The knee RMSE is slightly larger, this could be due to the knee being the second link which propagates the error down the error. The RMSE at 100\% error is larger then the error at 80\%, this could be caused since the A-SMC controller handles the interaction as noise, which is a larger when there is more human interaction.    
+
+\autoref{fig:HumanTripleGaitMotion} shows the human torques over the gait cycle. The maximum torque is capped at the different levels; this can be seen where the torque does not surpass the maximum activation level. The same fatigue profile shown in \autoref{fig:fatprofile} was used to simulate the muscle fatigue, \autoref{fig:SMCTripleGaitMotion} shows the A-SMC controller torques generated over the gait cycle, and \autoref{fig:InteractionTripleGaitInteration} shows the interaction torques between the human and LARRE. Unlike in the simple trajectory model, the human torque profile shown here spikes to the saturation limit. The A-SMC controller torque contains similar profiles observed in the simple trajectory, whereas the human torque decrees, the A-SMC torque increases. Additionally, the controller compensated for the time-varying fatigue, which is critical for operations where the user may not maintain the required torque through the gait cycle. 
+
+
+
+
+
+\begin{table}
+    \centering
+    \begin{tabular}{||c || c c c c c c||} 
+         \hline
+         Joint & 100\% & 80\% & 50\%  & 20\% & 0\% & Fat \\ [0.1ex] 
+         \hline\hline
+         Hip & 0.048 & 0.035 & 0.057 & 0.072 & 0.088 & 0.088 \\ 
+         \hline
+         Knee & 0.082 & 0.049 & 0.077  & 0.074 & 0.129 & 0.129 \\[0.1ex] 
+         \hline
+    \end{tabular}
+    \caption{RMSE (in radians) of Gait Motion}
+    \label{tab:RMSE}
+\end{table}
 
 \begin{figure}
     \centering
     \begin{subfigure}{0.8\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/gait/SMC.png}
-        \caption[SMC Torque Over Gait Cycles]{SMC Torque Over Gait Cycles}
+        \caption[A-SMC Torque Over Gait Cycles]{A-SMC Torque Over Gait Cycles}
         \label{fig:SMCTripleGaitMotion}
     \end{subfigure}
     \begin{subfigure}{0.8\linewidth}
