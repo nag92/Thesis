@@ -2,13 +2,13 @@
 \label{chap:sim}
 \section{Overview}
 
-A simulation allows for the modeling and testing in a physics environment \cite{vzlajpah2008simulation}; this allows for analysis and measurements of controllers and their execution in different environments for robotics systems simulation. This feature makes it an ideal tool for the development of robotic systems. Simulation allows for controllers to be designed and tested. The simulation framework presented here is used to develop different controllers for the LARRE exoskeleton. All the controllers will be tested on the simulated LARRE model. Due to the current limitation and of AMBF all the controllers are tested with the hip of the exoskeleton fixed in space with no interaction with the ground. With further development of AMBF it is possible to adapt the controller methods present in this dissertation for ground level walking at slow speeds. 
+A simulation allows for the modeling and testing in a physics environment \cite{vzlajpah2008simulation}; this allows for analysis and measurements of controllers and their execution in different environments for robotics systems simulation. This feature makes it an ideal tool for developing robotic systems since it does not make a person with SCI get hurt in any way. Simulation allows for controllers to be designed and tested. The simulation framework presented here is used to develop different controllers for the LARRE exoskeleton. All the controllers will be tested on the simulated LARRE model. Due to the current limitations of  AMBF, all the controllers are tested with the hip of the exoskeleton fixed in space with no interaction with the ground.With further development of AMBF it is possible to adapt the controller methods present in this dissertation for ground level walking at slow speeds. Frictional properties between the environment and the exoskeleton cause the system to slide on the surface. Additionally an upper body controller need to be integrated in order to balance the torso of human and exoskeleton, which is outside the scope of this dissertation. 
 
-The Asynchronous Multi-Body Framework \footnote{https://github.com/WPI-AIM/ambf} (AMBF) was used to simulate LARRE \cite{AMBF}. This framework was developed in the WPI AIM lab. 
-AMBF is a real-time dynamic simulation environment for robotics systems and uses the Robotic Operating System (ROS)\cite{quigley2009ros} as a middleware for external user control. It allows for a wide range of simulated robotics systems, including surgical robots, exoskeletons, cars, and serial manipulators. The robots are defined using AMBF description files that utilize the YAML\footnote{https://yaml.org/} format. The file describes the robot's links and joints. AMBF contains rigid body objects, sensors, and actuators. These different object types can be combined to create various robotic systems with complicated structures and sensing capabilities. 
+
+The Asynchronous Multi-Body Framework \footnote{https://github.com/WPI-AIM/ambf} (AMBF) was used to simulate LARRE \cite{AMBF}. This framework was developed in the WPI AIM lab. AMBF is a real-time dynamic simulation environment for robotics systems and uses the Robotic Operating System (ROS)\cite{quigley2009ros} as a middleware for external user control. It allows for a wide range of simulated robotics systems, including surgical robots, exoskeletons, cars, and serial manipulators. The robots are defined using AMBF description files that utilize the YAML\footnote{https://yaml.org/} format. The file describes the robot's links and joints. AMBF contains rigid body objects, sensors, and actuators. These different object types can be combined to create various robotic systems with complicated structures and sensing capabilities. 
  
  
- The AMBF simulation environment runs at $1000Hz$; this allows for control loops designed to react to and control the exoskeleton.  AMBF contains built-in Python and C++ clients that handle the ROS communication between the user and the simulation environment. This client allows for bidirectional communication to get and set the joint angles and model state and set joint torques. The joint angles, velocities, and efforts are controlled individually or together. The joint effort is the primary control type used in this paper. 
+  The AMBF simulation environment can be run at different rate, for the simulation of LARRE it was run at $1000Hz$; however this high physics rate may not be possible on all computer. The controllers were tested on a Ryzen 9 5900x \footnote{https://www.amd.com/en/products/cpu/amd-ryzen-9-5900x}, with a Nvidia 2070 Super \footnote{https://www.nvidia.com/en-me/geforce/graphics-cards/rtx-2070-super/}, and 32Gb of ram. This update rate allows for control loops designed to react to and control the exoskeleton. AMBF contains built-in Python and C++ clients that handle the ROS communication between the user and the simulation environment. This client allows for bidirectional communication to get and set the joint angles and model state and set joint torques. The joint angles, velocities, and efforts are controlled individually or together. The joint effort is the primary control type used in this paper. 
  
 Robotic controllers typically require knowledge of the systems' dynamics being controlled \cite{piltan2012design}; this includes the properties of the links and the relationship of the joints. The dynamics model allows for the cancellation of the non-linear terms and gravity compensation. The discrepancy between the simulation model and the control model can lead to the instability of the controller. 
  
@@ -23,7 +23,7 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
  
  \section{LARRE AMBF Model}
  
- The LARRE exoskeleton was modeled in Blender \footnote{https://www.blender.org}, which is used to generate the ADF (AMBF description file) file for AMBF. The Blender LARRE model is shown in \autoref{fig:blender}. The dynamic properties of the bodies were calculated using SolidWorks. The hip of the exoskeleton was set as the root of the model—each leg has 3 DoF: the hip, knee, and ankle. Crutches were added to the system to support the upper body. A human model was added to the model to simulate a person wearing the exoskeleton. The human joints were made co-linear to the exoskeleton; however, they are treated as separate and independent joints. The mass of each of the segments was based on $80kg$ North American male \cite{BMI} \cite{drillis1964body}.
+ The LARRE exoskeleton was modeled in Blender \footnote{https://www.blender.org}, which is used to generate the ADF (AMBF description file) file for AMBF. The Blender LARRE model is shown in \autoref{fig:blender}. The dynamic properties of the bodies were calculated using SolidWorks. The hip of the exoskeleton was set as the root of the model—each leg has 3 DoF: the hip, knee, and ankle. Crutches were added to the system to support the upper body. A human model was added to the simulation to simulate a person wearing the exoskeleton. The human joints were made co-axil to the exoskeleton; however, they are treated as separate and independent joints. The mass of each of the segments was based on $80kg$ North American male \cite{BMI} \cite{drillis1964body}.
  
  \begin{figure}[h]
      \centering
@@ -36,25 +36,26 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
  The \textit{exohuman} model consists of both the human and LARRE model. It has a total of 12 active DoF:
 
 \begin{enumerate}
-  \item Exoskeleton Left Hip
+  \item Exoskeleton Left Hip (flexion-extensions)
   \item Exoskeleton Left Knee
-  \item Exoskeleton Left Ankle
-  \item Exoskeleton Right Hip
+  \item Exoskeleton Left Ankle (flexion-extensions)
+  \item Exoskeleton Right Hip (flexion-extensions)
   \item Exoskeleton Right Knee
-  \item Exoskeleton Right Ankle
-  \item Human Left Hip
+  \item Exoskeleton Right Ankle (flexion-extensions)
+  \item Human Left Hip (flexion-extensions)
   \item Human Left Knee
   \item Human Left Ankle
-  \item Human Right Hip
+  \item Human Right Hip (flexion-extensions)
   \item Human Right Knee
-  \item Human Right Ankle
+  \item Human Right Ankle (flexion-extensions)
 \end{enumerate}
 
+
  
- Each joint can be independently controlled and measured. The joints provide their position, velocity, and effort to the Python client, allowing the joint states to be measured and used for control. The \textit{exohuman} model consists of both the human and LARRE model. This is the first bipedal exoskeleton model that has been built for use in AMBF. Until now, the primary use of AMBF has been used to simulate robotic surgical systems. The exoskeleton adds several layers of difficultly since it is not a static system. Additionally, since the human model is connected to the exoskeleton, the two model segments can interact. The effort supplied by the human model will affect the joints of the exoskeleton; this allows for the testing of cooperative controllers, which is critical for developing the exoskeleton controller. The human effort is accounted for in the dynamic of the system.  
+ Each joint can be independently controlled and measured. The joints provide their position, velocity, and effort to the Python client, allowing the joint states to be measured and used for control. The \textit{exohuman} model consists of both the human and LARRE model; this is the first bipedal exoskeleton model that has been built for use in AMBF. Until now, the primary use of AMBF has been used to simulate robotic surgical systems. The exoskeleton adds several layers of difficulty since it is not a static system. The two model segments can interact since the human model is connected to the exoskeleton. The effort supplied by the human model will affect the exoskeleton joints; this allows for the testing of cooperative controllers, which is critical for developing the exoskeleton controller. The human effort is accounted for in the dynamic of the system.  
  
  
- Several sensors were built into LARRE to measure the joint states and the environment, including the joint positions and velocities. This is shown in \autoref{fig:simwalkingTraj}, where LARRE's joint positions and the human joint positions are compared to the desired trajectory.  \author{fig:simwalkingtorque} shows the torques over the same walking trajectory. As expected, the human and exoskeleton follow the same trajectory due to the joints of the human and exoskeleton being co-linear.  Similarly, \autoref{fig:simwalking} shows LARRE being controlled from a stand to sit cycle motion.
+ Several sensors were built into LARRE to measure the joint states and the environment, including the joint positions and velocities; this is shown in \autoref{fig:simwalkingTraj}, where LARRE's joint positions and the human joint positions are compared to the desired trajectory.  \autoref{fig:simwalkingtorque} shows the torques over the same walking trajectory. As expected, the human and exoskeleton follow the same trajectory due to the joints of the human and exoskeleton being co-linear. Similarly, \autoref{fig:simwalking} shows LARRE being controlled from a stand to sit cycle motion.
  
  
  \begin{figure}[h!]
@@ -62,19 +63,20 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
         % \hspace*{-1cm} 
         \centering
         \includegraphics[scale=.5]{images/sim/walkjoints.png}
-        \caption{Comparing the actual joint angle vs the desired joint angles}
+        \caption{Comparing the actual joint angle vs the desired joint angles. The green line is the desired trajectory from the previous chapter, the orange line is path of the human, and the blue line the path of the exoskeleton. }
         \label{fig:simwalkingTraj}
     \end{subfigure}
     \begin{subfigure}{0.5\textwidth}
         % \hspace*{-1cm} 
         \centering
         \includegraphics[scale=.5]{images/sim/walktau.png}
-        \caption{The toques over a gait cycle for each of the joints}
+        \caption{The toques over a gait cycle for each of the joints. The spikes in the control signal are only single points. This is potential caused by disturbances in the system and non-smooth velocity readings. }
     \label{fig:simwalkingtorque}
 \end{subfigure}
     \caption[LARRE Simulation Gait Kinematics]{LARRE being controlled through a walking gait cycle}
     \label{fig:simwalking}
 \end{figure}
+ 
  
  
  
@@ -106,7 +108,7 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
  
  
  
- Two LIDARs were equipped to LARRE, one on each side; they have a $45^{\circ}$ span and a $1.5m$ range. The sensor array can detect objects in the environment. \autoref{fig:exostair} shows the LIDARs measuring a staircase. A depth camera is attached to the exoskeleton hips. The camera produces a rich 3D point cloud, which is transformed into the LARREs frame using the PointCloudLibrary \cite{Rusu_ICRA2011_PCL}.  \autoref{fig:DEPTH} shows the point cloud of the staircase in the exoskeleton frame. The LIDARs allow the sensing of the environment, which can be used for path planning and navigation. 
+ Two LIDARs were equipped to LARRE, one on each side; they have a $45^{\circ}$ span and a $1.5m$ range. The sensor array can detect objects in the environment. \autoref{fig:exostair} shows the LIDARs measuring a staircase. A depth camera is attached to the exoskeleton hips. The camera produces a rich 3D point cloud, which is transformed into LARRE's frame using the PointCloudLibrary \cite{Rusu_ICRA2011_PCL}.  \autoref{fig:DEPTH} shows the point cloud of the staircase in the exoskeleton frame. The LIDARs allow the sensing of the environment, which can be used for path planning and navigation. 
 
  \begin{figure}[h]
     \begin{subfigure}{.5\linewidth}
@@ -138,11 +140,11 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
  \label{sec:controlarchitecture}
  
  \subsection{Overview}
- The controller architecture was developed with Shreyas Chandra Sekhar and presented a late-breaking result at iros 2021. Open source development of surgical robotic platforms as seen a lot of development in recent years with the development with the development of Collaborative Robotics Toolkit (CRTK)\cite{su2020collaborative}, da Vinci Research Kit \cite{d2021accelerating}, and AMBF The progress and development of these systems allow for researchers to develop new tools for surgical applications. The development of the  AMBF simulation platform allows for simulation of various surgical robotic platforms. 
+ The controller architecture was developed with Shreyas Chandra Sekhar and presented a late-breaking result at IROS 2021. Open-source development of surgical robotic platforms has seen much development in recent years with the development of Collaborative Robotics Toolkit (CRTK)\cite{su2020collaborative}, da Vinci Research Kit \cite{d2021accelerating}, and AMBF. These systems' progress and development allow researchers to develop new tools for surgical applications. The development of the  AMBF simulation platform allows for the simulation of various surgical robotic platforms. 
 
-The dynamics of the robots used in the medical or industrial applications are often complex, and may involve some redundant links and joints such as the dVRK robot\cite{wang2019convex}. Analytically calculating the dynamics model for a controller is complex and may lead to model singularities and errors that cause instability in the controller. This process is often very robot-specific as well. A model configuration file that allows for procedural generation of the dynamic model will ensure that the controller has a matching model for canceling out the non-linear dynamic errors of the robotic model.
+The dynamics of the robots used in medical or industrial applications are often complex and may involve some redundant links and joints such as the dVRK robot\cite{wang2019convex}. Analytically calculating the dynamics model for a controller is complex and may lead to model singularities and errors that cause instability in the controller. This process is often very robot-specific as well. A model configuration file that allows for procedural generation of the dynamic model will ensure that the controller has a matching model for canceling out the non-linear dynamic errors of the robotic model.
 
-These new simulation platforms presents the need for a open source control toolbox to interact and control the robotic platforms. This is split into two separate systems: a dynamics server, and a controller server. The dynamics server calculates the dynamics and kinematic properties of the robot. The controller server is used for calculating control commands for the robot. By dividing the implementation these two systems they can be used either together or separately.  Wrapping these system in ROS, the dynamics server can be accessed cross-platform and allows for a custom controller that incorporates dynamics of arbitrary robots to be readily implemented. Additionally, a control package is presented that leverages the dynamic server to implement the custom controller. This software architecture enables model-based controllers to be developed for, and evaluated on, different simulation and physical systems.  The dynamic server and controllers make up the \textit{ambf\_control\_system} package. While this tool is contrains \textit{ambf} in its name it can be used with any simulation system, in this paper we will only present the system application in AMBF. \autoref{fig:ambfcontrolartecture} shows a architecture diagram of the package. 
+These new simulation platforms present the need for an open-source control toolbox to interact and control the robotic platforms; this is split into two separate systems: a dynamics server and a controller server. The dynamics server calculates the dynamics and kinematic properties of the robot. The controller server is used for calculating control commands for the robot. By dividing the implementation of these two systems, they can be used either together or separately. Wrapping this system in ROS, the dynamics server can be accessed cross-platform and allows for a custom controller that incorporates dynamics of arbitrary robots to be readily implemented. A control package that leverages the dynamic server to implement the custom controller is also presented. This software architecture enables model-based controllers to be developed and evaluated on different simulation and physical systems. The dynamic server and controllers make up the \textit{ambf\_control\_system} package. While this tool contains \textit{ambf} in its name, it can be used with any simulation system. In this paper, we will only present the system application in AMBF. \autoref{fig:ambfcontrolartecture} shows a architecture diagram of the package. 
  
 
  
@@ -206,9 +208,9 @@ These new simulation platforms presents the need for a open source control toolb
 
 
 
-The dynamic server is designed to be used with Python and C++ clients. This modality is achieved by wrapping the RBDL API in ROS services; this includes Jacobians, forward dynamics, inverse dynamics, and forward kinematics. These calculations have their own custom ROS service message that passes the necessary parameters down to the RBDL API and returns the calculated response. 
+The dynamic server is designed to be used with Python and C++ clients. This modality is achieved by wrapping the RBDL API in ROS services; this includes Jacobians, forward dynamics, inverse dynamics, and forward kinematics. These calculations have a custom ROS service message that passes the necessary parameters down to the RBDL API and returns the calculated response. 
 
-The AMBF client gathers the joint position ($q$), joint velocity ($\Dot{q}$), and acceleration ($\DDot{q}$) of the robot.  The forward kinematics are calculated using these variables as shown in \autoref{eq:FD}; this returns the torque at each of the joints. To find the joint acceleration, the joint position and velocity are required in addition to a torque or command ($\tau$) shown in \autoref{eq:ID}.  
+The AMBF client gathers the joint position ($q$), joint velocity ($\Dot{q}$), and acceleration ($\DDot{q}$) of the robot.  The forward kinematics are calculated using these variables as shown in \autoref{eq:FD}; this returns the torque at each of the joints. To find the joint acceleration, the joint position and velocity are required in addition to a torque command ($\tau$) shown in \autoref{eq:ID}.  
 
 \begin{equation}
     \Large
@@ -225,14 +227,14 @@ The AMBF client gathers the joint position ($q$), joint velocity ($\Dot{q}$), an
 
 
 
-\autoref{fig:DynCommunicationHistogram} shows the average time to get and receive a message from the dynamic server. The server was called one million times resulting in an average call time of $0.49ms$ with a standard deviation of $0.07ms$. Calling the RBDL API directly takes approximately $0.013ms$. While, this is a magnitude more it is still under $1ms$ of time. This trade should be acceptable for the modality that the dynamic server provides. 
+\autoref{fig:DynCommunicationHistogram} shows the average time to get and receive a message from the dynamic server. The server was called one million times, resulting in an average call time of $0.49ms$ with a standard deviation of $0.07ms$, which is under $1ms$ of time; this is acceptable for the modality that the dynamic server provides. 
 
 
  
  
  \subsection{Control Server}
  
- The controller manager is responsible for managing the controllers and calculating the control commands. The control manager is split into two systems; the controllers and manager that pass the commands into the desired controller. 
+ The controller manager is responsible for managing the controllers and calculating the control commands. The control manager is split into two systems; the controllers and the manager that passes the commands into the desired controller. 
 \autoref{fig:CntrlCommunicationHistogram} shows the timing histogram for one million calls to the controller server; on average, the call timing was $0.51ms$ with a standard deviation of $0.043ms$.  
 
  \begin{figure}
@@ -253,7 +255,7 @@ The control manager is a ROS service that abstracts the command inputs and allow
     \label{fig:Basic_AMBF_Control_Loop}
 \end{figure}
 
-Controllers are attached to the manager and are accessed at run time by the user. Multiple controllers can be connected to the manager, and each controller has a unique name to identify it.  A controller can be designed to collect external data via topics for obstacle avoidance or other external information. This framework is achieved by having each controller extend the \textit{BaseController} class, which acts as a base class to develop the controller. This framework allows for flexibility in the design of a controller. Several controllers are built into the package, including a PD controller, a model-based controller, and gravity compensation controller.  
+Controllers are attached to the manager and are accessed at run time by the user. Multiple controllers can be connected to the manager, and each controller has a unique name to identify it. A controller can be designed to collect external data via topics for obstacle avoidance or other external information. This framework is achieved by having each controller extend the \textit{BaseController} class, which acts as a base class to develop the controller. This framework allows for flexibility in the design of a controller. Several controllers are built into the package, including a PD controller, a model-based controller, and a gravity compensation controller.  
 
 
 
@@ -269,7 +271,7 @@ Controllers are attached to the manager and are accessed at run time by the user
 \end{figure}
 
  
- The AMBF Python client allows for access to the joint's kinematics and dynamics. The control loop for LARRE is designed to run at $500Hz$ managed by a ROS timer. The internal state is updated in each cycle, and a torque command is sent to the model. These operations should occur approximately every $2ms$. The loop timing was measured over a $60s$ period to measure the loop's efficiency. \autoref{fig:CommunicationHistogram} shows the distribution of the control timing with the average timing of the loop being $1.99ms$ with a standard deviation of $0.29ms$, which is within an acceptable margin for the simulation purposes. 
+ The AMBF Python client allows access to the joint's kinematics and dynamics. The control loop for LARRE is designed to run at $500Hz$ managed by a ROS timer. The internal state is updated in each cycle, and a torque command is sent to the model. These operations should occur approximately every $2ms$. The loop timing was measured over a $60s$ period to measure the loop's efficiency. \autoref{fig:CommunicationHistogram} shows the distribution of the control timing with the average timing of the loop being $1.99ms$ with a standard deviation of $0.29ms$, which is within an acceptable margin for the simulation purposes. 
  
   
  \begin{figure}
@@ -283,12 +285,12 @@ Controllers are attached to the manager and are accessed at run time by the user
 
 \section{Contributions}
 
-The AMBF simulation framework provides a well-structured environment for the testing of robotic systems. The functionality of the package was enhanced with the development of the \textit{ambf\_control\_system} package. This package enables a dynamic controller to be built to control the AMBF models. By developing an AMBF to RBDL parser, the dynamic control model is identical to the simulation model. By abstracting the RBDL calculations and creating the model, it can be accessed by either Python or C++ AMBF applications. The control architecture allows for controllers to be designed and implemented. Attaching the controller to the control manager allows the controller to be accessed by a ROS service call. This package provides a comprehensive method of developing controllers for AMBF robots. This control package was released open-source for community use and development alongside AMBF, creating a total package for simulating and controlling robotic systems.   
+The AMBF simulation framework provides a well-structured environment for testing robotic systems. The functionality of the package was enhanced with the development of the \textit{ambf\_control\_system} package. This package enables a dynamic controller to be built to control the AMBF models. By developing an AMBF to RBDL parser, the dynamic control model is identical to the simulation model. By abstracting the RBDL calculations and creating the model, it can be accessed by either Python or C++ AMBF applications. The control architecture allows for controllers to be designed and implemented. Attaching the controller to the control manager allows the controller to be accessed by a ROS service call. This package provides a comprehensive method of developing controllers for AMBF robots. This control package was released open-source for community use and development alongside AMBF, creating a total package for simulating and controlling robotic systems.   
 
-The simulation framework and newly developed control architecture allow for custom controllers to be built and tested to control LARRE. It models the interaction between the human and exoskeleton. The joint sensors provide state feedback enabling trajectory control by having both the human and exoskeleton joints controllable and a cooperative controller to be developed and tested in the simulation. Other simulation frameworks do not allow for such applications to be tested. More development and testing needs to be conducted in order to get ground level walking working. This includes fixing the friction properties of LARRE feet and inserting force sensors into the feet in order to detect each step of the exoskeleton. This should be possible as the AMBF platform grows as more researchers use and develop on the platform. AMBF in its current state makes it very difficult to implement this required changes.   
+The simulation framework and newly developed control architecture allow custom controllers to be built and tested to control LARRE. It models the interaction between the human and exoskeleton. The joint sensors provide state feedback enabling trajectory control by having both the human and exoskeleton joints controllable and a cooperative controller developed and tested in the simulation. Other simulation frameworks do not allow for such applications to be tested. More development and testing need to be conducted to get ground-level walking to work, including fixing the friction properties of LARRE's feet and inserting force sensors into the feet to detect each exoskeleton step. This should be possible as the AMBF platform grows as more researchers use and further develop the platform. AMBF in its current state makes it very difficult to implement these required changes.   
 
 
-% The control input was measured over one million iterations to measure the execution time. The total time to call the control server and RBDL server is $1.53ms$; this includes sending and receiving both messages to both servers. Individually the calculation of the inverse kinematics is $0.013ms$, while the controller calculation takes $0.024ms$.  A direct call to the RBDL API is faster than calling it with the abstraction layer, which increases the total time required to calculate the control command. However, the abstraction layer adds the benefits of allowing cross-language support and eliminates the need to develop a YAML to RBDL parser for C++ and Python, which would double the amount of code that has to be developed and maintained. The trade-off for eliminating these complications is a time penalty for calling the ROS service of approximately $1ms-1.5ms$. This time loss is acceptable for the trade-off in the gained functionality. 
+% The control input was measured over one million iterations to measure the execution time. The total time to call the control server and RBDL server is $1.53ms$; this includes sending and receiving both messages to both servers. Individually, the inverse kinematics calculation is $0.013ms$, while the controller calculation takes $0.024ms$. A direct call to the RBDL API is faster than calling it with the abstraction layer, which increases the total time required to calculate the control command. However, the abstraction layer adds the benefits of allowing cross-language support and eliminates the need to develop a YAML to RBDL parser for C++ and Python, which would double the amount of code that has to be developed and maintained. The trade-off for eliminating these complications is a time penalty for calling the ROS service of approximately $1ms-1.5ms$. This time loss is acceptable for the trade-off in the gained functionality. 
 
 
 
@@ -300,7 +302,7 @@ The simulation framework and newly developed control architecture allow for cust
 %  This control package was made modular to control any serial link or parallel link manipulator modeled in AMBF. This package called the \textit{ambf\_control\_system} package consists of a dynamic server and a controller server. The dynamic server is used to calculate the dynamics of the robotic model. The controller server provides APIs to develop and manage custom controllers. 
  
  
-%  The dynamics of the robots used in the medical or industrial applications are often complex, and may involve some redundant links and joints such as the dVRK robot\cite{wang2019convex}. Analytically calculating the dynamics model for a controller is complex and may lead to model singularities and errors that cause instability in the controller. This process is often very robot-specific as well. A model configuration file that allows for procedural generation of the dynamic model will ensure that the controller has a matching model for canceling out the non-linear dynamic errors of the robotic model. 
+%  The dynamics of the robots used in the medical or industrial applications are often complex and may involve some redundant links and joints such as the dVRK robot\cite{wang2019convex}. Analytically calculating the dynamics model for a controller is complex and may lead to model singularities and errors that cause instability in the controller. This process is often very robot-specific as well. A model configuration file that allows for procedural generation of the dynamic model will ensure that the controller has a matching model for canceling out the non-linear dynamic errors of the robotic model. 
  
 %  The contribution of this package is that it allows the dynamics of any model defined in the \textit{ADF} to be generated. It is not exclusively used for simulating systems in AMBF; it can also be used for generating the dynamics of robotic systems being simulated in Gazebo \cite{koenig2004design} or physical systems. 
  

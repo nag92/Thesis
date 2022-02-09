@@ -163,13 +163,21 @@ The joint kinematics are shown in \autoref{fig:exojointkin}. Only a single demon
 \end{figure}
 
 
-The electrical control system for LARRE is currently under development. The control board was developed by Micheal Conrad. The control board consists of a  Xilinx Zynq 7000 \footnote{https://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html}  field-programmable gate arrays (FPGAs) as the primary controller for the exoskeleton. This allows for high speed communication with the motors and sensors. The control board is shown in[insert control board figure].
+The electrical control system for LARRE is currently under development. The control board was developed by Micheal Conrad. The control board consists of a  Xilinx Zynq 7000 \footnote{https://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html}  field-programmable gate arrays (FPGAs) as the primary controller for the exoskeleton. This allows for high speed communication with the motors and sensors. The control board is shown in \autoref{fig:controlboard}.
 
-Additionally, custom PCB with integrated inertial measurement unit (IMU) and potentiometer connectors are placed on each of the leg segments (thigh, shank, and foot). The PCM is shown in \autoref{fig:imu_circut} Cables run down from the main control board the leg and snap into each of the IMU boards. This allows for the collection of all the sensor information.  
 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.18]{images/mech_design/IMU_circut_edit.png}
+    \includegraphics[width=\columnwidth]{images/mech_design/control_board_edit.png}
+    \caption[LARRE Control Board]{LARRE Control Board}
+    \label{fig:controlboard}
+\end{figure}
+
+Additionally, custom PCB with integrated inertial measurement unit (IMU) and potentiometer connectors are placed on each of the leg segments (thigh, shank, and foot). The PCB is shown in \autoref{fig:imu_circut} Cables run down from the main control board the leg and snap into each of the IMU boards. This allows for the collection of all the sensor information.  
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.23]{images/mech_design/IMU_diagram.png}
     \caption{IMU circuit diagram}
     \label{fig:imu_circut}
 \end{figure}
