@@ -62,21 +62,22 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
     \begin{subfigure}{0.5\textwidth}
         % \hspace*{-1cm} 
         \centering
-        \includegraphics[scale=.5]{images/sim/walkjoints.png}
-        \caption{Comparing the actual joint angle vs the desired joint angles. The green line is the desired trajectory from the previous chapter, the orange line is path of the human, and the blue line the path of the exoskeleton. }
+        \captionsetup{width=.8\linewidth}%
+        \includegraphics[width=0.9\linewidth]{images/sim/walkjoints.png}
+        \caption{Comparing the actual joint angle vs the desired joint angles. The green line is desired motion, the orange line is the human motion, and the blue line is the exoskeleton motion.}
         \label{fig:simwalkingTraj}
     \end{subfigure}
     \begin{subfigure}{0.5\textwidth}
         % \hspace*{-1cm} 
         \centering
-        \includegraphics[scale=.5]{images/sim/walktau.png}
-        \caption{The toques over a gait cycle for each of the joints. The spikes in the control signal are only single points. This is potential caused by disturbances in the system and non-smooth velocity readings. }
+        \captionsetup{width=.8\linewidth}%
+        \includegraphics[width=0.9\linewidth]{images/sim/walktau.png}
+        \caption{The toques over a gait cycle for each of the joints}
     \label{fig:simwalkingtorque}
 \end{subfigure}
-    \caption[LARRE Simulation Gait Kinematics]{LARRE being controlled through a walking gait cycle}
+    \caption[LARRE Simulation Gait Kinematics]{LARRE being controlled through a walking gait cycle. The spikes in the torque are potential caused by disturbances or discontinuities in the velocity. }
     \label{fig:simwalking}
 \end{figure}
- 
  
  
  
@@ -144,7 +145,7 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
 
 The dynamics of the robots used in medical or industrial applications are often complex and may involve some redundant links and joints such as the dVRK robot\cite{wang2019convex}. Analytically calculating the dynamics model for a controller is complex and may lead to model singularities and errors that cause instability in the controller. This process is often very robot-specific as well. A model configuration file that allows for procedural generation of the dynamic model will ensure that the controller has a matching model for canceling out the non-linear dynamic errors of the robotic model.
 
-These new simulation platforms present the need for an open-source control toolbox to interact and control the robotic platforms; this is split into two separate systems: a dynamics server and a controller server. The dynamics server calculates the dynamics and kinematic properties of the robot. The controller server is used for calculating control commands for the robot. By dividing the implementation of these two systems, they can be used either together or separately. Wrapping this system in ROS, the dynamics server can be accessed cross-platform and allows for a custom controller that incorporates dynamics of arbitrary robots to be readily implemented. A control package that leverages the dynamic server to implement the custom controller is also presented. This software architecture enables model-based controllers to be developed and evaluated on different simulation and physical systems. The dynamic server and controllers make up the \textit{ambf\_control\_system} package. While this tool contains \textit{ambf} in its name, it can be used with any simulation system. In this paper, we will only present the system application in AMBF. \autoref{fig:ambfcontrolartecture} shows a architecture diagram of the package. 
+These new simulation platforms present the need for an open-source control toolbox to interact and control the robotic platforms; this is split into two separate systems: a dynamics server and a controller server. The dynamics server calculates the dynamics and kinematic properties of the robot. The controller server is used for calculating control commands for the robot. By dividing the implementation of these two systems, they can be used either together or separately. Wrapping this system in ROS, the dynamics server can be accessed cross-platform and allows for a custom controller that incorporates dynamics of arbitrary robots to be readily implemented. A control package that leverages the dynamic server to implement the custom controller is also presented. This software architecture enables model-based controllers to be developed and evaluated on different simulation and physical systems. The dynamic server and controllers make up the \textit{ambf\_control\_system} package. While this tool contains \textit{ambf} in its name, it can be used with any simulation system or real system. In this paper, we will only present the system application in AMBF. \autoref{fig:ambfcontrolartecture} shows a architecture diagram of the package. 
  
 
  
@@ -188,7 +189,7 @@ These new simulation platforms present the need for an open-source control toolb
  The dynamic server is responsible for calculating the dynamics of the model for use in dynamic controllers and uses The Rigid Body Dynamics Library (RBDL)\cite{Felis2016}. The RBDL library is an open-source library for generating model dynamics for 3D objects. The RBDL library is based on the Featherstone spatial algebra methods. The RBDL library offers comprehensive methods to calculate the forward dynamics, inverse dynamics, and the robotic system's Jacobians. This library has been used to calculate the dynamics of human and exoskeleton motion to model the torque and force \cite{millard2017predicting} \cite{harant2017parameter}. Manns \textit{et. al} used RBDL to model interactions force between the human and exoskeleton \cite{manns2017motion}. 
  
  The dynamic server will parse the YAML file generated by the Blender ambf\_addon into an RBDL model. The server can handle multiple robot configurations by mapping a unique name to the RBDL model; this allows the server to handle multiple robots in the simulation. 
- The dynamic server is an abstraction layer between the RBDL API and the AMBF clients. The RBDL API provides the functionality to calculate the dynamics and kinematics of the system. The dynamics of the robotic system can be generalized in  \autoref{eq:motion}. $H(q)$ is the mass-inertia matrix, $C(q,\Dot{q})$ are the non-linear terms, $\tau$ is the torque,  $G(q)$ is the contact Jacobian, and $\lambda$ are the external force. \autoref{fig:DynCommunicationHistogram} shows the timing histogram for one million calls to the dynamic server. On average, the call timing was $0.49ms$ with a standard deviation of $0.07ms$.  
+ The dynamic server is an abstraction layer between the RBDL API and the AMBF clients. The RBDL API provides the functionality to calculate the dynamics and kinematics of the system. The dynamics of the robotic system can be generalized in  \autoref{eq:motion}. $H(q)$ is the mass-inertia matrix, $C(q,\Dot{q})$ are the non-linear terms, $\tau$ is the torque vector,  $G(q)$ is the contact Jacobian, and $\lambda$ are the external force. \autoref{fig:DynCommunicationHistogram} shows the timing histogram for one million calls to the dynamic server. On average, the call timing was $0.49ms$ with a standard deviation of $0.07ms$.  The timing was measured on with a ROS localhost on a Ryzen 5900x\footnote{https://www.amd.com/en/products/cpu/amd-ryzen-9-5900x}, a Nvidia 2070 Super\footnote{https://www.nvidia.com/en-me/geforce/graphics-cards/rtx-2070-super/}, and 32Gb of DDR4 ram.  
 
 
  \begin{figure}
@@ -214,20 +215,17 @@ The AMBF client gathers the joint position ($q$), joint velocity ($\Dot{q}$), an
 
 \begin{equation}
     \Large
-    \tau = ID(q,\Dot{q}, \Ddot{q})
+    \tau = inverseDynamics(q,\Dot{q}, \Ddot{q})
     \label{eq:ID}
 \end{equation}
 
 
 \begin{equation}
     \Large
-    \Ddot{q} = FD(q,\Dot{q}, \tau )
+    \Ddot{q} = forwardDynamics(q,\Dot{q}, \tau )
     \label{eq:FD}
 \end{equation}
 
-
-
-\autoref{fig:DynCommunicationHistogram} shows the average time to get and receive a message from the dynamic server. The server was called one million times, resulting in an average call time of $0.49ms$ with a standard deviation of $0.07ms$, which is under $1ms$ of time; this is acceptable for the modality that the dynamic server provides. 
 
 
  
@@ -235,7 +233,7 @@ The AMBF client gathers the joint position ($q$), joint velocity ($\Dot{q}$), an
  \subsection{Control Server}
  
  The controller manager is responsible for managing the controllers and calculating the control commands. The control manager is split into two systems; the controllers and the manager that passes the commands into the desired controller. 
-\autoref{fig:CntrlCommunicationHistogram} shows the timing histogram for one million calls to the controller server; on average, the call timing was $0.51ms$ with a standard deviation of $0.043ms$.  
+\autoref{fig:CntrlCommunicationHistogram} shows the timing histogram for one million calls to the controller server (which call the dynamics server); on average, the call timing was $0.51ms$ with a standard deviation of $0.043ms$.  
 
  \begin{figure}
      \centering
@@ -250,7 +248,7 @@ The control manager is a ROS service that abstracts the command inputs and allow
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=1.25]{images/sim/control_outline.png}
+    \includegraphics[scale=1.25]{images/sim/control_loop_basic.png}
     \caption[Basic AMBF Control Loop]{Basic AMBF Control Loop}
     \label{fig:Basic_AMBF_Control_Loop}
 \end{figure}
@@ -261,15 +259,25 @@ Controllers are attached to the manager and are accessed at run time by the user
 
 \section{Integration of Control Architecture}
 
-\autoref{fig:SystemDiagram} shows a diagram of how all the systems are connected. The red objects are a part of the \textit{ambf\_control\_system} package, the green objects are part of the \textit{ambf} package, the gray objects are external systems or files, and the round objects depict ROS nodes. ROS is utilized as the primary communication method between the different systems.
+\autoref{fig:SystemDiagram} shows a diagram of how all the sub-systems are connected. The separation of these systems allows for the sub-systems to be reused for other applications using ROS as the communication method between the different systems. The green objects are part of the \textit{ambf} package, these systems are found in the main AMBF application. The \textbit{AMBF} block is the simulation environment. The \textit{AMBF Client} block provides methods of interacting with the AMBF simulation. The client allows for bi-directional communication to get joint, sensor, and other data from the simulation and send down commands. The red objects are a part of the \textit{ambf\_control\_system} package. The 
+, the purple objects are external systems or files, 
+
+ In this paradigm, the user acts as an intermediary between the controller and the simulation. They are responsible for controlling the controller rate.  
+
+%   \begin{figure}[h]
+%     \centering
+%     \includegraphics{images/sim/AMBF_control_diagram (1).png}
+%     \caption[AMBF Control Diagram]{Control diagram and connections between the separate systems. \textit{ambf\_control\_system} package work directly with the \textit{ambf} system. The configuration of the robotic system is defined in Blender and saved into a YAML file.} 
+%     \label{fig:SystemDiagram}
+% \end{figure}
+
 
   \begin{figure}[h]
     \centering
-    \includegraphics{images/sim/AMBF_control_diagram (1).png}
-    \caption[AMBF Control Diagram]{Control diagram and connections between the separate systems. \textit{ambf\_control\_system} package work directly with the \textit{ambf} system. The configuration of the robotic system is defined in Blender and saved into a YAML file.}
+    \includegraphics[width=\columnwidth]{images/sim/AMBFSystemDiagram.png}
+    \caption[AMBF Control Diagram]{Control diagram and connections between the separate systems. \textit{ambf\_control\_system} package work directly with the \textit{ambf} system. The configuration of the robotic system is defined in Blender and saved into a YAML file.} 
     \label{fig:SystemDiagram}
 \end{figure}
-
  
  The AMBF Python client allows access to the joint's kinematics and dynamics. The control loop for LARRE is designed to run at $500Hz$ managed by a ROS timer. The internal state is updated in each cycle, and a torque command is sent to the model. These operations should occur approximately every $2ms$. The loop timing was measured over a $60s$ period to measure the loop's efficiency. \autoref{fig:CommunicationHistogram} shows the distribution of the control timing with the average timing of the loop being $1.99ms$ with a standard deviation of $0.29ms$, which is within an acceptable margin for the simulation purposes. 
  
@@ -287,7 +295,7 @@ Controllers are attached to the manager and are accessed at run time by the user
 
 The AMBF simulation framework provides a well-structured environment for testing robotic systems. The functionality of the package was enhanced with the development of the \textit{ambf\_control\_system} package. This package enables a dynamic controller to be built to control the AMBF models. By developing an AMBF to RBDL parser, the dynamic control model is identical to the simulation model. By abstracting the RBDL calculations and creating the model, it can be accessed by either Python or C++ AMBF applications. The control architecture allows for controllers to be designed and implemented. Attaching the controller to the control manager allows the controller to be accessed by a ROS service call. This package provides a comprehensive method of developing controllers for AMBF robots. This control package was released open-source for community use and development alongside AMBF, creating a total package for simulating and controlling robotic systems.   
 
-The simulation framework and newly developed control architecture allow custom controllers to be built and tested to control LARRE. It models the interaction between the human and exoskeleton. The joint sensors provide state feedback enabling trajectory control by having both the human and exoskeleton joints controllable and a cooperative controller developed and tested in the simulation. Other simulation frameworks do not allow for such applications to be tested. More development and testing need to be conducted to get ground-level walking to work, including fixing the friction properties of LARRE's feet and inserting force sensors into the feet to detect each exoskeleton step. This should be possible as the AMBF platform grows as more researchers use and further develop the platform. AMBF in its current state makes it very difficult to implement these required changes.   
+The simulation framework and newly developed control architecture allow custom controllers to be built and tested to control LARRE which is in support of \autoref{chap:controller}. It models the interaction between the human and exoskeleton. The joint sensors provide state feedback enabling trajectory control by having both the human and exoskeleton joints controllable and a cooperative controller developed and tested in the simulation. Other simulation frameworks do not allow for such applications to be tested. More development and testing need to be conducted to get ground-level walking to work, including fixing the friction properties of LARRE's feet and inserting force sensors into the feet to detect each exoskeleton step. This should be possible as the AMBF platform grows as more researchers use and further develop the platform. AMBF in its current state makes it very difficult to implement these required changes.   
 
 
 % The control input was measured over one million iterations to measure the execution time. The total time to call the control server and RBDL server is $1.53ms$; this includes sending and receiving both messages to both servers. Individually, the inverse kinematics calculation is $0.013ms$, while the controller calculation takes $0.024ms$. A direct call to the RBDL API is faster than calling it with the abstraction layer, which increases the total time required to calculate the control command. However, the abstraction layer adds the benefits of allowing cross-language support and eliminates the need to develop a YAML to RBDL parser for C++ and Python, which would double the amount of code that has to be developed and maintained. The trade-off for eliminating these complications is a time penalty for calling the ROS service of approximately $1ms-1.5ms$. This time loss is acceptable for the trade-off in the gained functionality. 
