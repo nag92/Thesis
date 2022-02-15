@@ -1,5 +1,6 @@
 \section{Bio-Mechanical knee}
 
+\subsection{Overview}
 The work done in this section was in collaboration with Alex Tacescu \cite{tacescu2021development} and presented at International Mechanical Engineering Congress 2021 [WAITING FOR CITATION]. I led and managed the focus of the project and came up with the idea. I was also involved with running the mocap experiments and the mechanical design. Another knee design was examined that focused on matching the knee motion profile to a human knee. Exoskeletons discussed in \autoref{sec:ExoBack} commonly use pin-type joints in their knee joints; this is in contrast to how the actual kinematics work in a human knew, which has a variable center of rotation or a floating axis \cite{morrison1970mechanics} \cite{koo2008knee} \cite{grood1983joint}.  This is illustrated by examining MRI scans of knee which show that the femur and tibia have oblong heads\cite{MRIKneeScan}. This geometry translates the tibia as the knee rotates. 
 
 
@@ -40,7 +41,7 @@ The difficulty in using motion capture is the error caused by manual palpation o
 % \end{figure} 
 
 
-
+\subsection{Mechanical Development}
 
 A cam-type mechanism with a brushless DC motor was designed to follow the desired path. The guide was generated using \autoref{eq:KneeExtensionFlexionNumeric}. 
 
@@ -53,14 +54,14 @@ A cam-type mechanism with a brushless DC motor was designed to follow the desire
 \end{figure} 
 
 
-\autoref{fig:a_varying} shows the effect of varying the scaling parameters. This values will scale the trajectory. This will effect the relationship of the rotation and translation of the tibia. \autoref{fig:KneePlateDesign} shows the knee cam for several scaling values as illustrated it the cam profile is altered.   
+\autoref{fig:a_varying} shows the effect of varying the scaling parameters. This values will scale the trajectory. This will effect the relationship of the rotation and translation of the tibia. \autoref{fig:KneePlateDesign} shows the knee cam for several scaling values as illustrated it the cam profile is altered. This guide enforces variable center of rotation and motion of the tibia. \autoref{fig:ExplodedViewLabeled} shows an exploded view of the knee mechanism. 
 
 \begin{figure}
     \centering
     \begin{subfigure}{\columnwidth}
         \centering
         \includegraphics[width=\columnwidth]{images/mech_design/scalar_varying_a_Annotated.png}
-        \caption[Scaling Parameter]{Varying the scaling parameter in \autoref{eq:KneeExtensionFlexionNumeric} }
+        \caption[Scaling Parameter]{Varying the scaling parameter in \autoref{eq:KneeExtensionFlexionNumeric}. As the value of $a$ increase the angle vs. distance increases. Each line is a increase of $0.1$ starting at $a=0.1$ and ending at $a=1.0$.}
         \label{fig:a_varying}
     \end{subfigure}
     \begin{subfigure}{\columnwidth}
@@ -76,7 +77,7 @@ A cam-type mechanism with a brushless DC motor was designed to follow the desire
 
 
 
-This guide enforces variable center of rotation and motion of the tibia. \autoref{fig:ExplodedViewLabeled} shows an exploded view of the knee mechanism. 
+
 
 
 
@@ -128,6 +129,8 @@ The motor and gearbox need to provide sufficient torque and power to drive the k
     \label{table:MotorGearboxSpecs}
 \end{table}
 
+\subsection{Design Analysis}
+
 The design was validated using a motion capture system and SolidWorks motion analysis \footnote{https://www.solidworks.com/category/simulation-solutions}. The markers on the knee were aligned on the shank and thigh segments of the knee and rotated through the desired motion as shown in \autoref{fig:KneeJointTestSetup}; this allowed us to compare the theoretical trajectory to the actual trajectory, and for the measurement and comparison of manufacturing tolerance. \autoref{fig:KneeJointTestResults} shows the results of the study. There are some slight deviations of the actual motion compared to the desired motion; this deviation is caused by hysteresis in the system. However, these movements are very slight on a scale of less than $1mm$, which is assumed to be negligible.   
 
 
@@ -135,7 +138,7 @@ The design was validated using a motion capture system and SolidWorks motion ana
 \begin{figure}[ht!]
     \centering
     \includegraphics[scale=0.07]{images/mech_design/KneeTrajTest_edit.png}
-    \caption{Knee with mocap markers}{Knee joint setup with motion capture dots}
+    \caption{Knee with mocap markers}{Knee joint setup with motion capture dots. The knee was manual rotated to measure the angle vs. distance relationship.}
     \label{fig:KneeJointTestSetup}
 \end{figure}
 
@@ -147,6 +150,72 @@ The design was validated using a motion capture system and SolidWorks motion ana
 \end{figure}
 
 
+
+
+\subsection{MRI Testing}
+
+The work in this section is still underwork and being done with Tess Meier. 
+
+
+To measure the alignment of the bio joint with the underling bone structure an MRI analysis was conducted. This study was approved by  the Worcester Polytechnic Institute IRB. In this study 6 subjects wear MRI wearing both a simple pin joint and the bio joint described above. Both joints were alerted to be MRI compatible which ment remove any metal in the joints.  The pin joint knee is shown in \autoref{fig:MRIPINJoint} and the MRI compatible bio-joint is shown in \autoref{fig:MRIBIOJoint}. This consisted of using only plastic nuts and bolts and the main cam body was water cut from polycarbonate, the strap carriages were made from 3D printed PLA. A small piece of medical grade foam was placed on the inside each of the strap carriages for patient comfort.    
+
+
+\begin{figure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \captionsetup{justification=centering}
+        \includegraphics[width=0.75\linewidth]{images/mech_design/pin_joint.png}
+        \caption{MRI compatible Pin-Joint}{MRI compatible pin joint with adjustable straps.  }
+        \label{fig:MRIPINJoint}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.75\linewidth]{images/mech_design/MRI_bioknee.png}
+          \captionsetup{justification=centering}
+        \caption{MRI compatible Bio-Joint}{MRI compatible bio-joint with adjustable strap arms.}
+        \label{fig:MRIBIOJoint}
+    \end{subfigure}    
+    \caption[MRI Compatible Knees]{MRI compatible knees made from PLA and polycarbonate. This device is made from polycarbonate and plastic bolts. The strap carriages can be adjusted in the channels to fit to the subject.}
+    \label{fig:MRIKnees}
+\end{figure}
+
+
+
+In the study the subjects were scanned wearing both the pin and bio joint at three different angle, the knee straight out ($0^{\circ}$), a high flex angle ($\sim34^{\circ}$),  and a mid flex angle  ($\sim20^{\circ}$). \autoref{fig:MRIKneeAngles} shows a overlay of a several MRI scans at the different angles. This figure also illustrates the rolling-sliding motion of the femur head on the tibia head. A limitation of the study was the angles could be measured, the diameter size of the bore prevented large angles to be measured. Foam blocks were placed under the subjects knee and a foot brace were used to hold the position of the knee during the scan. 
+
+
+\begin{figure}
+    \centering
+    \includegraphics{images/mech_design/mri_knee_angles.png}
+    \caption{MRI Knee Angles}{MRI scan of the femur and tibia overlayed from several scans taken at different knee angles. The coordinate frame for each of the bones are shown as well as the the measured angles.}
+    \label{fig:MRIKneeAngles}
+\end{figure}
+
+
+\begin{figure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \captionsetup{justification=centering}
+        \includegraphics[width=0.75\linewidth]{images/mech_design/MRI_pinjoint.png}
+        \caption[Pin Joint in MRI ]{Subject wearing the pin joint in the MRI scanner.}
+        \label{fig:MRIPINJoint}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.75\linewidth]{images/mech_design/wearing_MRI_bioknee.png}
+          \captionsetup{justification=centering}
+        \caption[Bio-joint in MRI]{Subject wearing the bio-joint in the MRI scanner.}
+        \label{fig:MRIBIOJoint}
+    \end{subfigure}    
+    \caption{Subject wearing the MRI compatible joints in the MRI scanner.}
+    \label{fig:MRIKnees}
+\end{figure}
+
+
+
+
+
+\section{Conclusion}
 The presented prototype of the knee joint can move through the desired joint range and replicate the tibiofemoral path of a biological knee. \autoref{fig:LARRBio-Knee} shows the presented knee in the rendering of LARRE. The motor produces the required torque, and the potentiometer and encoder in the motor allow for feedback control. The use of FEA showed that the knee could withstand the anticipated forces without structurally failing. These tests are necessary for ensuring that the knee can withstand force. The knee is a key joint for maintaining upright posture and preventing falling. If the knee joint fails during operation the patient could fall and be injured. 
 
 A key part of the design was ensuring that the system could be easily manufactured and customized. All of the parts are can be manufactured with minimal manufacturing experience. All of the custom components are 3D printable on inexpensive consumer-grade 3D printers with consumer-grade PLA filament. The other components are off-the-shelf components. The presented design is ideal for customization and manufacturing. The presented knee was designed to follow a previously established trajectory. Additional testing needs to be conducted to identify the patient-specific parameters so that the polynomial can be fitted to the individual. Using MRI images of the femur and tibia heads or potential using motion capture to measure the translation and rotation of the tibia relative to the femur, this work is currently ongoing. 
@@ -157,5 +226,3 @@ A key part of the design was ensuring that the system could be easily manufactur
     \caption[Rendering of LARRE with the Bio-Knee]{A Rendering of LARRE with the Bio-knee}
     \label{fig:LARRBio-Knee}
 \end{figure}
-
-

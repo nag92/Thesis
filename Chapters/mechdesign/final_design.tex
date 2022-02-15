@@ -45,7 +45,7 @@ The dynamic properties of LARRE are essential for building the controller. The d
         Ankle & $-20^{\circ}$ & $20^{\circ}$  \\
         \hline
     \end{tabular}
-    \caption[LARRE Joint Limits]{Joint limits}    \centering
+    \caption[LARRE Joint Limits]{LARRE joint limits}    \centering
     \label{tab:jointlimits}
 \end{centering}
 \end{table}
@@ -77,17 +77,12 @@ A single patient study was conducted to measure the kinematics and dynamics of a
             BACK &	2\\ [1ex] 
          \hline
         \end{tabular}
-        \caption[Exoskeleton Rigid Body Numbers]{Rigid Body Numbers}
+        \caption[Exoskeleton Rigid Body Numbers]{Rigid Body Numbers used for the mocap LARRE trials.}
         \label{tab:exomarkerlayout}
     \end{centering}
 \end{table}
 
 The joint kinematics are shown in \autoref{fig:exojointkin}. Only a single demonstration is shown; however, multiple demonstrations were recorded. Similarly, data were recorded for both legs, but just the right leg is shown. The heel strikes and toe-offs are pointed out in the graphs. These points are calculated using the Vicon plug-in gait tools. All of the data presented were extracted and analyzed using the tools discussed in \autoref{chap:software}. In this study, three steps were taken across the mocap floor. The first step was slightly off since it started with feet together; however, steps two and three aligned with the expected motion. The gait cycles are presented over the collected frames; the Vicon records at $100fps$, so the presented trial is approximately $14.04s$. LARRE was able to move through the desired joint range for a gait cycle. Similarly, with the moments shown in \autoref{fig:larregaitmoments}, the first step did not contain relevant data since the moments can only be calculated when the force plates embedded on the floor are stepped on. The moments are presented in $\frac{Nm}{Kg}$ which allows for the torque to be abstracted and calculated for the different masses. 
-
-
-
-
-
 
 
 
@@ -163,24 +158,7 @@ The joint kinematics are shown in \autoref{fig:exojointkin}. Only a single demon
 \end{figure}
 
 
-The electrical control system for LARRE is currently under development. The control board was developed by Micheal Conrad. The control board consists of a  Xilinx Zynq 7000 \footnote{https://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html}  field-programmable gate arrays (FPGAs) as the primary controller for the exoskeleton. This allows for high speed communication with the motors and sensors. The control board is shown in \autoref{fig:controlboard}.
 
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\columnwidth]{images/mech_design/control_board_edit.png}
-    \caption[LARRE Control Board]{LARRE Control Board}
-    \label{fig:controlboard}
-\end{figure}
-
-Additionally, custom PCB with integrated inertial measurement unit (IMU) and potentiometer connectors are placed on each of the leg segments (thigh, shank, and foot). The PCB is shown in \autoref{fig:imu_circut} Cables run down from the main control board the leg and snap into each of the IMU boards. This allows for the collection of all the sensor information.  
-
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.23]{images/mech_design/IMU_diagram.png}
-    \caption{IMU circuit diagram}
-    \label{fig:imu_circut}
-\end{figure}
 
 % \begin{table}[h!]
 % \begin{centering}

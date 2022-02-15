@@ -111,7 +111,7 @@ Rigid bodies in mocap are built from a collection of individual markers on a bod
 \begin{subfigure}{0.4\linewidth} 
   \centering 
   \includegraphics[scale=0.05,frame]{images/software/marker_side_coor.png} 
-  \caption[RigidBody Frames]{Rigid Body Frames on the Leg} 
+  \caption[RigidBody Frames]{Rigid body frames on the leg used during the mocap trials.} 
   \label{fig:markers_side} 
 \end{subfigure} 
 %
@@ -122,7 +122,7 @@ Rigid bodies in mocap are built from a collection of individual markers on a bod
     \caption{Labeled rigid body plate from Vicon}
     \label{fig:rigidbody}
 \end{subfigure} 
-\caption[Rigidbodies and Placement]{Rigid Bodies and Placement} 
+\caption[Rigidbodies and Placement]{Rigid bodies and placements on the legs for the mocap trials.} 
 \label{fig:markers} 
 
 \end{figure} 
@@ -282,7 +282,7 @@ The LfD algorithms are built in this package to learn the record biomechanical i
         \captionsetup{justification=centering}
         \centerline{
         \includegraphics[scale=0.25]{images/software/software_layers.png}}
-        \caption{Learning flow chart}
+        \caption{Learning from Demonstration order of operations.}
         \label{fig:flowchart}
     \end{subfigure}
     %
@@ -311,7 +311,7 @@ DTW (\autoref{eq:DTW}) does not produce smooth trajectories. The trajectories mu
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{images/software/DTWsmoothing_annotanted.png}
-    \caption[DTW Smoothing]{Using Polynomials to smooth the DTW trajectory. The chatter can be seen in the enlarged box.}
+    \caption[DTW Smoothing]{Using Polynomials to smooth the DTW trajectory. The top graphs represents the replicated motion and the bottom graph is the learned forcing function. The green line is the raw DTW motion and the red line is the smooth motion. The chatter can be seen in the enlarged box.}
     \label{fig:DTWSmoothing}
 \end{figure}
 

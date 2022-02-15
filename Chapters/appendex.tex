@@ -1,0 +1,44 @@
+\chapter{}
+
+
+
+Bigger simulink model with sub systems
+
+GMM/GMR code (maybe pshedo code)
+
+iLQR code (maybe pshedo code)?? with link to real code
+
+Pheso code for an iterative linear quadratic regulator
+
+\begin{algorithm}
+\caption{An algorithm with caption}\label{alg:cap}
+\begin{algorithmic}
+\Require $n \geq 0$
+\Ensure $y = x^n$
+\State $y \gets 1$
+\State $X \gets x$
+\State $N \gets n$
+\While{$N \neq 0$}
+\If{$N$ is even}
+    \State $X \gets X \times X$
+    \State $N \gets \frac{N}{2}$  \Comment{This is a comment}
+\ElsIf{$N$ is odd}
+    \State $y \gets y \times X$
+    \State $N \gets N - 1$
+\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+
+Code block  \autoref{intergration}  shows how to use RK4 to forward integrate a RBDL model. 
+
+\lstinputlisting[language=Python, 
+caption=This block shows how to integrate a RBDL model using Runge-Kutta 4, label=intergration]{code/intergration.py}
+
+Atlas motor driver code/explination of the PMD stuff
+
+more stuff from toolkit
+
+maybe state machine stuff?? 

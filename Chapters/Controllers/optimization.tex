@@ -46,7 +46,7 @@ In \cite{long2016robust} a genetic algorithm was used to tune the parameters of 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{images/controllers/SMC.png}
-    \caption{Sliding mode control and the switching phase}
+    \caption[Illustration of a SMC]{Illustration of a SMC, the two phase of the controller are the reaching phase and the sliding phase. In the reaching phase the sytem drives to the sliding phase. In the sliding phase the controller where the controller attempts to remain on the line by flipping the value of $\sigma$. }
     \label{fig:SMC}
 \end{figure}
 
@@ -251,7 +251,7 @@ Additionally, the effects of the controller were tested with a misalignment betw
 \begin{figure}
     \centering
     \includegraphics{images/controllers/alignment_comparison.png}
-    \caption{Illustration of misalignment between the  \textit{assistor} and  \textit{assistie} systems. The dotted circles represents the misalignment location of the system. This also changes the location of the spring-dampener connection point.  }
+    \caption[Illustration of the pendulum misalignment of ]{Illustration of misalignment between the  \textit{assistor} and  \textit{assistie} systems. The dotted circles represents the misalignment location of the system. This also changes the location of the spring-dampener connection point.  }
     \label{fig:misalignmentIllistration}
 \end{figure}
 
@@ -296,7 +296,7 @@ Additionally, the effects of the controller were tested with a misalignment betw
 
 The controller performance increased by tuning the parameters of the SMC controller. The non-optimal parameters should have a significant deviation from the sliding surface. Using a cost function that considers velocity only has nearly the identical performance as the cost function that used both position and velocity; both performed better than the position only cost function. Using these results allows the velocity or the position and velocity to be good metrics for a cost function to tune the parameters of the A-SMC controller. The results show the importance of using the correct cost function to tune the controller gains. By selecting the wrong criteria for the tuning controller parameters, the controller will produce unstable results. It is important to note that the admittance controller parameters must be tuned in addition to the parameters of the SMC. If the variability parameters are too large, the admittance controller will lag/lead aggressively and not track the desired motion. 
 
-\autoref{tab:error} summarizes the RMSE in degrees of the joint angles of the \textit{assistie} and \textit{assistor} systems. The largest error was caused with no  \textit{assistie} involvement. This is presumably caused by the non-rigid connection between the  \textit{assistie} and \textit{assistor} systems. The A-SMC controller does not have an understanding of the current state of the \textit{assistie} system, so it cannot directly control the position. However, since this was done in simulation, the error can be presented for comparison. The Sping-Dampener connection between the systems causes the \textit{assistie} to lag behind the \textit{assistie} system. Despite the \textit{assistie} it still only has an RSME error of $18.2^{\circ}$ on joint 1 and $16.7^{\circ}$ on joint 2; this is confirmed by examining the joint error of the reduced and time-varying simulations. The reduced test had the smallest RMSE, and the time-varying RMSE was between reduced and no-involvement simulations. 
+\autoref{tab:error} summarizes the RMSE in degrees of the joint angles of the \textit{assistie} and \textit{assistor} systems. The largest error was caused with no  \textit{assistie} involvement. This is presumably caused by the non-rigid connection between the  \textit{assistie} and \textit{assistor} systems. The A-SMC controller does not have an understanding of the current state of the \textit{assistie} system, so it cannot directly control the position. However, since this was done in simulation, the error can be presented for comparison. The Sping-Dampener connection between the systems causes the \textit{assistie} to lag behind the \textit{assistie} system. Despite the \textit{assistie} it still only has an RSME error of $18.2^{\circ}$ on joint 1 and $16.7^{\circ}$ on joint 2; this is confirmed by examining the joint error of the reduced and time-varying simulations. The reduced test had the smallest RMSE, and the time-varying RMSE was between reduced and no-involvement simulations. The RMSE error should within acceptable margins of error for a gait controller. The errors between the system can be reduced with a more rigid connection between the \textit{assistie} and \textit{assistor} systems which will have two effects on the system. Firstly, the two systems will have smaller difference in position. This means that the \textit{assistie} or \textit{assistor} system will not lag or lead behind each other. Secondly, this will reduce the interaction force between the two systems. By increasing the stiffness between the two systems, the connection becomes more rigid which will make the difference in the pose negligible and thuse reduce the interaction force. On a real system this can be achieved with form fitted and tighter straps between the exoskeleton the human.    
 
 
 Testing the variability in alignment allows for testing of the controller when the systems are not perfectly aligned. This problem arises for real systems where the person's joints may not align perfectly with the exoskeleton joints. As shown \autoref{fig:small_length} and \autoref{fig:larger_length} the tracking signals were close to the time-varying signals with only a slight variation in the tracking RMSE.
@@ -315,7 +315,7 @@ Testing the variability in alignment allows for testing of the controller when t
  1.05x length & 9.3^{\circ} & 6.3^{\circ}  & 10.7^{\circ}   & 9.8^{\circ}  \\[1ex] 
  \hline
  \end{tabular}
- \caption[Joint RMSE for Double Pendulum]{Joint RSME in Degrees}
+ \caption[Joint RMSE for Double Pendulum]{Joint RSME (Degrees) of the double pendulum system}
   \label{tab:error}
 \end{table}
 
@@ -361,21 +361,21 @@ The tuning method discussed above was used to tune the controller. Each of the l
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=0.8\columnwidth]{images/controllers/trajs/init_traj.png}
-        \caption[LARRE Training Trajectory]{LARRE Training Trajectory}
+        \caption[LARRE Training Trajectory]{A single simple trajectory used as a training trajectory. The dynamic and kinematic model of LARRE was used for training. }
         \label{fig:LARRE_Train_Trajectory}
     \end{subfigure}
     
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=0.8\columnwidth]{images/controllers/trajs/cost.png}
-        \caption[LARRE Cost Optimization]{Cost of Tuning a single leg of LARRE}
+        \caption[LARRE Cost Optimization]{Cost of Tuning a single leg of LARRE. The cost converges after approximate 10 iterations. }
         \label{fig:LARRE_TUNING}
     \end{subfigure}
   
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=0.8\columnwidth]{images/controllers/trajs/params_splite.png}
-        \caption[LARRE Parameters Optimization]{Parameters Changing Over Iterations}
+        \caption[LARRE Parameters Optimization]{Parameters Changing Over Iterations. The values are separated into three graphs due to the different magnitude of the parameters.}
         \label{fig:LARRE_PARAMS}
     \end{subfigure}
 
@@ -412,7 +412,7 @@ This data can be used to choose the more important parameters when optimizing th
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{images/controllers/trajs/stats.png}
-    \caption[Relative Parameters Importance]{Relative Parameters Importance}
+    \caption[Relative Parameters Importance]{Comparison of relative parameters importance of the A-SMC. The larger the line the more sensitivity the parameter as on the cost function. }
     \label{fig:paramStats}
 \end{figure}
 
@@ -430,16 +430,16 @@ The effects of the human effort were applied to the system from full human inter
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/trajs/statespace.png}
-        \caption[State Space Trajectory]{State Space Trajectory}
+        \caption[State Space Trajectory]{Comparison of state space trajectory at different engagement levels.}
         \label{fig:StateSpaceTrajectory}
     \end{subfigure}
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/trajs/triple_traj.png}
-        \caption[Triple Trajectory]{Triple Trajectory}
+        \caption[Triple Trajectory]{Comparison of a simple triple trajectory at different engagement levels}
         \label{fig:TripleTrajectory}
     \end{subfigure}
-    \caption[Triple Trajectory LARRE]{Triple Trajectories}
+    \caption[Triple Trajectory LARRE]{Comparison of a of simple triple trajectories applied to the system at different engagement levels.}
     \label{fig:TripleTraj}
 \end{figure}
 
@@ -451,7 +451,7 @@ The human interaction is shown in \autoref{fig:humantripletraj}. The human effor
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{images/controllers/gait/fat_profile.png}
-    \caption[Fatigue Profile]{Fatigue Profile}
+    \caption[Fatigue Profile]{Fatigue Profile applied to the \textit{assistie} (human) torque. This is not a realstice fatigue profile but is mearly used to simulate both decay and change in magnitude.}
     \label{fig:fatprofile}
 \end{figure}
 
@@ -480,7 +480,7 @@ The human interaction is shown in \autoref{fig:humantripletraj}. The human effor
         \caption[A-SMC Torque over Triple Trajectory Zoomed]{A-SMC Torque over Triple Trajectory Zoomed In}
         \label{fig:SMCTripleZoom}
     \end{subfigure}
-    \caption{A-SMC Effort applied over the Triple Trajectory}
+    \caption[A-SMC Effort applied over the Triple Trajectory]{A-SMC Effort applied over the Triple Trajectory. As shown the magnitude of the applied \textit{assistor} (A-SMC) effort decrees as the \textit{assistie} (human) engagement increases. }
     \label{fig:SMCEffortTriple}
 \end{figure}
 
@@ -504,7 +504,7 @@ The model was used to follow a three gait cycle to observe the steady-state moti
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\columnwidth]{images/controllers/upper_model_simulink_edit.png}
-    \caption[Simulink Model Cooperative Controller]{Simulink Model of the Cooperative Gait Controller }
+    \caption[Simulink Model Cooperative Controller]{Simulink Model of the Cooperative Gait Controller with highlighted subsystems.}
     \label{fig:CoopSimulink}
 \end{figure}
 
@@ -519,7 +519,7 @@ The model was used to follow a three gait cycle to observe the steady-state moti
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/gait/traj.png}
-        \caption[Triple Gait Cycle]{Triple Gait Cycle}
+        \caption[Comparison of a Triple Gait Cycle]{Comparison of a triple gait cycle at different interaction levels.}
         \label{fig:TripleGaitJoint}
     \end{subfigure}
         \begin{subfigure}{\linewidth}
@@ -567,22 +567,22 @@ The model was used to follow a three gait cycle to observe the steady-state moti
     \begin{subfigure}{0.8\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/gait/SMC.png}
-        \caption[A-SMC Torque Over Gait Cycles]{A-SMC Torque Over Gait Cycles}
+        \caption[A-SMC Torque Over Gait Cycles]{\textit{assistor} (exoskeleton) torque over gait cycles. These torques are generated by the A-SMC controller.}
         \label{fig:SMCTripleGaitMotion}
     \end{subfigure}
     \begin{subfigure}{0.8\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/gait/human.png}
-        \caption[Human Torque Over Gait Cycles]{Human Torque Over Gait Cycles}
+        \caption[Human Torque Over Gait Cycles]{ \textit{assistie} (Human) torque over gait cycles. These torque are generated by the PD controller.}
         \label{fig:HumanTripleGaitMotion}
     \end{subfigure}
         \begin{subfigure}{0.8\linewidth}
         \centering
         \includegraphics[width=\columnwidth]{images/controllers/gait/feedback.png}
-        \caption[Human Torque Over Gait Cycles]{Feedback Torque Over Gait Cycles}
+        \caption[Interaction Torque Over Gait Cycles]{Interaction Torque Over Gait Cycles. This is the torque that generated by the displacement between the two systems.}
         \label{fig:InteractionTripleGaitInteration}
     \end{subfigure}
-    \caption{Torque Over Gait Cycles}
+    \caption{Torques generated by the \textit{assistie} (human) and  \textit{assistor} (exoskeleton) controller over three gait cycles. These graphs compare the controller torques generated at the different interactions levels. }
     \label{fig:TorqueOverGaitCycles}
 \end{figure}
 
@@ -602,7 +602,7 @@ A bug in the ROS-Simulink framework was discovered during development. While MAT
 The work in this section is still underdevelopment. 
 
 
-To test the controller on a simple physical system was developed and built. THis is a simplied system in order to show how the controller works are real systems.  \autoref{eq:armDyn} show the dynamics equation for a single arm. This system consists of two single degree of arms; where one is the \textit{assistie} arm and the other is the \textit{assistor} arm.
+To test the controller on a simple physical system was developed and built. This is a simplified system in order to show how the controller works are real systems.  \autoref{eq:armDyn} show the dynamics equation for a single arm where, $m$ is the mass of the arm and $l$ is the length of the arm. This system consists of two single degree of arms; where one is the \textit{assistie} arm and the other is the \textit{assistor} arm.
 
 \begin{equation}
     \tau = \frac{4}{3}ml^2 \ddot{\theta} + \frac{1}{2}ml \cos(\theta)
@@ -610,23 +610,27 @@ To test the controller on a simple physical system was developed and built. THis
     \label{eq:armDyn}
 \end{equation}
 
- The arms where connected with a Velcro straps piece of form was put between the two arms to prevent the arms from bending inward. Each of the arms weighed approximately $90g$ and $0.3m$ long. An additional $20g$ was added to the \textit{assistie} arm to simulate the human system being heavy then then exoskeleton system. \autoref{fig:phyicalTestingSystem} shows they physical testing system. The arms are controlled by a brushed DC motors with feedback from potentiometer for position sensing. The arms are connected to a Teensy 4.0 \footnote{https://www.pjrc.com/store/teensy40.html} which handles the communication. The motors are controlled by a Atlas 75W motor drivers though a Pro-Motion Development board. The Teensy board communicates to the drivers over SPI by send torque commands to each of the drivers which then deliveries the proper current commands to the motors. \autoref{fig:phyicalTestingDiagram} shows the connection diagram, the computer is the high level controller and the Teensy acts as the low level controller. 
+ The arms where connected with a Velcro straps piece of form was put between the two arms to prevent the arms from bending inward. Each of the arms weighed approximately $90g$ and $0.3m$ long. An additional $20g$ was added to the \textit{assistie} arm to simulate the human system being heavy then then exoskeleton system. \autoref{fig:phyicalTestingSystem} shows they physical testing system. The arms are controlled by a brushed DC motors with feedback from potentiometer for position sensing. A computer running Simulink acts as the high level controller and a Teensy 4.0 \footnote{https://www.pjrc.com/store/teensy40.html} as the low level controller communicating over a serial line. The motors are controlled by a Performance Motion Digital drivers motor controllers (Performance Motion Devices, Inc., 1 Technology Park Dr, Westford, MA 01886). Each of the motors are controlled by a 75W Atlas driver (MD211048/02VB) though the development board (MDK4LI0000V). The Teensy board communicates to the drivers over SPI by send torque commands to each of the drivers which then deliveries the proper current commands to the motors. \autoref{fig:phyicalTestingDiagram} shows the connection diagram, the computer is the high level controller and the Teensy acts as the low level controller. 
 
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{images/controllers/phyical testing_system.png}
-    \caption[Physical Testing System]{Physical testing system of two connected arms. A Teensy 4.0 is used as a lower level controller. Each of the arms has its own potentiometer and controlled by a brushed DC motor. The arms are connected by a velcro strap and a piece of foam between the arms prevents the arms from bending inward. The DC motors are controlled Atlas motor drivers. }
-    \label{fig:phyicalTestingSystem}
+    \begin{subfigure}{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/phyical testing_system.png}
+        \caption[Physical A-SMC Testing System]{Physical testing system of two connected arms. A Teensy 4.0 is used as a lower level controller. Each of the arms has its own potentiometer and controlled by a brushed DC motor. The arms are connected by a velcro strap and a piece of foam between the arms prevents the arms from bending inward. The DC motors are controlled Atlas motor drivers. }
+        \label{fig:phyicalTestingSystem}
+    \end{subfigure}
+    \begin{subfigure}{0.8\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/controllers/testing_system_diagam.png}
+        \caption[Testing A-SMC System Diagram]{Connection diagram of the testing system. The computer communicates with the Teensy over serial protocol sending shown two torque command and receiving two position. The Teensy uses SPI to communicate with the motor drivers. }
+        \label{fig:phyicalTestingDiagram}
+    \end{subfigure}
+    \caption{Physical Testing System For the A-SMC}
+    \label{fig:ASMCTestingSystem}
 \end{figure}
 
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{images/controllers/testing_system_diagam.png}
-    \caption[Testing System Diagram]{Connection diagram of the testing system. The computer communicates with the Teensy over serial protocol sending shown two torque command and receiving two position. The Teensy uses SPI to communicate with the motor drivers. }
-    \label{fig:phyicalTestingDiagram}
-\end{figure}
 
 
 

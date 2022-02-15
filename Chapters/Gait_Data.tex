@@ -12,7 +12,7 @@ The human leg is built with three joints; a hip, a knee, and an ankle, as shown 
 \begin{figure}[h!]
     \centering
     \includegraphics{images/gait_data/leg_joints_label.png}
-    \caption[Leg with Hip, Knee, Ankle Labels]{Leg with Hip, Knee, Ankle Labels.}
+    \caption[Leg with Hip, Knee, Ankle Labels]{Leg with hip, knee, ankle labels.}
     \label{fig:leg_with_label}
 \end{figure}
 
@@ -133,7 +133,7 @@ The goal of collecting the human motion data was to build a model for replicatin
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.30]{images/gait_data/gaittraining.png}
-    \caption[Raw Joint Trajectories Collected from the Subjects]{Joint With Markers}
+    \caption[Raw Joint Trajectories Collected from the Subjects]{A single gait cycle joint trajectories collected from the each of the subjects. Each of the colored lines represents a trajectory form a different subject. The slight difference at the beginning of some of the demonstrations is due to the extraction method.}
     \label{fig:TrainingDemosGait}
 \end{figure}
 
@@ -160,7 +160,7 @@ The BIC score was calculated for bin size 10-30 using  \autoref{eq:BIC}; due to 
 \begin{figure}
     \centering
     \includegraphics[scale=0.3]{images/gait_data/BIC_Walk.png}
-    \caption[BIC Score for Walking]{The BIC Score that Determines the Number of Bins}
+    \caption[BIC Score for Walking]{The BIC score that determines the number of bins for learning the gait cycle.}
     \label{fig:BIC}
 \end{figure}
 
@@ -181,7 +181,7 @@ The TPGMM process places the Gaussians that drive the system along the trajector
     \caption[Learned Gait Model]{Learned model compared to the demonstrations. The thin lines are the demonstrations used to train the models. The thick line in the learned models.}
     \label{fig:learnedModel}
     \end{subfigure}
-    \caption{Learning the gait trajectories}
+    \caption{Learning the gait trajectories from the mocap data.}
     \label{fig:learninggaittrajectories}
 \end{figure}
 

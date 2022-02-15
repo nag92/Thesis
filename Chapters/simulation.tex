@@ -28,7 +28,7 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
  \begin{figure}[h]
      \centering
      \includegraphics[scale=0.2]{images/sim/blender.png}
-     \caption[Blender Model of LARRE]{Creating the AMBF model of LARRE using the ambf\_addon tool}
+     \caption[Blender Model of LARRE]{Creating the AMBF model of LARRE using the ambf\_addon tool. Using then tool the rigid body properties are specified along with the type and location of all the joints.}
      \label{fig:blender}
  \end{figure}
  
@@ -52,10 +52,10 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
 
 
  
- Each joint can be independently controlled and measured. The joints provide their position, velocity, and effort to the Python client, allowing the joint states to be measured and used for control. The \textit{exohuman} model consists of both the human and LARRE model; this is the first bipedal exoskeleton model that has been built for use in AMBF. Until now, the primary use of AMBF has been used to simulate robotic surgical systems. The exoskeleton adds several layers of difficulty since it is not a static system. The two model segments can interact since the human model is connected to the exoskeleton. The effort supplied by the human model will affect the exoskeleton joints; this allows for the testing of cooperative controllers, which is critical for developing the exoskeleton controller. The human effort is accounted for in the dynamic of the system.  
+ Each joint can be independently controlled and measured. The joints provide their position, velocity, and effort to the Python client, allowing the joint states to be measured and used for control. A state machine was created to keep transition between the different mode. The smach open source state machine library was used \footnote{http://wiki.ros.org/smach}. The \textit{exohuman} model consists of both the human and LARRE model; this is the first bipedal exoskeleton model that has been built for use in AMBF. Until now, the primary use of AMBF has been used to simulate robotic surgical systems. The exoskeleton adds several layers of difficulty since it is not a static system. The two model segments can interact since the human model is connected to the exoskeleton. The effort supplied by the human model will affect the exoskeleton joints; this allows for the testing of cooperative controllers, which is critical for developing the exoskeleton controller. The human effort is accounted for in the dynamic of the system.  
  
  
- Several sensors were built into LARRE to measure the joint states and the environment, including the joint positions and velocities; this is shown in \autoref{fig:simwalkingTraj}, where LARRE's joint positions and the human joint positions are compared to the desired trajectory.  \autoref{fig:simwalkingtorque} shows the torques over the same walking trajectory. As expected, the human and exoskeleton follow the same trajectory due to the joints of the human and exoskeleton being co-linear. Similarly, \autoref{fig:simwalking} shows LARRE being controlled from a stand to sit cycle motion.
+ Several sensors were built into LARRE to measure the joint states and the environment, including the joint positions and velocities; this is shown in \autoref{fig:simwalkingTraj}, where LARRE's joint positions and the human joint positions are compared to the desired trajectory.  \autoref{fig:simwalkingtorque} shows the torques over the same walking trajectory. The spikes in the torque are potential caused by disturbances or discontinuities in the velocity. This spikes in the toque are instance are do not effect the resultant trajectory. As expected, the human and exoskeleton follow the same trajectory due to the joints of the human and exoskeleton being co-linear. Similarly, \autoref{fig:simwalking} shows LARRE being controlled from a stand to sit cycle motion.
  
  
  \begin{figure}[h!]
@@ -63,7 +63,7 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
         % \hspace*{-1cm} 
         \centering
         \captionsetup{width=.8\linewidth}%
-        \includegraphics[width=0.9\linewidth]{images/sim/walkjoints.png}
+        \includegraphics[width=\linewidth]{images/sim/walkjoints.png}
         \caption{Comparing the actual joint angle vs the desired joint angles. The green line is desired motion, the orange line is the human motion, and the blue line is the exoskeleton motion.}
         \label{fig:simwalkingTraj}
     \end{subfigure}
@@ -71,11 +71,11 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
         % \hspace*{-1cm} 
         \centering
         \captionsetup{width=.8\linewidth}%
-        \includegraphics[width=0.9\linewidth]{images/sim/walktau.png}
-        \caption{The toques over a gait cycle for each of the joints}
+        \includegraphics[width=\linewidth]{images/sim/walktau.png}
+        \caption{The toques over a gait cycle for each of the joints.The spikes in the torque are potential caused by disturbances or discontinuities in the velocity. }
     \label{fig:simwalkingtorque}
 \end{subfigure}
-    \caption[LARRE Simulation Gait Kinematics]{LARRE being controlled through a walking gait cycle. The spikes in the torque are potential caused by disturbances or discontinuities in the velocity. }
+    \caption[LARRE Simulation Gait Kinematics]{LARRE being controlled through a walking gait cycle.}
     \label{fig:simwalking}
 \end{figure}
  
@@ -85,6 +85,7 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
     \begin{subfigure}{0.5\textwidth}
         % \hspace*{-1cm} 
         \centering
+        \captionsetup{width=.8\linewidth}%
         \includegraphics[width=\textwidth]{images/sim/standsitstandjoints (1).png}
         \caption{Trajectory comparison a stand to sit back to stand position}
         \label{fig:simsit2standTraj}
@@ -92,17 +93,18 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
     \begin{subfigure}{0.5\textwidth}
         % \hspace*{-1cm} 
         \centering
+        \captionsetup{width=.8\linewidth}%
         \includegraphics[width=\textwidth]{images/sim/standsitstandtau.png}
         \caption{The toques for stand to sit back to stand position }
-    \label{fig:simsit2standtorque}
-\end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
+        \label{fig:simsit2standtorque}
+    \end{subfigure}\\[1ex]
+    \begin{subfigure}{\linewidth}
         % \hspace*{-1cm} 
         \centering
         \includegraphics[scale=.5]{images/sim/sit_to_stand2 (1).png}
-        \caption{Exoskeleton moving through the desired motion}
-    \label{fig:sit2stand}
-\end{subfigure}
+        \caption[Exoskeleton Standing]{Exoskeleton moving from standing to siting to standing position.}
+        \label{fig:sit2stand}
+    \end{subfigure}
     \caption[LARRE Simulation standing to sit motion]{LARRE being controlled through a stand to sit to stand cycle}
     \label{fig:simwalking}
 \end{figure}
@@ -115,23 +117,23 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
     \begin{subfigure}{.5\linewidth}
         \centering
         \includegraphics[scale=0.1]{images/sim/stair2.png}
-        \caption{LARRE and the stair case in AMBF}
+        \caption{LARRE and the stair case in AMBF. LIDAR type sensors were placed vertically on each of the hips. This was done by using an array of touch sensors generated in a circular array. Additionally a 3D camera was placed on the front the exoskeleton. }
         \label{fig:exostair}
         \label{fig:sub1}
     \end{subfigure}%
     \begin{subfigure}{.5\linewidth}
        \centering
         \includegraphics[scale=0.15]{images/sim/point_cloud_stairs.png}
-        \caption[Point Cloud of the Stairs]{Point cloud of the stair as captured by LARRE}
+        \caption[Point Cloud of the Stairs]{ Generation of the point clould created by using the the LIDAR type sensors on each of the hips. The displacement of the points is used to meausre the shape of the stair case.}
         \label{fig:LIDAR}
         \end{subfigure}\\[1ex]
     \begin{subfigure}{\linewidth}
         \centering
         \includegraphics[scale=0.15]{images/sim/point_cloud_stairs2.png}
-        \caption{Point cloud of the stair as captured by LARRE}
+        \caption{Point cloud of the stair as captured by LARRE using the 3D camera in AMBF. THis provide both depth and color information of the environment.}
         \label{fig:DEPTH}
     \end{subfigure}
-   \caption[LIDAR built into LARREs hip]{LARRE has built in LIDAR sensor to detect objects in the environment.}
+   \caption[LIDAR built into LARREs hip]{Visualization of the environment using the built in LIDAR and camera on LARRE. The point clouds are visualized using ROS and Rviz}
    \label{fig:sensors}
 \end{figure}
  
@@ -141,7 +143,7 @@ Robotic controllers typically require knowledge of the systems' dynamics being c
  \label{sec:controlarchitecture}
  
  \subsection{Overview}
- The controller architecture was developed with Shreyas Chandra Sekhar and presented a late-breaking result at IROS 2021. Open-source development of surgical robotic platforms has seen much development in recent years with the development of Collaborative Robotics Toolkit (CRTK)\cite{su2020collaborative}, da Vinci Research Kit \cite{d2021accelerating}, and AMBF. These systems' progress and development allow researchers to develop new tools for surgical applications. The development of the  AMBF simulation platform allows for the simulation of various surgical robotic platforms. 
+ The controller architecture was developed with Shreyas Chandra Sekhar. \cite{poster}. Open-source development of surgical robotic platforms has seen much development in recent years with the development of Collaborative Robotics Toolkit (CRTK)\cite{su2020collaborative}, da Vinci Research Kit \cite{d2021accelerating}, and AMBF. These systems' progress and development allow researchers to develop new tools for surgical applications. The development of the  AMBF simulation platform allows for the simulation of various surgical robotic platforms. 
 
 The dynamics of the robots used in medical or industrial applications are often complex and may involve some redundant links and joints such as the dVRK robot\cite{wang2019convex}. Analytically calculating the dynamics model for a controller is complex and may lead to model singularities and errors that cause instability in the controller. This process is often very robot-specific as well. A model configuration file that allows for procedural generation of the dynamic model will ensure that the controller has a matching model for canceling out the non-linear dynamic errors of the robotic model.
 
@@ -153,7 +155,8 @@ These new simulation platforms present the need for an open-source control toolb
  \begin{figure}
      \centering
      \includegraphics[scale=1.5]{images/software/dynamic_server_daigram.png}
-     \caption[Controller package Diagram]{Architecture for control package}
+     \caption[Controller package Diagram]{Architecture for \textit{ambf/_control
+     _pacakge}.The blue dotted box is all of the features built into the package. The commands can be sent to either a physical robot or a simulate robot. ROS is used to handle the communication between the systems.}
      \label{fig:ambfcontrolartecture}
  \end{figure}
  
@@ -195,7 +198,7 @@ These new simulation platforms present the need for an open-source control toolb
  \begin{figure}
      \centering
      \includegraphics[scale=0.35]{images/software/dyn_loop_timing.png}
-     \caption[Dynamic Timing Histogram]{Communication Timing Histogram for the Dynamics server}
+     \caption[Dynamic Timing Histogram]{Histogram for calling the dynamic server for one million call in milliseconds}
      \label{fig:DynCommunicationHistogram}
  \end{figure}
  
@@ -238,7 +241,7 @@ The AMBF client gathers the joint position ($q$), joint velocity ($\Dot{q}$), an
  \begin{figure}
      \centering
      \includegraphics[scale=0.35]{images/software/control_loop_timing.png}
-     \caption[Controller Server Timing Histogram]{Communication Timing Histogram for the Controller Server}
+     \caption[Controller Server Timing Histogram]{Histogram for calling the controller server for one million call in milliseconds.}
      \label{fig:CntrlCommunicationHistogram}
  \end{figure}
 
@@ -284,8 +287,8 @@ Controllers are attached to the manager and are accessed at run time by the user
   
  \begin{figure}
      \centering
-     \includegraphics[scale=0.35]{images/sim/loop_timming.png}
-     \caption[Communication Timing Histogram]{Communication Timing Histogram}
+     \includegraphics[width=\linewidth]{images/sim/loop_timming.png}
+     \caption[Communication Timing Histogram]{Histogram for calling the controller server for one million call in milliseconds}
      \label{fig:CommunicationHistogram}
  \end{figure}
  

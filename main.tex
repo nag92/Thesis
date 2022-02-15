@@ -32,6 +32,7 @@
 \usepackage{enumitem}
 \usepackage{tocloft}
 \setlist{nolistsep}
+\usepackage[page,toc,titletoc,title]{appendix}
 
 \usepackage[nottoc,notlot,notlof]{tocbibind}
 %New colors defined below
@@ -269,6 +270,9 @@ Professor Berk Calli,  Committee Member
 
 \bibliography{bibliography/lfd,bibliography/SCI, bibliography/strokes, bibliography/mech_design,bibliography/exo_background, bibliography/software,  bibliography/sim, bibliography/gait, bibliography/stair, bibliography/controllers }
 
+\begin{appendices}
+\input{Chapters/appendex}
+\end{appendices}
 
 
 \end{document}
