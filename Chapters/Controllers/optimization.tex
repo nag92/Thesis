@@ -4,6 +4,13 @@
 \subsection{Overview Cooperative Controllers}
 Assistive controllers have long been implemented in rehabilitative exoskeletons. This includes the MIT-MANUS \cite{ju2005rehabilitation}, BLEEX\cite{kazerooni2006hybrid}, HAL\cite{kawamoto2004power} and many others robotic systems including several exoskeletons \cite{kim2012admittance,ott2010unified,huo2011control}. These systems use assistive controllers to help guide the person's arm or leg through the desired trajectory or to complete tasks. This method is typically used because the person has difficulty generating the necessary torques due to medical problems such as a stroke or spinal cord injury. These types of controllers can also have positive effects  psychological and increase motor learning by increasing the motivation of the subject. This can lead to better   therapeutic and neurological outcomes.
 
+Cooperative controller have also been implement on surgical robotic systems like the Da vinci surgical robotic platform \cite{d2021accelerating}. This robotic system allows for the surgeon to control a robotic to perform surgical procedures \cite{el2020review,amirabdollahian2018prevalence,okamura2009haptic}. Haptics and cooperative controller are a key part of this technology. Haptics is used to describe both the tactical and kinesthetic information passed between the environment and the operator \cite{okamura2004methods}. This information pipeline can be described as transparency which should be reduced, meaning that the operator feel like the are interacting with the environment with out the robot between them and the object they are touching. Surgeons have reported that having feedback helps they during operations. It allows them to have a better understand of the anatomy they are operating on \cite{koehn2015surgeons}. 
+These technology also opens up the field of cooperative surgery where the surgeon can be can be taught how to perform operation with guiding force on a robotic manipulator \cite{varier2020collaborative}. These controller also help the surgeons stay out of undesired regions and stay on desired paths. This can be implemented using force controller on the haptic device, the desired path pulls the hand long the desired motion and the undesirable regions push the hand way from the area. These force can be generated using virtual spring-dampener model.
+
+
+These technologies have also be combined with learning from demonstration. Power \textit{et. al} has implement such a controller by combining it with LfD for needle passing on between the two surgical arms \cite{power2015cooperative}. They shown that there was a performance incrase when using the learned motion for haptic guidance during the task. In [van2010superhuman] they used a combination of LfD and LQR to generate trajectories for knot tying tasks. Using an LQR controller gave them an optimal trajectory based on a smoothness cost function. The LQR step was iterativly rerun if the current motion deviated to far from the desired motion. 
+
+
 The difficulty in designing these systems is in handling the non-linearity and distances from being connected to a person, which the controller will have to overcome. Many of these controllers implement either admittance or impedance models. Admittance make incremental position and velocity based on applied force, while impedance control directly adjust the joint force, torque, and stiffness. Impedance controllers allow for virtual stiffness, which is useful for controlling the human-robot interactions \cite{keemink2018admittance}. 
 
 The admittance controller has shown better results when implemented into an exoskeleton. They are easier to implement and can measure the user's intention because movement is easier to measure than precise torques. Variable Admittance controllers can be used to adjust the stiffness of the system by adjusting the virtual stiffness to meet the on-the-fly demand of the system \cite{aguirre2007active,newman1994stable}.
@@ -360,21 +367,21 @@ The tuning method discussed above was used to tune the controller. Each of the l
     \centering
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[width=0.8\columnwidth]{images/controllers/trajs/init_traj.png}
+        \includegraphics[width=0.75\columnwidth]{images/controllers/trajs/init_traj.png}
         \caption[LARRE Training Trajectory]{A single simple trajectory used as a training trajectory. The dynamic and kinematic model of LARRE was used for training. }
         \label{fig:LARRE_Train_Trajectory}
     \end{subfigure}
     
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[width=0.8\columnwidth]{images/controllers/trajs/cost.png}
+        \includegraphics[width=0.75\columnwidth]{images/controllers/trajs/cost.png}
         \caption[LARRE Cost Optimization]{Cost of Tuning a single leg of LARRE. The cost converges after approximate 10 iterations. }
         \label{fig:LARRE_TUNING}
     \end{subfigure}
   
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[width=0.8\columnwidth]{images/controllers/trajs/params_splite.png}
+        \includegraphics[width=0.75\textwidth]{images/controllers/trajs/params_splite.png}
         \caption[LARRE Parameters Optimization]{Parameters Changing Over Iterations. The values are separated into three graphs due to the different magnitude of the parameters.}
         \label{fig:LARRE_PARAMS}
     \end{subfigure}
@@ -582,7 +589,7 @@ The model was used to follow a three gait cycle to observe the steady-state moti
         \caption[Interaction Torque Over Gait Cycles]{Interaction Torque Over Gait Cycles. This is the torque that generated by the displacement between the two systems.}
         \label{fig:InteractionTripleGaitInteration}
     \end{subfigure}
-    \caption{Torques generated by the \textit{assistie} (human) and  \textit{assistor} (exoskeleton) controller over three gait cycles. These graphs compare the controller torques generated at the different interactions levels. }
+    \caption[Comparison of Torques for Gait Cycle]{Torques generated by the \textit{assistie} (human) and  \textit{assistor} (exoskeleton) controller over three gait cycles. These graphs compare the controller torques generated at the different interactions levels. }
     \label{fig:TorqueOverGaitCycles}
 \end{figure}
 
@@ -611,28 +618,24 @@ To test the controller on a simple physical system was developed and built. This
 \end{equation}
 
  The arms where connected with a Velcro straps piece of form was put between the two arms to prevent the arms from bending inward. Each of the arms weighed approximately $90g$ and $0.3m$ long. An additional $20g$ was added to the \textit{assistie} arm to simulate the human system being heavy then then exoskeleton system. \autoref{fig:phyicalTestingSystem} shows they physical testing system. The arms are controlled by a brushed DC motors with feedback from potentiometer for position sensing. A computer running Simulink acts as the high level controller and a Teensy 4.0 \footnote{https://www.pjrc.com/store/teensy40.html} as the low level controller communicating over a serial line. The motors are controlled by a Performance Motion Digital drivers motor controllers (Performance Motion Devices, Inc., 1 Technology Park Dr, Westford, MA 01886). Each of the motors are controlled by a 75W Atlas driver (MD211048/02VB) though the development board (MDK4LI0000V). The Teensy board communicates to the drivers over SPI by send torque commands to each of the drivers which then deliveries the proper current commands to the motors. \autoref{fig:phyicalTestingDiagram} shows the connection diagram, the computer is the high level controller and the Teensy acts as the low level controller. 
+ 
+ Application on real hardware comes with several challenges. Real system have to deal with sensor noise and communication speed. This can effect how the controller responses to the model updates.  
 
 
 \begin{figure}
     \centering
-    \begin{subfigure}{0.8\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/controllers/phyical testing_system.png}
-        \caption[Physical A-SMC Testing System]{Physical testing system of two connected arms. A Teensy 4.0 is used as a lower level controller. Each of the arms has its own potentiometer and controlled by a brushed DC motor. The arms are connected by a velcro strap and a piece of foam between the arms prevents the arms from bending inward. The DC motors are controlled Atlas motor drivers. }
-        \label{fig:phyicalTestingSystem}
-    \end{subfigure}
-    \begin{subfigure}{0.8\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{images/controllers/testing_system_diagam.png}
-        \caption[Testing A-SMC System Diagram]{Connection diagram of the testing system. The computer communicates with the Teensy over serial protocol sending shown two torque command and receiving two position. The Teensy uses SPI to communicate with the motor drivers. }
-        \label{fig:phyicalTestingDiagram}
-    \end{subfigure}
-    \caption{Physical Testing System For the A-SMC}
-    \label{fig:ASMCTestingSystem}
+    \includegraphics[width=\linewidth]{images/controllers/phyical system.png}
+    \caption[Physical A-SMC Testing System]{Physical testing system of two connected arms. A Teensy 4.0 is used as a lower level controller. Each of the arms has its own potentiometer and controlled by a brushed DC motor. The arms are connected by a velcro strap and a piece of foam between the arms prevents the arms from bending inward. The DC motors are controlled Atlas motor drivers. }
+    \label{fig:phyicalTestingSystem}
 \end{figure}
 
 
-
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{images/controllers/testing_system_diagam.png}
+    \caption[Testing A-SMC System Diagram]{Connection diagram of the testing system. The computer communicates with the Teensy over serial protocol sending shown two torque command and receiving two position. The Teensy uses SPI to communicate with the motor drivers. }
+    \label{fig:phyicalTestingDiagram}
+\end{figure}
 
 
 
