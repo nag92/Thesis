@@ -1,17 +1,54 @@
 \section{Final Design}
 
-LARRE's leg segments are constructed from 6061 aluminum alloy concentric sliding pipes with clamps allowing the joints' to be adjusted for each person. This material is lightweight and easy to manufacture. The axles of the joints were constructed of steel to handle the expected stress. Safety is a significant concern; careful attention was given to the manufacturing process to minimize the sharp edges since it is attached to a human-machine interface system. Safety is essential for people with SCI who have minimal sensory abilities and would not feel an injury.  LARRE is attached to a person through the upper body and waist straps. Custom-made 3D printed strap carriages are placed on the thigh and shank segment and connect the person to the exoskeleton's legs. \autoref{fig:LARRE} shows the final model of LARRE.     
+LARRE's leg segments are constructed from 6061 aluminum alloy concentric sliding pipes with clamps allowing the joints' to be adjusted for each person. This material is lightweight and easy to manufacture. The axles of the joints were constructed of steel to handle the expected stress. Safety is a significant concern; careful attention was given to the manufacturing process to minimize the sharp edges since it is attached to a human-machine interface system. Safety is essential for people with SCI who have minimal sensory abilities and would not feel an injury. LARRE is attached to a person through the upper body and waist straps. Custom-made 3D printed strap carriages are placed on the thigh and shank segment and connect the person to the exoskeleton's legs. \autoref{fig:LARRE} shows the final model of LARRE.     
 
 
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.08]{images/mech_design/exo_side2.png}
-    \caption{The LARRE exoskeleton being worn}
-    \label{fig:LARRE}
+% \begin{figure}
+%     \centering
+%     \includegraphics[scale=0.08]{images/mech_design/exo_side2.png}
+%     \caption{The LARRE exoskeleton being worn}
+%     \label{fig:LARRE}
+% \end{figure}
+
+
+
+% \begin{figure}
+%   \begin{subfigure}{0.5\textwidth}
+%     \centering
+%     \includegraphics[scale=0.05]{images/mech_design/front_exo.png}
+%     \caption[Front View of LARRE]{Front View of LARRE}
+%     \label{fig:my_label}
+%   \end{subfigure}
+%   \begin{subfigure}{0.5\textwidth}
+%     \centering
+%     \includegraphics[scale=0.05]{images/mech_design/exo_side.png}
+%     \caption[Front View of LARRE]{Front View of LARRE}
+%     \label{fig:my_label}
+%   \end{subfigure}
+%     \caption{fja;lskdf}
+%     \label{fig:LARRE}
+% \end{figure}
+
+
+\begin{figure}[htb]
+\centering
+    \begin{subfigure}[h]{0.495\textwidth}
+        \includegraphics[width=\textwidth]{images/mech_design/front_exo.png}
+        \caption{Front view of LARRE}
+        \label{fig:LARREFRONT}
+    \end{subfigure}
+        \begin{subfigure}[h]{0.495\textwidth}
+        \includegraphics[width=\textwidth]{images/mech_design/exo_side.png}
+        \caption{Side view of LARRE}
+        \label{fig:LARRESIDE}
+    \end{subfigure}
+\caption[The LARRE exoskeleton being worn]{The LARRE exoskeleton being worn}
+\label{fig:LAREE}
 \end{figure}
 
 
-The dynamic properties of LARRE are essential for building the controller. The dynamics of LARRE were calculated using SolidWorks. The properties account for the material properties of the components as well as the geometry. \autoref{tab:LARREMASS} summarizes the dynamic properties of LARRE. The exoskeleton has defined joint limits to allow for biological motion, summarized in \autoref{tab:jointlimits}.
+
+The dynamic properties of LARRE are essential for building the controller. The dynamics of LARRE were calculated using SolidWorks. The properties account for the material properties of the components and the geometry. \autoref{tab:LARREMASS} summarizes the dynamic properties of LARRE. The exoskeleton has defined joint limits to allow for biological motion, summarized in \autoref{tab:jointlimits}.
 
 \begin{table}[h!]
     \centering
@@ -51,7 +88,7 @@ The dynamic properties of LARRE are essential for building the controller. The d
 \end{table}
 
 
-A single patient study was conducted to measure the kinematics and dynamics of a gait while wearing LARRE. This study was not designed to measure the ability of the exoskeleton to induce movement but merely to observe the motion of the exoskeleton. The Vicon setup described in \autoref{sec:setup} was used with the custom marker layout shown in \autoref{fig:larremarker}. Additional markers were added to the plug-in gait model. \autoref{tab:exomarkerlayout} details the rigid bodies used and their location (see \autoref{fig:markers} for definition of the marker layout). The additional markers were added to ensure that there was no marker occlusion during the trial. 
+A single patient study was conducted to measure the kinematics and dynamics of a gait while wearing LARRE. This study was not designed to measure the ability of the exoskeleton to induce movement but merely to observe the motion of the exoskeleton. The Vicon setup described in \autoref{sec:setup} was used with the custom marker layout shown in \autoref{fig:larremarker}. Additional markers were added to the plug-in gait model. \autoref{tab:exomarkerlayout} details the rigid bodies used and their location (see \autoref{fig:markers} for definition of the marker layout). The additional markers were added to ensure no marker occlusion during the trial. 
 
 
 \begin{table}[h!]
@@ -133,7 +170,7 @@ The joint kinematics are shown in \autoref{fig:exojointkin}. Only a single demon
 
 
 
-\autoref{fig:positioncomparison} compares the position of the LARRE to the that human. The positional difference has a maximum displacement between $10mm-20mm$. \autoref{fig:markerpositiondiagram} shows a diagram of the marker position on the thigh segment and LARRE with a simplified model that illustrates the calculation.  This difference was measured be using the front and back rigid body plates on the legs and on the side of the exoskeleton. The centroid of the front/back markers was taken as the location of that body segment. The mean position was removed to only show the average change in position over the course of the trial.  
+\autoref{fig:positioncomparison} compares the position of the LARRE to that human. The positional difference has a maximum displacement between $10mm-20mm$. \autoref{fig:markerpositiondiagram} shows a diagram of the marker position on the thigh segment and LARRE with a simplified model that illustrates the calculation. This difference was measured using the front and back rigid body plates on the legs and the side of the exoskeleton. The centroid of the front/back markers was taken as the location of that body segment. The mean position was removed only to show the average change in position throughout the trial.  
 
 \begin{figure}[h!]
 

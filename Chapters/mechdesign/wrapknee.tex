@@ -4,7 +4,7 @@
 
 The work done in this section was in collaboration with  Vishnu Aishwaryan \cite{mani2020design}. I managed the overall mechanical design and the manufacturing process. I also aided in the design and running of the experimental validation.
 
-Despite the body of literature about knee orthosis, only a few report the essential quantitative measurements, such as static or dynamic torque, safety, weight, and size. The lack of critical information made it difficult to arrive at design criteria. The design of the knee orthosis was based on the design criteria, and the trade study found here \cite{subra2020design}. In the trade study, each criterion was assigned a different weight of importance, totaling 100 points, and allowed for the mechanism and parameters for the knee orthosis to be selected. The study concluded that a wrap spring clutch mechanism was the best design due to its highest score. The results are summarized in \autoref{tab:trade}.
+Despite the body of literature about knee orthosis, only a few report the essential quantitative measurements, such as static or dynamic torque, safety, weight, and size. The lack of critical information made it difficult to arrive at design criteria. The design of the knee orthosis was based on the design criteria and the trade study found here \cite{subra2020design}. In the trade study, each criterion was assigned a different weight of importance, totaling 100 points, and allowed for the mechanism and parameters for the knee orthosis to be selected. The study concluded that a wrap spring clutch mechanism was the best design due to its highest score. The results are summarized in \autoref{tab:trade}.
 
 
 \begin{table}[h!]
@@ -146,7 +146,7 @@ The extension test-bed shown in \autoref{fig:Extent_test_bed} was designed to st
 \begin{figure}
 \centering
  \includegraphics[scale=0.15]{images/mech_design/extension_set_up.png}
-    \caption[Extension Test Bed]{Tested bed for extension testing for the wrap spring clutch knee. The moment arm was attached to then knee in extension to measure when the knee failed. The potentiometer co-axil with the knee record the knee angle and a load cell was used to measure the applied load. The sensors were read using an arduino  which was read by a computer over a serial port. }
+    \caption[Extension Test Bed]{Tested bed for extension testing for the wrap spring clutch knee. The moment arm was attached to the knee in extension to measure when the knee failed. The potentiometer co-axial with the knee recorded the knee angle, and a load cell was used to measure the applied load. The sensors were read using an Arduino and read over a serial port by a computer. }
     \label{fig:Extent_test_bed}
 \end{figure}
 
@@ -157,7 +157,7 @@ This procedure was carried out for different interference values. The load value
 \label{eq:ovTorque}
 \end{equation}
 
-The inner diameter of the spring is controlled by applying a force to the spring leg. Which also controls the interference between the arbor and spring. \autoref{fig:extension_test} shows the results of  
+The spring's inner diameter is controlled by applying a force to the spring leg. Which also controls the interference between the arbor and spring. \autoref{fig:extension_test} shows the results of  
 five different interference measurements. The black dots are the points of deflections for different spring openings. The $0push$ happens when the free spring leg is at its initial $0$ position. $1push$ happens when the spring leg is moved horizontally by a distance of $.313 in$ until $4push$.   
 
 \begin{figure}[h!]
@@ -168,14 +168,14 @@ five different interference measurements. The black dots are the points of defle
 \end{figure} 
 
 
-\autoref{fig:Flexion_test_bed} shows the flexion test-bed used to estimate the static and dynamic holding torque behavior of the knee joint. The load applied direction, and the knee flexion direction was along the direction of gravity. The load on the knee was applied at a distance of $0.46m$ from the knee center. The load was applied over several days to measure the durability of the system. This test-bed was utilized to find RoM and the brake release force.
+\autoref{fig:Flexion_test_bed} shows the flexion test-bed used to estimate the static and dynamic holding torque behavior of the knee joint. The load applied direction, and the knee flexion direction was along the direction of gravity. The load on the knee was applied at a distance of $0.46m$ from the knee center. The load was applied over several days to measure the system's durability. This test-bed was utilized to find RoM and the brake release force.
 
 
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.15]{images/mech_design/flexion_set_up.png}
-    \caption[Flexion Test Bed]{Tested bed for flexion testing for the wrap spring clutch knee. The moment arm was attached to then knee in flexion and mass was added over time until the knee failed. The potentiometer co-axil with the knee record the knee angle over time over time The sensors were read using an arduino  which was read by a computer over a serial port.}
+    \caption[Flexion Test Bed]{Tested bed for flexion testing for the wrap spring clutch knee. The moment arm was attached to the knee in flexion and mass was added over time until the knee failed. The potentiometer co-axial with the knee record the knee angle over time. The sensors were read using an Arduino and read over a serial port by a computer.}
     \label{fig:Flexion_test_bed}
 \end{figure}
 
@@ -188,7 +188,7 @@ The knee was loaded until the knee began to slip. The knee was found to have a m
 
 \end{figure}
 
-\autoref{fig:durabilitytest} shows the results of the durability test. During the test, the brake was engaged at three different loading conditions $48Nm$, $50Nm$, and $63Nm$. The brake was engaged to hold this position for four consecutive days, where the load between the days were increased; $48Nm$ on the first day, $50Nm$ for the second and third (since being the target requirement), and on the fourth day, we pushed the brake to the peak value of $63Nm$. The noise of the sensors was removed using a moving average filter.  The observed angular difference of the brake from the start of the test to the end was $0.75^{\circ}$.
+\autoref{fig:durabilitytest} shows the results of the durability test. During the test, the brake was engaged at three different loading conditions $48Nm$, $50Nm$, and $63Nm$. The brake was engaged to hold this position for four consecutive days, where the load between the days were increased; $48Nm$ on the first day, $50Nm$ for the second and third (since being the target requirement), and on the fourth day, we pushed the brake to the peak value of $63Nm$. The noise of the sensors was removed using a moving average filter. The observed angular difference of the brake from the start of the test to the end was $0.75^{\circ}$.
 
 \begin{figure}[h!]
     \centering

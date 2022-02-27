@@ -1,6 +1,6 @@
 \section{Electrical Systems}
 
-The electrical control system for LARRE is still currently under development. The control board was developed by Micheal Conrad. The control board consists of a  Xilinx Zynq 7000 \footnote{https://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html}  field-programmable gate arrays (FPGAs) as the primary controller for the exoskeleton. This allows for high speed communication with the motors and sensors. The control board is shown in \autoref{fig:controlboard}. The board as built in SPI and I2C communication for talking the external devices. This allow communication with the attached IMUs and motor controller. The large blocks are used to collected the sensor information from the sensors on the left and right leg respectively. Currently the collected data is being sent over the serial line, which can be read by a computer for validation and verification. The are six ports on the board allowing for SPI communication to external devices such as IMUs, Serial devices, and motor controllers. 
+The electrical control system for LARRE is still currently under development. Micheal Conrad developed the control board. The control board consists of a  Xilinx Zynq 7000 \footnote{https://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html}  field-programmable gate arrays (FPGAs) as the primary controller for the exoskeleton allowing for high-speed communication with the motors and sensors. The control board is shown in \autoref{fig:controlboard}. The board has built-in SPI and I2C communication for talking to the external devices allowing communication with the attached IMUs and motor controller. The large blocks collect the sensor information from the left and right leg sensors, respectively. Currently, the collected data is being sent over the serial line, which a computer can read for validation and verification. Six ports on the board allow for SPI communication to external devices such as IMUs, Serial devices, and motor controllers. 
 
 
 \begin{figure}
@@ -11,7 +11,7 @@ The electrical control system for LARRE is still currently under development. Th
 \end{figure}
 
 
-A custom PCB with an integrated inertial measurement unit (IMU) was used to consolidate the sensor information and send it to the main collection board. The circute diagram and final board is shown in \autoref{fig:imu_circut}. The custom PCBs were placed on each of the leg segments (thigh, shank, foot) for six in total. Cables run down from the main control board the leg and snap into each of the IMU boards.  This allows for the collection of all the sensor information into a clean line. The board is powered by a 3.3V line which provides power to the IMU, pot, and FSR sensors.
+A custom PCB with an integrated Inertial Measurement Unit (IMU) was used to consolidate the sensor information and send it to the main collection board. The circuit diagram and final board are shown in \autoref{fig:imu_circut}. The custom PCBs were placed on each of the leg segments (thigh, shank, foot), six in total. Cables run down from the main control board to the leg and snap into each of the IMUs on the PCBs, allowing for collecting all the sensor information into a clean line. The board is powered by a 3.3V line which provides power to the IMU, pot, and FSR sensors.
 
 
 \begin{figure}
@@ -21,8 +21,8 @@ A custom PCB with an integrated inertial measurement unit (IMU) was used to cons
     \label{fig:imu_circut}
 \end{figure}
 
-A BMI160 \footnote{https://www.bosch-sensortec.com/products/motion-sensors/imus/bmi160/} (BMI160, Bosch Sensortec GmbH 2022) IMU was placed on the each of the boards with an additional IMU placed on the back of the system. This IMUs have built 3DoF gyro scope and 3DoF accelerometer sensors. This allows for the orientation and velocity of the segment to be measured. 
+A BMI160 \footnote{https://www.bosch-sensortec.com/products/motion-sensors/imus/bmi160/} (BMI160, Bosch Sensortec GmbH 2022) IMU was placed on each of the boards with an additional IMU placed on the back of the system. These IMUs have built 3DoF gyroscope and 3DoF accelerometer sensors allowing the orientation and velocity of the segment to be measured. 
 
-Each of the joints as a potentiometer that is co-axil with joint. These is used to measure the current angle of the joint. A Bourns 10K, with $300^{\circ}$ of resolution, and a D shaft was potenotmeter was used (PDF241-S425F-103B0, BOURNS inc, 1200 Columbia Ave. Riverside, CA 92507-2129, USA). As described above each of the AFOs have three built in OMITE FSRs for measuring the center of pressure of the foot. Other features of the PCM include ports for cliff sensors for detecting the edge of floor or stair case and a high power routing for a solenoid for use in the wrap spring clutch knee. 
+Each of the joints has a potentiometer that is co-axil with each joint which is used to measure the current angle of the joint. A Bourns 10K, with $300^{\circ}$ of resolution, and a D shaft was potentiometer was used (PDF241-S425F-103B0, BOURNS inc, 1200 Columbia Ave. Riverside, CA 92507-2129, USA). As described above, each of the AFOs has three built-in OMITE FSRs for measuring the foot's center of pressure. Other features of the PCM include ports for cliff sensors for detecting the edge of the floor or staircase and a high power routing for a solenoid for use in the wrap spring clutch knee. 
 
 
