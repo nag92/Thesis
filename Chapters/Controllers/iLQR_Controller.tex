@@ -16,9 +16,8 @@ iLQR controllers have been implemented on a wide variety of systems. In \cite{ca
 \subsection{Methods and Implementation}
  The proposed approach is split into several phases; demonstration, encoding, and optimization. During the demonstration phase, gait data is collected, and the gait cycles are parsed to extract the joint angles. The demonstrations are encoded using TPGMM/GMR as discussed in \autoref{sec:lfd}. In the demonstration and encoding phases, the trajectories are learned and encoded. The controller is tested on the LARRE model in AMBF as discussed in \autoref{chap:sim}. 
 
-The control inputs calculated drive the system along the trajectory during the optimization phase. There are two steps in the iLQR algorithm; a forward-pass and a backward-pass. The simulated LARRE is simulated forward along the trajectory using a dynamic model in the forward-pass. 
+The control inputs calculated drive the system along the trajectory during the optimization phase. There are two steps in the iLQR algorithm; a forward-pass and a backward-pass. The simulated LARRE is simulated forward along the trajectory using a dynamic model in the forward-pass.  \autoref{fig:ilqrDiagram} shows a diagram of how the iLQR algorithm works.
 
-Runge Kutta 4 (RK4) integrates the system forward to obtain the next state of the system \cite{dit2017runge} (See Appendix for implantation). RK4 is a numerical integration method that perturbs the system around a point and uses an average response average value. In the backward-pass, the system is solved backward to update the control parameters. A modified version of the \textit{ilqr} open-source library\footnote{https://github.com/anassinator/ilqr} was used and implemented. The modification allowed optimization along a pre-computed path with a variable $Qs$. This allows for the connection between Learning from Demonstration (LfD) and the controller to be made, which will be explained in the following sections.  \autoref{fig:ilqrDiagram} shows a diagram of how the iLQR algorithm works. The algorithm iteratively continues back and forth until the cost $J$ converges, indicating that the control signal $u$ can drive the system along the desired trajectory. 
 
 \begin{figure}[h]
     \centering
@@ -26,6 +25,10 @@ Runge Kutta 4 (RK4) integrates the system forward to obtain the next state of th
     \caption[iLQR Learning Loop Diagram]{Diagram of how the iLQR algorithm works with the forward pass and backward pass. The loop exists when the difference in current cost and previous cost is below a tolerance. }
     \label{fig:ilqrDiagram}
 \end{figure}
+
+Runge Kutta 4 (RK4) integrates the system forward to obtain the next state of the system \cite{dit2017runge} (See Appendix for implantation). RK4 is a numerical integration method that perturbs the system around a point and uses an average response average value. In the backward-pass, the system is solved backward to update the control parameters. A modified version of the \textit{ilqr} open-source library\footnote{https://github.com/anassinator/ilqr} was used and implemented. The modification allowed optimization along a pre-computed path with a variable $Qs$. This allows for the connection between Learning from Demonstration (LfD) and the controller to be made, which will be explained in the following sections. The algorithm iteratively continues back and forth until the cost $J$ converges, indicating that the control signal $u$ can drive the system along the desired trajectory. 
+
+
 
 
 

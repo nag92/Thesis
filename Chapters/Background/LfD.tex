@@ -69,22 +69,27 @@ To compare and encode the demonstrations, they must be the same length. When rec
 \subsection{Mathematics of Learning}
  
 
- \autoref{eq:DTW} shows the equation for DTW; it maps demo 2 onto demo 1. Here, $\delta (P, T)$ is defined as the Manhattan distance function. $P$ and $T$ are demo 1 and demo 2, respectively. This method maps $P$ onto $T$ . Here, $w_k$ is the cost at index $(i,j)$, and $k$ is the time frame. \autoref{fig:DTW_example} illustrates how DTW functions. Here two $cosine$ functions of different lengths are aligned. The cost matrix path shows that the demonstrations are aligned. The path is the minimum cost through the matrix. The illustration shows one of the primary problems with DTW; the time-wrapped trajectory (green line) has sharp bends in the line, it does not produce smooth trajectories. This problem can be solved by fitting a polynomial to the time-wrapped trajectory shown as the red line.  
+ \autoref{eq:DTW} shows the equation for DTW; it maps demo 2 onto demo 1. Here, $\delta (P, T)$ is defined as the Manhattan distance function. $P$ and $T$ are demo 1 and demo 2, respectively. This method maps $P$ onto $T$ . Here, $w_k$ is the cost at index $(i,j)$, and $k$ is the time frame.
  
- \begin{figure}
-     \centering
-     \includegraphics[scale=0.3]{images/background/DTW_example.png}
-     \caption[DTW Example]{Two demos being aligned using DTW and a smoothed trajectory. Blue line: demo 1. Orange line: demo 2. Green line: aligned trajectory. Red line: Poly Fit The cost map shows the distance between the points. }
-     \label{fig:DTW_example}
- \end{figure}
-
-\begin{equation} 
+ \begin{equation} 
     \begin{aligned} 
          \delta (P,T) &= | p_i - t_j| & \text{Distance function} \\ 
         DTW(P,T) &= min \Bigg[ \sum_{k=1}^{K} \delta (w_k) \Bigg] & \text{Minimum path} 
     \end{aligned} 
     \label{eq:DTW} 
 \end{equation} 
+
+ 
+ 
+ \autoref{fig:DTW_example} illustrates how DTW functions. Here two $cosine$ functions of different lengths are aligned. The cost matrix path shows that the demonstrations are aligned. The path is the minimum cost through the matrix. The illustration shows one of the primary problems with DTW; the time-wrapped trajectory (green line) has sharp bends in the line, it does not produce smooth trajectories. This problem can be solved by fitting a polynomial to the time-wrapped trajectory shown as the red line.  
+ 
+ \begin{figure}[htb!]
+     \centering
+     \includegraphics[scale=0.3]{images/background/DTW_example.png}
+     \caption[DTW Example]{Two demos being aligned using DTW and a smoothed trajectory. Blue line: demo 1. Orange line: demo 2. Green line: aligned trajectory. Red line: Poly Fit The cost map shows the distance between the points. }
+     \label{fig:DTW_example}
+ \end{figure}
+
 
 
 DMPs work by developing an underline stable motion model and adding a forcing function to drive the system along the trajectory. \autoref{eq:DMP_Model} control how the system moves along the trajectory, where $\alpha_y$ and $\beta_y$ are gains and $y$ is the system state. This system acts as a PD controller. The forcing function $f$ drives the systems by placing RBF along the trajectory and attracting the system to the points. The forcing functions is built using \autoref{eq:DMP_force}. Here $w_i$ is the weighting on the basis function $\psi_i$ defined by the Gaussian's centered at $c_i$ where the $h_i$ is the variance. As the system moves along the trajectory, the Gaussians are activated and pull the system. DMPs are limited to the use of a single demonstration for training.  
@@ -162,9 +167,7 @@ The covariance matrix is square and of size $N+1$, where $N$ is the number of tr
 
 
 
-Each of the demonstrations $d \in \{1...D \}$ is a vector of time-sequenced data points and is of $T_d$ size. This results in a data structure of size $\sum_{d=1}^D T_d$. The length of each of the $T_i$ vectors will be different for each demonstration; this results from the subjects' stride speeds. 
-
-The task parameters are represented as a coordinate system $P$ defined at each time step n defined by $\{ b_{n,j}, A_{n_j} \}^{P}_{j=1}$. The $b$ vector is a set of basis vectors from the origin with the transformation matrix $A$. This formulation allows for trajectories to be transformed into any frame using \autoref{eq:transform}. $\xi$ is the vector of the data points.
+Each of the demonstrations $d \in \{1...D \}$ is a vector of time-sequenced data points and is of $T_d$ size. This results in a data structure of size $\sum_{d=1}^D T_d$. The length of each of the $T_i$ vectors will be different for each demonstration; this results from the subjects' stride speeds. The task parameters are represented as a coordinate system $P$ defined at each time step n defined by $\{ b_{n,j}, A_{n_j} \}^{P}_{j=1}$. The $b$ vector is a set of basis vectors from the origin with the transformation matrix $A$. This formulation allows for trajectories to be transformed into any frame using \autoref{eq:transform}. $\xi$ is the vector of the data points.
 
 \begin{equation}
     X_t^j = A^{-1}_{t,j} ( \xi_t - b_{t,j})

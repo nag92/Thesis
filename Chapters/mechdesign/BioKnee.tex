@@ -1,7 +1,11 @@
 \section{Bio-Mechanical knee}
 
 \subsection{Overview}
-The work done in this section was in collaboration with Alex Tacescu \cite{tacescu2021development} and presented at International Mechanical Engineering Congress 2021 [WAITING FOR CITATION]. I led and managed the focus of the project and came up with the idea. I was also involved with running the mocap experiments and the mechanical design. Another knee design was examined that focused on matching the knee motion profile to a human knee. Exoskeletons discussed in \autoref{sec:ExoBack} commonly use pin-type joints in their knee joints; this is in contrast to how the actual kinematics work in a human knew, which has a variable center of rotation or a floating axis \cite{morrison1970mechanics} \cite{koo2008knee} \cite{grood1983joint}. This is illustrated by examining MRI scans of the knee, which show that the femur and tibia have oblong heads\cite{MRIKneeScan}. This geometry translates the tibia as the knee rotates. 
+% The work done in this section was in collaboration with Alex Tacescu \cite{tacescu2021development} and presented at International Mechanical Engineering Congress 2021 \cite{tacescu2021design}. I led and managed the focus of the project and came up with the idea. I was also involved with running the mocap experiments and the mechanical design.
+
+
+The work done in this section was presented at International Mechanical Engineering Congress 2021\footnote{collaboration with Alex Tacescu} \cite{tacescu2021design} \cite{tacescu2021development} .
+Another knee design was examined that focused on matching the knee motion profile to a human knee. Exoskeletons discussed in \autoref{sec:ExoBack} commonly use pin-type joints in their knee joints; this is in contrast to how the actual kinematics work in a human knew, which has a variable center of rotation or a floating axis \cite{morrison1970mechanics} \cite{koo2008knee} \cite{grood1983joint}. This is illustrated by examining MRI scans of the knee, which show that the femur and tibia have oblong heads\cite{MRIKneeScan}. This geometry translates the tibia as the knee rotates. 
 
 
 % \begin{figure}[h!]
@@ -23,13 +27,15 @@ Several recent designs have focused more on accounting for knee motion. Choi \te
 
 The variable center of rotation was found using previous work by Iwaki \textit{et. al} that used Magnetic Resonance Imaging (MRI) scans to determine and predict the knee's trajectory \cite{MRIKneeShape_Loaded, MRIKneeShape_Unloaded}. These studies used cadavers and actual patients to measure the motion of the knee in both loaded and unloaded scenarios. This MRI data was used in \cite{KinDynKneeJoint} to build a mathematical model of knee motion that considers both the flexion and extension degrees of freedom. They used ellipse to model the contact between the femur and tibia bones. Their work leads to the formulation of \autoref{eq:KneeExtensionFlexionNumeric}. This equation relates the rotation (in radians) of the knee to the translation of the tibia. In these equation $a$ is a scaling factor and $d$ is an initial offset \cite{wang2013adaptive}. Both of these values are patient-specific and can be found using an MRI or motion capture study. This motion and its derivative are shown in \autoref{fig:FlexExtRelationship}. This study was limited since it was based on the anthropomorphic parameters of a single person. These coefficients will vary slightly from person to person and can be found using MRIs or potential motion capture. 
 
-The difficulty in using motion capture is the error caused by manual palpation of bony landmarks and skin movement. The manual palpation of body land markers varies subject to subject and is difficult to be consistent. Several studies examined the effects of using skin markers to locate the floating knee axis, which can be on the order of several millimeters Eugene \textit{et. al} discussed several methods that decrease the skin movement error. \cite{alexander2001correcting} \cite{cappozzo1996position}. While these methods decrease the skin error, they are still not perfect, especially when examining the knee joint. Anderson \textit{et. al} found that even the addition of joint constraints did not improve the reliability of skin-mounted markers. Manipulation can also affect the accuracy of MRI knee studies; incorrectly identifying the correct body landmarks can affect kinematics studies and the location of the knee axis \cite{lerner2003use} and can result in 1.2mm or error. 
-
-
 \begin{equation}
     r(\theta) mm = a(1.08\theta^4 - 11.18\theta^3 + 26.52\theta^2 - 0.825\theta) + d
     \label{eq:KneeExtensionFlexionNumeric}
 \end{equation}
+
+
+The difficulty in using motion capture is the error caused by manual palpation of bony landmarks and skin movement. The manual palpation of body land markers varies subject to subject and is difficult to be consistent. Several studies examined the effects of using skin markers to locate the floating knee axis, which can be on the order of several millimeters Eugene \textit{et. al} discussed several methods that decrease the skin movement error. \cite{alexander2001correcting} \cite{cappozzo1996position}. While these methods decrease the skin error, they are still not perfect, especially when examining the knee joint. Anderson \textit{et. al} found that even the addition of joint constraints did not improve the reliability of skin-mounted markers. Manipulation can also affect the accuracy of MRI knee studies; incorrectly identifying the correct body landmarks can affect kinematics studies and the location of the knee axis \cite{lerner2003use} and can result in 1.2mm or error. 
+
+
 
 
 
@@ -156,6 +162,7 @@ The design was validated using a motion capture system and SolidWorks motion ana
 
 The work in this section is still under work and being done with Tess Meier. 
 
+One of the main goals of the bio joint was to replicate the rotation-translation movement. The bio joint brace should cause less displacement between the bones and the brace then a pin joint would cause. To compare how the femur and tibia move relative to the brace the bones need to be imaged along with the location of both the bio joint and a simple pin joint. Using an MRI scanner allows for the bones to be visualized in 3D and by placing fiducials on known location of the braces, the brace can also be located in the image. Scans can then be taken at different knee angles. The expect result is that there is less movement between the brace and bones for the bio joint then the pin joint. 
 
 An MRI analysis was conducted to measure the bio joint's alignment with the underlying bone structure. The Worcester Polytechnic Institute IRB approved this study. In this study, 6 subjects were scanned in the MRI wearing a simple pin joint and the bio joint described above. Both joints were altered to be MRI compatible, which meant removing any metal in the joints. The pin joint knee is shown in \autoref{fig:MRIPINJoint} and the MRI compatible bio-joint is shown in \autoref{fig:MRIBIOJoint}. This alteration consisted of using only plastic nuts and bolts, the main cam body was water cut from polycarbonate, and the strap carriages were made from 3D printed PLA. A small piece of medical-grade foam was placed inside each strap carriage for patient comfort.    
 
@@ -190,18 +197,20 @@ An MRI analysis was conducted to measure the bio joint's alignment with the unde
 
 In the study, the subjects were scanned wearing both the pin and bio joint at three different angles, the knee straight out ($0^{\circ}$), a high flex angle ($\sim34^{\circ}$),  and a mid-flex angle  ($\sim20^{\circ}$). \autoref{fig:MRIKneeAngles} shows an overlay of several MRI scans at different angles. This figure also illustrates the rolling-sliding motion of the femur head on the tibia head. 
 
-A major obstacle in recording the scan was aligning the field of view with the fiducials on the joint. The diameter size of the bore prevented large angles from being measured. The bore diameter combined with the coil placement proved to be a significant challenge for the study. The limited field of view of the MRI made it challenging to locate the fiducials on the thigh and shank segments. The image would be distorted, or one or more fiducials was not captured. Additionally, the coil weight would push down on the bio knee, causing the device to rotate slightly. This unnatural rotation would effective the reliability of the data. To solve this problem, marker standoffs were created to move the markers closer together and closer to the center of the MRI scanner bore. \autoref{fig:MRIMarkerStandoff} shows a rendering of the fiducial standoffs. They were 3D printed and bolted to the arms of both knees. Foam blocks were placed under the subject's knee, and a foot brace was used to hold the position of the knee during the scan. Additionally, the foam was shaped for the different knee angles to lift the coil away from the joint; this prevented the coil from pressing down on the joint, causing the joint to rotate and become misaligned. 
 
-
-\begin{figure}
+\begin{figure}[ht!]
     \centering
     \includegraphics{images/mech_design/mri_knee_angles.png}
     \caption{MRI Knee Angles}{MRI scan of the femur and tibia overlayed from several scans taken at different knee angles. The coordinate frame for each of the bones and the measured angles are shown.}
     \label{fig:MRIKneeAngles}
 \end{figure}
 
+A major obstacle in recording the scan was aligning the field of view with the fiducials on the joint. The diameter size of the bore prevented large angles from being measured. The bore diameter combined with the coil placement proved to be a significant challenge for the study. The limited field of view of the MRI made it challenging to locate the fiducials on the thigh and shank segments. The image would be distorted, or one or more fiducials was not captured. Additionally, the coil weight would push down on the bio knee, causing the device to rotate slightly. This unnatural rotation would effective the reliability of the data. To solve this problem, marker standoffs were created to move the markers closer together and closer to the center of the MRI scanner bore. \autoref{fig:MRIMarkerStandoff} shows a rendering of the fiducial standoffs. They were 3D printed and bolted to the arms of both knees. Foam blocks were placed under the subject's knee, and a foot brace was used to hold the position of the knee during the scan. Additionally, the foam was shaped for the different knee angles to lift the coil away from the joint; this prevented the coil from pressing down on the joint, causing the joint to rotate and become misaligned. 
 
-\begin{figure}
+
+
+
+\begin{figure}[ht!]
     \begin{subfigure}{\textwidth}
         \centering
         \captionsetup{justification=centering}
@@ -216,8 +225,7 @@ A major obstacle in recording the scan was aligning the field of view with the f
         \caption[Bio-joint in MRI]{Subject wearing the bio-joint in the MRI scanner.}
         \label{fig:MRIBIOJoint}
     \end{subfigure}
-
-    \caption{Subject wearing the MRI compatible joints in the MRI scanner.}
+    \caption[Subjects wearing MRI knee]{Subject wearing the MRI compatible joints in the MRI scanner.}
     \label{fig:MRIKnees}
 \end{figure}
 
@@ -229,9 +237,9 @@ A major obstacle in recording the scan was aligning the field of view with the f
 \section{Conclusion}
 The presented prototype of the knee joint can move through the desired joint range and replicate the tibiofemoral path of a biological knee. \autoref{fig:LARRBio-Knee} shows the presented knee in the rendering of LARRE. The motor produces the required torque, and the potentiometer and encoder in the motor allow for feedback control. The use of FEA showed that the knee could withstand the anticipated forces without structurally failing. These tests are necessary for ensuring that the knee can withstand force. The knee is a key joint for maintaining upright posture and preventing falling. If the knee joint fails during operation, the patient could fall and be injured. 
 
-A key part of the design was ensuring that the system could be easily manufactured and customized. All of the parts can be manufactured with minimal manufacturing experience and all of the custom components are 3D printable on inexpensive consumer-grade 3D printers with consumer-grade PLA filament. The other components are off-the-shelf components. The presented design is ideal for customization and manufacturing. The presented knee was designed to follow a previously established trajectory. Additional testing needs to be conducted to identify the patient-specific parameters so that the polynomial can be fitted to the individual. THIS WORK IS CURRENTLY ONGOING using MRI images of the femur and tibia heads or potential motion capture to measure the translation and rotation of the tibia relative to the femur. 
+A key part of the design was ensuring that the system could be easily manufactured and customized. All of the parts can be manufactured with minimal manufacturing experience and all of the custom components are 3D printable on inexpensive consumer-grade 3D printers with consumer-grade PLA filament. The other components are off-the-shelf components. The presented design is ideal for customization and manufacturing. The presented knee was designed to follow a previously established trajectory. Additional testing needs to be conducted to identify the patient-specific parameters so that the polynomial can be fitted to the individual. Using MRI images of the femur and tibia heads or potential motion capture to measure the translation and rotation of the tibia relative to the femur. 
 
-\begin{figure}
+\begin{figure}[ht!]
     \centering
     \includegraphics[scale=0.15]{images/mech_design/exo_with_bioknee.png}
     \caption[Rendering of LARRE with the Bio-Knee]{A Rendering of LARRE with the Bio-knee}

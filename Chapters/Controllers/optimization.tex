@@ -2,7 +2,7 @@
 
 
 \subsection{Overview Cooperative Controllers}
-Assistive controllers have long been implemented for rehabilitative exoskeletons. This includes the MIT-MANUS \cite{ju2005rehabilitation}, BLEEX\cite{kazerooni2006hybrid}, HAL\cite{kawamoto2004power} and many others robotic systems including several exoskeletons \cite{kim2012admittance,ott2010unified,huo2011control}. These systems use assistive controllers to help guide the person's arm or leg through the desired trajectory or complete tasks. This method is typically used because the person has difficulty generating the necessary torques due to medical problems such as a stroke or spinal cord injury (SCI). These types of controllers can also have positive psychological effects and increase motor learning by increasing the subject's motivation, leading to better therapeutic and neurological outcomes.
+Assistive controllers have long been implemented for rehabilitative exoskeletons. This includes the MIT-MANUS \cite{ju2005rehabilitation}, BLEEX\cite{kazerooni2006hybrid}, HAL\cite{kawamoto2004power} and many others robotic systems including several exoskeletons \cite{kim2012admittance,ott2010unified,huo2011control}. These systems use assistive controllers to help guide the person's arm or leg through the desired trajectory or complete tasks. This method is can be used to help people with SCI or strokes may have difficultly generating the necessary torques. These types of controllers can also have positive psychological effects and increase motor learning by increasing the subject's motivation, leading to better therapeutic and neurological outcomes.
 
 Cooperative controllers have also been implemented on robotic surgical systems like the Da Vinci surgical robotic platform \cite{d2021accelerating}. This robotic system allows for the surgeon to control a robot to perform surgical procedures \cite{el2020review,amirabdollahian2018prevalence,okamura2009haptic}. Haptics and cooperative controllers are a vital part of this technology. Haptics is used to describe both the tactical and kinesthetic information passed between the environment and the operator \cite{okamura2004methods}. This information pipeline can be described as transparency which should be reduced, meaning that the operator feels like they are interacting with the environment without the robot between them and the object they are touching. Surgeons have reported that having feedback helps them during operations. It allows them to have a better understanding of the anatomy they are operating on \cite{koehn2015surgeons}. 
 This technology also opens up the field of cooperative surgery, where the surgeon can be taught how to perform operations with guiding force on a robotic manipulator \cite{varier2020collaborative}. These controllers also help the surgeons stay out of undesired regions and stay on desired paths; this can be implemented using a force controller on the haptic device, the desired path pulls the hand along the desired motion and the undesirable regions push the hand away from the area. These forces can be generated using a virtual spring-dampener model.
@@ -63,21 +63,24 @@ This section will discuss a method of developing a closed-loop assistive control
 
 A simplified system was developed to develop the tuning methods. \autoref{fig:double_pend} illustrates the simplified system. Since one set of pendulums is being assisted by the other set, one pendulum is the \textit{assistie} and the other pendulum is the \textit{assisitor} system. The \textit{assisitor} system provides additional torques to help the \textit{assistie} to move through some desired motion. This model and controller are based on the work by Tu \textit{et. al} \cite{tu2020adaptive}, however the system was modified so the \textit{assistie} system is driven by a closed-loop controller. These changes add complexity to the system since the \textit{assistor} system has to handle the errors that arise in the attached closed-loop controller. With two closed-loop systems connected, the controller commands are magnified when handling the errors \cite{tu2020adaptive}. \autoref{fig:controlDiagram} shows the control diagram. The first model has a pendulum that a simple closed-loop PD controller controls. The second model is controlled by an Admittance-Sliding Mode Controller (A-SMC), having useful properties for handling non-linear dynamics and disturbances. Additionally, a gradient descent method auto-tunes the PD controller parameters and the A-SMC. 
 
-The problem with A-SMC controllers is the large number of parameters that need to be tuned. These parameters can have non-linear and hard-to-determine effects on the response of the system \cite{slotine1983tracking}. These parameters include SMC parameters and the variable admittance model parameters. Both of which scale with the dimensions of the system. Having a comprehensive method to determine these parameters allows the system to be tuned automatically.  
 
-\begin{figure}
+
+\begin{figure}[hbt!]
     \centering
     \includegraphics[scale=1.5]{images/controllers/double_pend.png}
     \caption[Double connected pendulum]{Double connected pendulum. Spring-dampeners connect the two pendulum (\textit{assistor} and \textit{assistie}) }
     \label{fig:double_pend}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[hbt!]
     \centering
     \includegraphics[width=\linewidth]{images/controllers/SMC_control_diagram_overview.png}
     \caption[Control diagram for A-SMC]{Control diagram for A-SMC. Model 1 represents the human model controlled by a simple PD controller and summed with the interaction torques. The Jacobian is used to transform the spring-dampener forces into torques. Model 2 is the exoskeleton controller controlled by the A-SMC. The standard interaction torque is the iLQR controller. The interaction torque is subtracted to lower the applied exoskeleton torque. }
     \label{fig:controlDiagram}
 \end{figure}
+
+
+The problem with A-SMC controllers is the large number of parameters that need to be tuned. These parameters can have non-linear and hard-to-determine effects on the response of the system \cite{slotine1983tracking}. These parameters include SMC parameters and the variable admittance model parameters. Both of which scale with the dimensions of the system. Having a comprehensive method to determine these parameters allows the system to be tuned automatically.  
 
 \autoref{eq:CooPdyn} describes the dynamics for the \textit{assistor} (abbreviated has \textit{tor}) and \textit{assistie} (abbreviated has \textit{tie}) respectively.  It should be noted that $q$ is the joint state for the respective model that they describe. The $F$ terms are the forces generated as a result of being coupled by a spring dampener described by \autoref{eq:coupling}. Additionally, $J$ is the Jacobian of each link to the connection point of the spring dampener system, although any point on the link could be used to calculate the Jacobian matrix, the connection point is at the end of each link. This assumption does not change the process, only the calculation of the Jacobian matrix. It can later be adjusted to the location of the straps of the exoskeleton.
 
@@ -604,9 +607,9 @@ A bug in the ROS-Simulink framework was discovered during development. While MAT
 
 
 
-\section{Testing on Simplified System}
+\section{Validation on Physical System}
 
-The work in this section is still in development. 
+The work in this section is still in development. I plan to test the ASMC on the system by having the assistie system act at different engagement levels. The tests will resemble the tests conducted on the simulated system discussed above. I will measure the position and applied torque to both the assistie and assistor systems and compare the measurements to a simulation of the same model.   
 
 
 To test the controller,  a simple physical system was developed and built; this simplified system shows how the controller works on a real system.  \autoref{eq:armDyn} show the dynamics equation for a single-arm where $m$ is the mass of the arm and $l$ is the length of the arm. This system consists of two single degrees of arms; where one is the \textit{assistie} arm and the other is the \textit{assistor} arm.
