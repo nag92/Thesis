@@ -86,9 +86,56 @@ SetOperatingMode 0x7
 
 
 
+\chapter{}
+
+The following code block is used to generate the CAM path for the bio-knee. It will generate the text file below which can then be import to SolidWork to change the CAM path as shown in \autoref{fig:SolidWorksbiokneeCustomization}. 
+
+\lstinputlisting[language=Python, 
+caption=Create the textfile for customization of the bio-knee label=createSub]{code/create_subject_params.py}
 
 
 
+\begin{lstlisting}
+ "name" =sub1
+ "a" =0.49551938017317215
+"my_offset_0"=0.0mm 
+"my_offset_5"=0.12275154456455498mm 
+"my_offset_10"=0.6060277898422743mm 
+"my_offset_15"=1.4075040783100574mm 
+"my_offset_20"=2.4863589791582914mm 
+"my_offset_25"=3.8032742882908503mm 
+"my_offset_30"=5.320435028325096mm 
+"my_offset_35"=7.00152944859188mm 
+"my_offset_40"=8.81174902513554mm 
+"my_offset_45"=10.717788460713903mm 
+"my_offset_50"=12.687845684798274mm 
+"my_offset_55"=14.691621853573464mm 
+"my_offset_60"=16.700321349937752mm 
+"my_offset_65"=18.686651783502924mm 
+"my_offset_70"=20.624823990594237mm 
+"my_offset_75"=22.490552034250452mm 
+"my_offset_80"=24.26105320422379mm 
+"my_offset_85"=25.91504801697999mm 
+"my_offset_90"=27.432760215698273mm 
+"my_offset_95"=28.79591677027133mm 
+"my_offset_100"=29.987747877305342mm 
+"my_offset_105"=30.992986960120003mm 
+"my_offset_110"=31.797870668748505mm 
+"my_offset_115"=32.39013887993743mm 
+"my_offset_120"=32.75903469714699mm 
+"my_offset_125"=32.89530445055076mm 
+"my_offset_130"=32.7911976970359mm 
+"my_offset_135"=32.44046722020297mm 
+"my_offset_140"=31.838369030366096mm 
+\end{lstlisting}
+
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=\textwidth]{images/appendix/solidworks_customization.png}
+    \caption{SolidWorks bio-knee Customization}
+    \label{fig:SolidWorksbiokneeCustomization}
+\end{figure}
 
 % iLQR code (maybe pshedo code)?? with link to real code
 

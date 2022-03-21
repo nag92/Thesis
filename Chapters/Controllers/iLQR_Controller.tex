@@ -28,10 +28,6 @@ The control inputs calculated drive the system along the trajectory during the o
 
 Runge Kutta 4 (RK4) integrates the system forward to obtain the next state of the system \cite{dit2017runge} (See Appendix for implantation). RK4 is a numerical integration method that perturbs the system around a point and uses an average response average value. In the backward-pass, the system is solved backward to update the control parameters. A modified version of the \textit{ilqr} open-source library\footnote{https://github.com/anassinator/ilqr} was used and implemented. The modification allowed optimization along a pre-computed path with a variable $Qs$. This allows for the connection between Learning from Demonstration (LfD) and the controller to be made, which will be explained in the following sections. The algorithm iteratively continues back and forth until the cost $J$ converges, indicating that the control signal $u$ can drive the system along the desired trajectory. 
 
-
-
-
-
 \autoref{eq:system_dyn} defines the  generalized non-linear system dynamics. The cost function is the sum of the running cost and the terminal cost shown in \autoref{eq:cost}. This paper uses a linear cost function to take advantage of the TPGMM/GMR process shown in \autoref{eq:mycost}, where $\tilde{x}_k = x_k - x^{d}_k$. This paper's cost function is designed to follow a reference trajectory $x^{d}$ using GMR. The $Q_k$ varies along the path and  are calculated by the TPGMM algorithm ($Q_k$ =  $\Sigma_k^{-1}$). The  $Q$ matrix is the weight for transitioning, and the $R$ matrix is the weight of the control. The calculation of the $Q$ and $R$ matrix will be addressed in the next section.
 
 \begin{equation}
