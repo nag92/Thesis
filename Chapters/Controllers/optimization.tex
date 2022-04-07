@@ -607,38 +607,7 @@ A bug in the ROS-Simulink framework was discovered during development. While MAT
 
 
 
-\section{Validation on Physical System}
 
-The work in this section is still in development. I plan to test the ASMC on the system by having the assistie system act at different engagement levels. The tests will resemble the tests conducted on the simulated system discussed above. I will measure the position and applied torque to both the assistie and assistor systems and compare the measurements to a simulation of the same model.   
-
-
-To test the controller,  a simple physical system was developed and built; this simplified system shows how the controller works on a real system.  \autoref{eq:armDyn} show the dynamics equation for a single-arm where $m$ is the mass of the arm and $l$ is the length of the arm. This system consists of two single degrees of arms; where one is the \textit{assistie} arm and the other is the \textit{assistor} arm.
-
-\begin{equation}
-    \tau = \frac{4}{3}ml^2 \ddot{\theta} + \frac{1}{2}ml \cos(\theta)
-    \caption{Dynamics equation of a single arm of the system}
-    \label{eq:armDyn}
-\end{equation}
-
- The arms were connected with a Velcro strap piece of foam between the two arms to prevent the arms from bending inward. Each of the arms weighed approximately $90g$ and $0.3m$ long. An additional $20g$ was added to the \textit{assistie} arm to simulate the human system being heavier than the exoskeleton system. \autoref{fig:phyicalTestingSystem} shows the physical testing system. The arms are controlled by brushed DC motors with feedback from potentiometers for position sensing. A computer running Simulink acts as the high-level controller and a Teensy 4.0 \footnote{https://www.pjrc.com/store/teensy40.html} as the low-level controller communicating over a serial line. The motors are controlled by Performance Motion Digital motor controllers (Performance Motion Devices, Inc., 1 Technology Park Dr, Westford, MA 01886). Each of the motors is controlled by a 75W Atlas driver (MD211048/02VB) through the development board (MDK4LI0000V). The Teensy board communicates to the drivers over SPI by sending torque commands to each of the drivers, which delivers the proper current commands to the motors. \autoref{fig:phyicalTestingDiagram} shows the connection diagram; the computer is the high-level controller and the Teensy acts as the low-level controller. 
- 
- Application on real hardware comes with several challenges. Real systems must deal with sensor noise and communication speed, affecting how the controller responds to the model updates.  
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{images/controllers/phyical system.png}
-    \caption[Physical A-SMC Testing System]{Physical testing system of two connected arms. A Teensy 4.0 is used as a lower-level controller. Each arm has its own potentiometer and is controlled by a brushed DC motor. The arms are connected by a velcro strap and a piece of foam between the arms prevents the arms from bending inward. The DC motors are controlled by Atlas motor drivers. }
-    \label{fig:phyicalTestingSystem}
-\end{figure}
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{images/controllers/testing_system_diagam.png}
-    \caption[Testing A-SMC System Diagram]{Connection diagram of the testing system. The computer communicates with the Teensy over serial protocol sending shown two torque command and receiving two position. The Teensy uses SPI to communicate with the motor drivers. }
-    \label{fig:phyicalTestingDiagram}
-\end{figure}
 
 
 

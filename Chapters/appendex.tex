@@ -21,6 +21,29 @@ caption=This block shows how to integrate a RBDL model using Runge-Kutta 4, labe
 caption=Solving the algebraic riccati equation, label=riccati]{code/riccati.py}
 
 
+
+
+\chapter{}
+
+\autoref{fig:PhyicalModelSimulink} shows the simulink diagram for controlling the test system. The main difference between this system and the previous system is that this diagram has a block to communicate over serial. The controller send a new torque message when a new sensor reading is read over the serial port.
+
+ \begin{figure}[h]
+     \centering
+     \includegraphics[width=\textwidth]{images/appendix/phyical_system_simulink.png}
+     \caption[Simulink Controller]{Simulink Controller for physical test system, the communication is handled over a Serial port.}
+     \label{fig:PhyicalModelSimulink}
+\end{figure}
+
+
+ \autoref{fig:admittanceSimulink} shows the implementation of the admittance controller with variable gains. 
+ 
+\begin{figure}[h]
+     \centering
+     \includegraphics[width=\textwidth]{images/appendix/addmittance_simulink.png}
+     \caption[Simulink Admittance Controller]{Admittance Controller with variable gains implementation in simulink.}
+    \label{fig:admittanceSimulink}
+\end{figure}
+
 The following block is used to program the Atlas motor drivers. It need to be flashed to the each of the controller using Pro-Motion \footnote{\href{https://www.pmdcorp.com/products/development-software}{https://www.pmdcorp.com/products/development-software}}. These script was tuned to the specific DC motors using on the system. It should also be noted that the scripts can be auto generated using the Axis wizard in the program, however this will put lines with "\# Axis 1" line the script. These lines need to be deleted before the script can be flashed to the driver. They will cause checksum error when flashing the driver.   
 
 \begin{lstlisting}
@@ -62,29 +85,6 @@ ResetEventStatus 0
 SetOperatingMode 0x7
 
 \end{lstlisting}
-
-\chapter{}
-
-\autoref{fig:PhyicalModelSimulink} shows the simulink diagram for controlling the test system. The main difference between this system and the prevuis system is that this diagram has a block to communicate over serial. The controller send a new torque message when a new sensor reading is read over the serial port.
-
- \begin{figure}[h]
-     \centering
-     \includegraphics[width=\textwidth]{images/appendix/phyical_system_simulink.png}
-     \caption[Simulink Controller]{Simulink Controller for physical test system, the communication is handled over a Serial port.}
-     \label{fig:PhyicalModelSimulink}
-\end{figure}
-
-
- \autoref{fig:admittanceSimulink} shows the implementation of the admittance controller with variable gains. 
- 
-\begin{figure}[h]
-     \centering
-     \includegraphics[width=\textwidth]{images/appendix/addmittance_simulink.png}
-     \caption[Simulink Admittance Controller]{Admittance Controller with variable gains implementation in simulink.}
-    \label{fig:admittanceSimulink}
-\end{figure}
-
-
 
 \chapter{}
 
