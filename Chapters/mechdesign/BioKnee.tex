@@ -160,11 +160,9 @@ The design was validated using a motion capture system and SolidWorks motion ana
 
 \subsection{MRI Testing}
 
-The work in this section is still under work and being done with Tess Meier. 
+One of the main goals of the bio joint was to replicate the rotation-translation movement \footnote{collaboration with Tess Meier.}. The bio joint brace should cause less displacement between the bones and the brace then a pin joint would cause. To compare how the femur and tibia move relative to the brace the bones need to be imaged along with the location of both the bio joint and a simple pin joint. Using an MRI scanner allows for the bones to be visualized in 3D and by placing fiducials on known location of the braces, the brace can also be located in the image. Scans can then be taken at different knee angles. The expect result is that there is less movement between the brace and bones for the bio joint then the pin joint. 
 
-One of the main goals of the bio joint was to replicate the rotation-translation movement. The bio joint brace should cause less displacement between the bones and the brace then a pin joint would cause. To compare how the femur and tibia move relative to the brace the bones need to be imaged along with the location of both the bio joint and a simple pin joint. Using an MRI scanner allows for the bones to be visualized in 3D and by placing fiducials on known location of the braces, the brace can also be located in the image. Scans can then be taken at different knee angles. The expect result is that there is less movement between the brace and bones for the bio joint then the pin joint. 
-
-An MRI analysis was conducted to measure the bio joint's alignment with the underlying bone structure. The Worcester Polytechnic Institute IRB approved this study. In this study, 6 subjects were scanned in the MRI wearing a simple pin joint and the bio joint described above. Both joints were altered to be MRI compatible, which meant removing any metal in the joints. The pin joint knee is shown in \autoref{fig:MRIPINJoint} and the MRI compatible bio-joint is shown in \autoref{fig:MRIBIOJoint}. This alteration consisted of using only plastic nuts and bolts, the main cam body was water cut from polycarbonate, and the strap carriages were made from 3D printed PLA. A small piece of medical-grade foam was placed inside each strap carriage for patient comfort.    
+An MRI analysis was conducted to measure the bio joint's alignment with the underlying bone structure. The Worcester Polytechnic Institute IRB approved this study. In this study, six subjects were scanned in the MRI wearing a simple pin joint and the bio joint described above, however only two are presented. Both joints were altered to be MRI compatible, which meant removing any metal in the joints. The pin joint knee is shown in \autoref{fig:MRIPINJoint} and the MRI compatible bio-joint is shown in \autoref{fig:MRIBIOJoint}. This alteration consisted of using only plastic nuts and bolts, the main cam body was water cut from polycarbonate, and the strap carriages were made from 3D printed PLA. A small piece of medical-grade foam was placed inside each strap carriage for patient comfort.    
 
 
 \begin{figure}
@@ -182,20 +180,14 @@ An MRI analysis was conducted to measure the bio joint's alignment with the unde
         \caption{MRI compatible Bio-Joint}{MRI compatible bio-joint with adjustable strap arms.}
         \label{fig:MRIBIOJoint}
     \end{subfigure}    
-            \begin{subfigure}{\textwidth}
-        \centering
-        \includegraphics[width=0.75\linewidth]{images/mech_design/mri_knee_with_markers_edit.png}
-          \captionsetup{justification=centering}
-        \caption[fiducial stand off]{Fiducial stand offs brackets for MRI scans. The bracket move the segment markers closer together and towards the center of the bore.}
-        \label{fig:MRIMarkerStandoff}
-    \end{subfigure}
+
     \caption[MRI Compatible Knees]{MRI compatible knees made from PLA and polycarbonate. This device is made from polycarbonate and plastic bolts. The strap carriages can be adjusted in the channels to fit to the subject.}
     \label{fig:MRIKnees}
 \end{figure}
 
 
 
-In the study, the subjects were scanned wearing both the pin and bio joint at three different angles, the knee straight out ($0^{\circ}$), a high flex angle ($\sim34^{\circ}$),  and a mid-flex angle  ($\sim20^{\circ}$). \autoref{fig:MRIKneeAngles} shows an overlay of several MRI scans at different angles. This figure also illustrates the rolling-sliding motion of the femur head on the tibia head. 
+In the study, the subjects were scanned wearing both the pin and bio joint at three different angles, the knee straight out ($0^{\circ}$), a high flex angle ($\sim34^{\circ}$),  and a mid-flex angle  ($\sim20^{\circ}$). \autoref{fig:MRIKneeAngles} shows an overlay of several MRI scans at different angles. 
 
 
 \begin{figure}[ht!]
@@ -205,9 +197,7 @@ In the study, the subjects were scanned wearing both the pin and bio joint at th
     \label{fig:MRIKneeAngles}
 \end{figure}
 
-A major obstacle in recording the scan was aligning the field of view with the fiducials on the joint. The diameter size of the bore prevented large angles from being measured. The bore diameter combined with the coil placement proved to be a significant challenge for the study. The limited field of view of the MRI made it challenging to locate the fiducials on the thigh and shank segments. The image would be distorted, or one or more fiducials was not captured. Additionally, the coil weight would push down on the bio knee, causing the device to rotate slightly. This unnatural rotation would effective the reliability of the data. To solve this problem, marker standoffs were created to move the markers closer together and closer to the center of the MRI scanner bore. \autoref{fig:MRIMarkerStandoff} shows a rendering of the fiducial standoffs. They were 3D printed and bolted to the arms of both knees. Foam blocks were placed under the subject's knee, and a foot brace was used to hold the position of the knee during the scan. Additionally, the foam was shaped for the different knee angles to lift the coil away from the joint; this prevented the coil from pressing down on the joint, causing the joint to rotate and become misaligned. 
-
-
+\autoref{fig:wearingMRIPINJoint} and \autoref{fig:wearingMRIBIOJoint} shows a subject wearing the pin and bio knee respectively while laying on their back.A major obstacle in recording the scan was aligning the field of view with the fiducials on the joint. The diameter size of the bore prevented large angles from being measured. The bore diameter combined with the coil placement proved to be a significant challenge for the study. The limited field of view of the MRI made it challenging to locate the fiducials on the thigh and shank segments. This can cause the image can distorted, or one or more fiducials were not captured. The coil weight would push down on the bio knee, causing the device to rotate slightly.  This unnatural rotation would effective the reliability of the data. To solve this problem, marker standoffs were created to move the markers closer together and closer to the center of the MRI scanner bore. 
 
 
 \begin{figure}[ht!]
@@ -216,28 +206,141 @@ A major obstacle in recording the scan was aligning the field of view with the f
         \captionsetup{justification=centering}
         \includegraphics[width=0.75\linewidth]{images/mech_design/wearing_MRI_pinjoint.png}
         \caption[Pin Joint in MRI ]{Subject wearing the pin joint in the MRI scanner.}
-        \label{fig:MRIPINJoint}
+        \label{fig:wearingMRIPINJoint}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
         \centering
         \includegraphics[width=0.75\linewidth]{images/mech_design/wearing_MRI_bioknee.png}
           \captionsetup{justification=centering}
         \caption[Bio-joint in MRI]{Subject wearing the bio-joint in the MRI scanner.}
-        \label{fig:MRIBIOJoint}
+        \label{fig:wearingMRIBIOJoint}
     \end{subfigure}
     \caption[Subjects wearing MRI knee]{Subject wearing the MRI compatible joints in the MRI scanner.}
-    \label{fig:MRIKnees}
+    \label{fig:wearingMRIKnees}
+\end{figure}
+
+\autoref{fig:MRIMarkerStandoff} shows a rendering of the fiducial standoffs which were 3D printed and bolted to the arms of both knees. The person was rotated from laying on their back to laying on their side as shown in \autoref{fig:wearingMRIBIOJointSide}. These two solutions helped reduce the force of the coil on the knee and allowed for larger knee angle to be measured. Foam blocks were placed under the subject's knee and foot to support the position of the subjects leg during the scale. 
+
+
+\begin{figure}[ht!]
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.75\linewidth]{images/mech_design/mri_knee_with_markers_edit.png}
+          \captionsetup{justification=centering}
+        \caption[fiducial stand off]{Fiducial stand offs brackets for MRI scans. The bracket move the segment markers closer together and towards the center of the bore.}
+        \label{fig:MRIMarkerStandoff}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.75\linewidth]{images/mech_design/MRI_side3_edit.png}
+          \captionsetup{justification=centering}
+        \caption[MRI Subject on Side]{Subject wearing the bio-joint in the MRI scanner on their side.}
+        \label{fig:wearingMRIBIOJointSide}
+    \end{subfigure}
+    \caption[MRI scan Fixes]{Modifications to the MRI study.}
+    \label{fig:MRIFixes}
+\end{figure}
+
+To calculate the movement of the brace, the distance the fiducial moved was measured in each trial. \autoref{fig:fiducialMovement} illustrates the movement of the fiducials from scan to scan. This was done to calculate the distance for both the femur and tibia. The measurement distortion noise was measured by measuring the distance between the markers on each of the fiducials arms, the distance should be fiducials should be constant, so any change in distance can be considered noise. This can be used to normalize the measurement between the fiducials from scan to scan. 
+
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{images/mech_design/front view_edit.png}
+    \caption{Movement of the fiducial from scan to scan}
+    \label{fig:fiducialMovement}
 \end{figure}
 
 
-  
+\autoref{tab:sub1MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 1. \autoref{tab:sub2MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 2. Ideally, the distance between the fiducials would be smaller for the bio joint vs the pin joint. This is not what is being observed from the data but the pin joint is not better then bio joint for every angle. The data is very inconsistent and a conclusion cannot be directly drawn from this data alone. It should also be noted that the bio knee that was used for testing was the generic path joint. The CAM path was not modeled have the subject knee anatomy, this would be another source of potential error.   
+
+
+
+\begin{table}
+\begin{subtable}[c]{0.5\textwidth}
+    \centering
+        \begin{tabular}{||c | c c c||} 
+         \hline
+          Fid/Joint & Fid1 & Fid2 & Fid3  \\ [0.5ex] 
+         \hline\hline
+         Bio Mid & 50.92 & 54.33 & 56.23 \\ 
+         \hline
+         Bio Max & 22.21 & 26.53 & 25.68 \\
+         \hline
+         Pin Mid & 15.25 & 15.96 & 15.26 \\
+         \hline
+         Pin Max & 25.71 & 26.54 & 29.97 \\ [1ex] 
+         \hline
+        \end{tabular}
+    \subcaption{Sub 1 femur fiducial dist(mm)}
+    \end{subtable}
+   \begin{subtable}[c]{0.5\textwidth}
+   \centering
+    \begin{tabular}{||c | c c c||} 
+         \hline
+         Fid/Joint & Fid1 & Fid2 & Fid3  \\ [0.5ex] 
+         \hline\hline
+         Bio Mid & 35.10 & 12.00 & 50.52 \\ 
+         \hline
+         Bio Max & 24.10 & 21.24 & 21.61 \\
+         \hline
+         Pin Mid & 15.66 & 16.56 & 39.60 \\
+         \hline
+         Pin Max & 18.55 & 19.33 & 34.96 \\ [1ex] 
+         \hline
+        \end{tabular}
+    \subcaption{Sub 1 tibia fiducial dist(mm)}
+    \end{subtable}
+\caption{Subject 1 fiducial distance}
+\label{tab:sub1MRI}
+\end{table}
+
+
+
+\begin{table}
+\begin{subtable}[c]{0.5\textwidth}
+    \centering
+        \begin{tabular}{||c | c c c||} 
+         \hline
+          Fid/Joint & Fid1 & Fid2 & Fid3  \\ [0.5ex] 
+         \hline\hline
+         Bio Mid & 17.65 & 21.23 & 22.60 \\ 
+         \hline
+         Bio Max & 19.48 & 26.10 & 26.44 \\
+         \hline
+         Pin Mid & 19.31 & 17.68 & 19.31 \\
+         \hline
+         Pin Max & 10.46 & 10.71 & 16.17 \\ [1ex] 
+         \hline
+        \end{tabular}
+    \subcaption{Sub 2 femur fiducial dist(mm)}
+    \end{subtable}
+        \begin{subtable}[c]{0.5\textwidth}
+    \centering
+    \begin{tabular}{||c | c c c||} 
+         \hline
+          Fid/Joint & Fid1 & Fid2 & Fid3  \\ [0.5ex] 
+         \hline\hline
+         Bio Mid & 24.67 & 21.85 & 19.10 \\ 
+         \hline
+         Bio Max & 16.05 & 6.12 & 6.51 \\
+         \hline
+         Pin Mid & 11.54 & 8.63 & 10.77 \\
+         \hline
+         Pin Max & 13.66 & 15.07 & 17.10 \\ [1ex] 
+         \hline
+        \end{tabular}
+    \subcaption{Sub 2 tibia fiducial dist(mm)}
+    \end{subtable}
+\caption{Subject 2 fiducial distance}
+\label{tab:sub2MRI}
+\end{table}
 
 
 
 \section{Conclusion}
-The presented prototype of the knee joint can move through the desired joint range and replicate the tibiofemoral path of a biological knee. \autoref{fig:LARRBio-Knee} shows the presented knee in the rendering of LARRE. The motor produces the required torque, and the potentiometer and encoder in the motor allow for feedback control. The use of FEA showed that the knee could withstand the anticipated forces without structurally failing. These tests are necessary for ensuring that the knee can withstand force. The knee is a key joint for maintaining upright posture and preventing falling. If the knee joint fails during operation, the patient could fall and be injured. 
 
-A key part of the design was ensuring that the system could be easily manufactured and customized. All of the parts can be manufactured with minimal manufacturing experience and all of the custom components are 3D printable on inexpensive consumer-grade 3D printers with consumer-grade PLA filament. The other components are off-the-shelf components. The presented design is ideal for customization and manufacturing. The presented knee was designed to follow a previously established trajectory. Additional testing needs to be conducted to identify the patient-specific parameters so that the polynomial can be fitted to the individual. Using MRI images of the femur and tibia heads or potential motion capture to measure the translation and rotation of the tibia relative to the femur. 
+The presented prototype of the knee joint can move through the desired joint range and replicate the tibiofemoral path of a biological knee. \autoref{fig:LARRBio-Knee} shows the presented knee in the rendering of LARRE. The motor produces the required torque, and the potentiometer and encoder in the motor allow for feedback control. The use of FEA showed that the knee could withstand the anticipated forces without structurally failing. These tests are necessary for ensuring that the knee can withstand force. The knee is a key joint for maintaining upright posture and preventing falling. If the knee joint fails during operation, the patient could fall and be injured. 
 
 \begin{figure}[ht!]
     \centering
@@ -245,3 +348,10 @@ A key part of the design was ensuring that the system could be easily manufactur
     \caption[Rendering of LARRE with the Bio-Knee]{A Rendering of LARRE with the Bio-knee}
     \label{fig:LARRBio-Knee}
 \end{figure}
+
+
+A key part of the design was ensuring that the system could be easily manufactured and customized. All of the parts can be manufactured with minimal manufacturing experience and all of the custom components are 3D printable on inexpensive consumer-grade 3D printers with consumer-grade PLA filament. The other components are off-the-shelf components. The presented design is ideal for customization and manufacturing. The presented knee was designed to follow a previously established trajectory. Additional testing needs to be conducted to identify the patient-specific parameters so that the polynomial can be fitted to the individual. Using MRI images of the femur and tibia heads or potential motion capture to measure the translation and rotation of the tibia relative to the femur. 
+
+While, the MRI data is inconclusive a lot can still be learned from the data and the experimental procedure. The MRI proved to be a good tool to examine the relationship between an exoskeleton and the subjects bones. It allows for the clear images to be obtained and compared in a safe manor. Additionally, several different problems were identified for the experimental procedure, care has to be taken not to have the MRI coil press down on the brace which can cause it to move. Additionally the orientation of the subject in the MRI in the bore is critical, putting the person on their side prevent the brace from sagging and allows for larger angles to be measured. In order to improve the stability of brace, the straps need to be well aligned and fit to the subject. 
+
+
