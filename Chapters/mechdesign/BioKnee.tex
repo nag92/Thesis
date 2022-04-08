@@ -241,7 +241,7 @@ In the study, the subjects were scanned wearing both the pin and bio joint at th
     \label{fig:MRIFixes}
 \end{figure}
 
-To calculate the movement of the brace, the distance the fiducial moved was measured in each trial. \autoref{fig:fiducialMovement} illustrates the movement of the fiducials from scan to scan. This was done to calculate the distance for both the femur and tibia. The measurement distortion noise was measured by measuring the distance between the markers on each of the fiducials arms, the distance should be fiducials should be constant, so any change in distance can be considered noise. This can be used to normalize the measurement between the fiducials from scan to scan. 
+To calculate the movement of the brace, the distance the fiducial moved was measured in each trial. The MRI scans were segmented and parsed using 3D Slicer\cite{fedorov20123d}. Both the femuar and tibia bones were isolated and the fiducials were marked. \autoref{fig:fiducialMovement} illustrates the movement of the fiducials from scan to scan. This was done to calculate the distance for both the femur and tibia. The measurement distortion noise was measured by measuring the distance between the markers on each of the fiducials arms, the distance should be fiducials should be constant, so any change in distance can be considered noise. This can be used to normalize the measurement between the fiducials from scan to scan. 
 
 
 \begin{figure}
@@ -252,7 +252,77 @@ To calculate the movement of the brace, the distance the fiducial moved was meas
 \end{figure}
 
 
-\autoref{tab:sub1MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 1. \autoref{tab:sub2MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 2. Ideally, the distance between the fiducials would be smaller for the bio joint vs the pin joint. This is not what is being observed from the data but the pin joint is not better then bio joint for every angle. The data is very inconsistent and a conclusion cannot be directly drawn from this data alone. It should also be noted that the bio knee that was used for testing was the generic path joint. The CAM path was not modeled have the subject knee anatomy, this would be another source of potential error.   
+\autoref{tab:sub1MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 1. \autoref{tab:sub2MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 2. Ideally, the distance between the fiducials would be smaller for the bio joint vs the pin joint. This would mean that the bio joint is causing less movement from angle to angle then the pin joint. This is not what is being observed from the data but the pin joint is not better then bio joint for every angle. The data is very inconsistent and a conclusion cannot be directly drawn from this data alone. It should also be noted that the bio knee that was used for testing was the generic path joint. The CAM path was not modeled have the subject knee anatomy, this would be another source of potential error.   
+
+
+\begin{table}
+\centering
+\begin{subtable}[c]{0.5\textwidth}
+    \centering
+        \begin{tabular}{||c | c c c||} 
+         \hline
+          Fid/Joint & Fid1 & Fid2 & Fid3  \\ [0.5ex] 
+         \hline\hline
+         Bio Mid & 17.65 & 21.23 & 22.60 \\ 
+         \hline
+         Bio Max & 19.48 & 26.10 & 26.44 \\
+         \hline
+         Pin Mid & 19.31 & 17.68 & 19.31 \\
+         \hline
+         Pin Max & 10.46 & 10.71 & 16.17 \\ [1ex] 
+         \hline
+        \end{tabular}
+    \subcaption{Sub 1 femur fiducial dist(mm)}
+    \end{subtable}
+        \begin{subtable}[c]{0.5\textwidth}
+    \centering
+    \begin{tabular}{||c | c c c||} 
+         \hline
+          Fid/Joint & Fid1 & Fid2 & Fid3  \\ [0.5ex] 
+         \hline\hline
+         Bio Mid & 24.67 & 21.85 & 19.10 \\ 
+         \hline
+         Bio Max & 16.05 & 6.12 & 6.51 \\
+         \hline
+         Pin Mid & 11.54 & 8.63 & 10.77 \\
+         \hline
+         Pin Max & 13.66 & 15.07 & 17.10 \\ [1ex] 
+         \hline
+        \end{tabular}
+    \subcaption{Sub 1 tibia fiducial dist(mm)}
+    \end{subtable}
+\caption{Subject 1 fiducial distance}
+\label{tab:sub1MRI}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{ll|lll|lll|}
+\cline{3-8}
+            &             & \multicolumn{3}{c|}{Bio}                                                    & \multicolumn{3}{c|}{Pin}                                                    \\ \hline
+\multicolumn{2}{|l|}{Fid} & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 \\ \hline
+\multicolumn{2}{|l|}{no}  & \multicolumn{1}{l|}{25.4}      & \multicolumn{1}{l|}{24.42}     & 38.25     & \multicolumn{1}{l|}{25.67}     & \multicolumn{1}{l|}{23.80}     & 36.78     \\ \hline
+\multicolumn{2}{|l|}{max} & \multicolumn{1}{l|}{24.3}      & \multicolumn{1}{l|}{24.36}     & 35.06     & \multicolumn{1}{l|}{24.81}     & \multicolumn{1}{l|}{25.69}     & 38.0      \\ \hline
+\multicolumn{2}{|l|}{mid} & \multicolumn{1}{l|}{24.3}      & \multicolumn{1}{l|}{23.06}     & 36.50     & \multicolumn{1}{l|}{24.73}     & \multicolumn{1}{l|}{25.13}     & 37.38     \\ \hline
+\end{tabular}
+\caption{subject 1 femur fiducials measurements }
+\label{tab:sub1_femur}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{ll|lll|lll|}
+\cline{3-8}
+            &             & \multicolumn{3}{c|}{Bio}                                                    & \multicolumn{3}{c|}{Pin}                                                    \\ \hline
+\multicolumn{2}{|l|}{Fid} & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 \\ \hline
+\multicolumn{2}{|l|}{no}  & \multicolumn{1}{l|}{26.26}     & \multicolumn{1}{l|}{22.28}     & 34.34     & \multicolumn{1}{l|}{26.34}     & \multicolumn{1}{l|}{22.67}     & 35.20     \\ \hline
+\multicolumn{2}{|l|}{max} & \multicolumn{1}{l|}{16.57}     & \multicolumn{1}{l|}{23.14}     & 33.34     & \multicolumn{1}{l|}{27.31}     & \multicolumn{1}{l|}{22.65}     & 32.85     \\ \hline
+\multicolumn{2}{|l|}{mid} & \multicolumn{1}{l|}{26.23}     & \multicolumn{1}{l|}{34.34}     & 33.77     & \multicolumn{1}{l|}{26.17}     & \multicolumn{1}{l|}{21.8}      & 34.00     \\ \hline
+\end{tabular}
+\caption{subject 1 tibia fiducials measurements }
+\label{tab:sub1_tibia}
+\end{table}
+
 
 
 
@@ -272,7 +342,7 @@ To calculate the movement of the brace, the distance the fiducial moved was meas
          Pin Max & 25.71 & 26.54 & 29.97 \\ [1ex] 
          \hline
         \end{tabular}
-    \subcaption{Sub 1 femur fiducial dist(mm)}
+    \subcaption{Sub 2 femur fiducial dist(mm)}
     \end{subtable}
    \begin{subtable}[c]{0.5\textwidth}
    \centering
@@ -289,52 +359,44 @@ To calculate the movement of the brace, the distance the fiducial moved was meas
          Pin Max & 18.55 & 19.33 & 34.96 \\ [1ex] 
          \hline
         \end{tabular}
-    \subcaption{Sub 1 tibia fiducial dist(mm)}
-    \end{subtable}
-\caption{Subject 1 fiducial distance}
-\label{tab:sub1MRI}
-\end{table}
-
-
-
-\begin{table}
-\begin{subtable}[c]{0.5\textwidth}
-    \centering
-        \begin{tabular}{||c | c c c||} 
-         \hline
-          Fid/Joint & Fid1 & Fid2 & Fid3  \\ [0.5ex] 
-         \hline\hline
-         Bio Mid & 17.65 & 21.23 & 22.60 \\ 
-         \hline
-         Bio Max & 19.48 & 26.10 & 26.44 \\
-         \hline
-         Pin Mid & 19.31 & 17.68 & 19.31 \\
-         \hline
-         Pin Max & 10.46 & 10.71 & 16.17 \\ [1ex] 
-         \hline
-        \end{tabular}
-    \subcaption{Sub 2 femur fiducial dist(mm)}
-    \end{subtable}
-        \begin{subtable}[c]{0.5\textwidth}
-    \centering
-    \begin{tabular}{||c | c c c||} 
-         \hline
-          Fid/Joint & Fid1 & Fid2 & Fid3  \\ [0.5ex] 
-         \hline\hline
-         Bio Mid & 24.67 & 21.85 & 19.10 \\ 
-         \hline
-         Bio Max & 16.05 & 6.12 & 6.51 \\
-         \hline
-         Pin Mid & 11.54 & 8.63 & 10.77 \\
-         \hline
-         Pin Max & 13.66 & 15.07 & 17.10 \\ [1ex] 
-         \hline
-        \end{tabular}
     \subcaption{Sub 2 tibia fiducial dist(mm)}
     \end{subtable}
 \caption{Subject 2 fiducial distance}
 \label{tab:sub2MRI}
 \end{table}
+
+
+
+\begin{table}[]
+\centering
+\begin{tabular}{ll|lll|lll|}
+\cline{3-8}
+            &             & \multicolumn{3}{l|}{Bio}                                                    & \multicolumn{3}{l|}{Pin}                                                    \\ \hline
+\multicolumn{2}{|l|}{Fid} & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 \\ \hline
+\multicolumn{2}{|l|}{no}  & \multicolumn{1}{l|}{25.8}      & \multicolumn{1}{l|}{23.78}     & 37.80     & \multicolumn{1}{l|}{24.78}     & \multicolumn{1}{l|}{23.3}      & 34.93     \\ \hline
+\multicolumn{2}{|l|}{max} & \multicolumn{1}{l|}{22.43}     & \multicolumn{1}{l|}{25.5}      & 35.75     & \multicolumn{1}{l|}{27.15}     & \multicolumn{1}{l|}{26.7}      & 39.63     \\ \hline
+\multicolumn{2}{|l|}{mid} & \multicolumn{1}{l|}{24.02}     & \multicolumn{1}{l|}{19.70}     & 33.82     & \multicolumn{1}{l|}{26.64}     & \multicolumn{1}{l|}{24.20}     & 35.76     \\ \hline
+\end{tabular}
+\caption{subject 2 femur fiducials measurements }
+\label{tab:sub2_femur}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{ll|lll|lll|}
+\cline{3-8}
+            &             & \multicolumn{3}{c|}{Bio}                                                    & \multicolumn{3}{c|}{Pin}                                                    \\ \hline
+\multicolumn{2}{|l|}{Fid} & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 \\ \hline
+\multicolumn{2}{|l|}{no}  & \multicolumn{1}{l|}{25.4}      & \multicolumn{1}{l|}{25.02}     & 35.5      & \multicolumn{1}{l|}{25.34}     & \multicolumn{1}{l|}{33.19}     & 43.0      \\ \hline
+\multicolumn{2}{|l|}{max} & \multicolumn{1}{l|}{26.08}     & \multicolumn{1}{l|}{22.2}      & 34.5      & \multicolumn{1}{l|}{26.03}     & \multicolumn{1}{l|}{24.48}     & 37.07     \\ \hline
+\multicolumn{2}{|l|}{mid} & \multicolumn{1}{l|}{34.10}     & \multicolumn{1}{l|}{22.0}      & 25.98     & \multicolumn{1}{l|}{25.07}     & \multicolumn{1}{l|}{22.13}     & 34.10     \\ \hline
+\end{tabular}
+\caption{subject 2 tibia fiducials measurements }
+\label{tab:sub2_tibia}
+\end{table}
+
+
+
 
 
 
