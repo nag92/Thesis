@@ -252,11 +252,13 @@ To calculate the movement of the brace, the distance the fiducial moved was meas
 \end{figure}
 
 
-\autoref{tab:sub1MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 1. \autoref{tab:sub2MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 2. Ideally, the distance between the fiducials would be smaller for the bio joint vs the pin joint. This would mean that the bio joint is causing less movement from angle to angle then the pin joint. This is not what is being observed from the data but the pin joint is not better then bio joint for every angle. The data is very inconsistent and a conclusion cannot be directly drawn from this data alone. It should also be noted that the bio knee that was used for testing was the generic path joint. The CAM path was not modeled have the subject knee anatomy, this would be another source of potential error.   
+\autoref{tab:sub1MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 1. The noise measurement for the femur and tibia are shown in \autoref{tab:sub1_femur} and \autoref{tab:sub1_tibia} respectively.   \autoref{tab:sub2MRI} shows the movement of the fiducials for both the bio and pin joints for the femur and tibia respectfully for subject 2. The noise measurement for the femur and tibia are shown in  \autoref{tab:sub2_femur} and \autoref{tab:sub2_tibia} respectively. Based on the physical model $||F1-F2|| == ||F3-F2|| ==  25.4mm$ and $||F1-F3|| == \sqrt{2}mm$. Any deviation from this known distance can be used to estimate the noise in each measurement. The larger deviations from the known distances means larger measurement error. 
+
+
+Ideally, the distance between the fiducials would be smaller for the bio joint vs the pin joint. This would mean that the bio joint is causing less movement from angle to angle then the pin joint. This is not what is being observed from the data but the pin joint is not better then bio joint for every angle. The data is very inconsistent and a conclusion cannot be directly drawn from this data alone. It should also be noted that the bio knee that was used for testing was the generic path joint. The CAM path used to generate the knee path was modeled using the generate rotation-translation equation, this is not guaranteed to match the subjects knee anatomy. If the knee CAM path is very off from the rotation-translation relationship of the subject it could cause misalignment and increased error.
 
 
 \begin{table}
-\centering
 \begin{subtable}[c]{0.5\textwidth}
     \centering
         \begin{tabular}{||c | c c c||} 
@@ -274,8 +276,8 @@ To calculate the movement of the brace, the distance the fiducial moved was meas
         \end{tabular}
     \subcaption{Sub 1 femur fiducial dist(mm)}
     \end{subtable}
-        \begin{subtable}[c]{0.5\textwidth}
-    \centering
+   \begin{subtable}[c]{0.5\textwidth}
+   \centering
     \begin{tabular}{||c | c c c||} 
          \hline
           Fid/Joint & Fid1 & Fid2 & Fid3  \\ [0.5ex] 
@@ -286,20 +288,23 @@ To calculate the movement of the brace, the distance the fiducial moved was meas
          \hline
          Pin Mid & 11.54 & 8.63 & 10.77 \\
          \hline
-         Pin Max & 13.66 & 15.07 & 17.10 \\ [1ex] 
+         Pin Max & 13.66 & 15.07 & 17.10 \\ [1ex]  
          \hline
         \end{tabular}
     \subcaption{Sub 1 tibia fiducial dist(mm)}
     \end{subtable}
 \caption{Subject 1 fiducial distance}
-\label{tab:sub1MRI}
+\label{tab:sub2MRI}
 \end{table}
+
+
+
 
 \begin{table}[]
 \centering
 \begin{tabular}{ll|lll|lll|}
 \cline{3-8}
-            &             & \multicolumn{3}{c|}{Bio}                                                    & \multicolumn{3}{c|}{Pin}                                                    \\ \hline
+    &  & \multicolumn{3}{c|}{Bio}  & \multicolumn{3}{c|}{Pin}    \\ \hline
 \multicolumn{2}{|l|}{Fid} & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 \\ \hline
 \multicolumn{2}{|l|}{no}  & \multicolumn{1}{l|}{25.4}      & \multicolumn{1}{l|}{24.42}     & 38.25     & \multicolumn{1}{l|}{25.67}     & \multicolumn{1}{l|}{23.80}     & 36.78     \\ \hline
 \multicolumn{2}{|l|}{max} & \multicolumn{1}{l|}{24.3}      & \multicolumn{1}{l|}{24.36}     & 35.06     & \multicolumn{1}{l|}{24.81}     & \multicolumn{1}{l|}{25.69}     & 38.0      \\ \hline
@@ -313,7 +318,7 @@ To calculate the movement of the brace, the distance the fiducial moved was meas
 \centering
 \begin{tabular}{ll|lll|lll|}
 \cline{3-8}
-            &             & \multicolumn{3}{c|}{Bio}                                                    & \multicolumn{3}{c|}{Pin}                                                    \\ \hline
+       &        & \multicolumn{3}{c|}{Bio}   & \multicolumn{3}{c|}{Pin}    \\ \hline
 \multicolumn{2}{|l|}{Fid} & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 \\ \hline
 \multicolumn{2}{|l|}{no}  & \multicolumn{1}{l|}{26.26}     & \multicolumn{1}{l|}{22.28}     & 34.34     & \multicolumn{1}{l|}{26.34}     & \multicolumn{1}{l|}{22.67}     & 35.20     \\ \hline
 \multicolumn{2}{|l|}{max} & \multicolumn{1}{l|}{16.57}     & \multicolumn{1}{l|}{23.14}     & 33.34     & \multicolumn{1}{l|}{27.31}     & \multicolumn{1}{l|}{22.65}     & 32.85     \\ \hline
@@ -366,26 +371,26 @@ To calculate the movement of the brace, the distance the fiducial moved was meas
 \end{table}
 
 
-
 \begin{table}[]
 \centering
 \begin{tabular}{ll|lll|lll|}
 \cline{3-8}
-            &             & \multicolumn{3}{l|}{Bio}                                                    & \multicolumn{3}{l|}{Pin}                                                    \\ \hline
+       &       & \multicolumn{3}{c|}{Bio}   & \multicolumn{3}{c|}{Pin}   \\ \hline
 \multicolumn{2}{|l|}{Fid} & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 \\ \hline
 \multicolumn{2}{|l|}{no}  & \multicolumn{1}{l|}{25.8}      & \multicolumn{1}{l|}{23.78}     & 37.80     & \multicolumn{1}{l|}{24.78}     & \multicolumn{1}{l|}{23.3}      & 34.93     \\ \hline
 \multicolumn{2}{|l|}{max} & \multicolumn{1}{l|}{22.43}     & \multicolumn{1}{l|}{25.5}      & 35.75     & \multicolumn{1}{l|}{27.15}     & \multicolumn{1}{l|}{26.7}      & 39.63     \\ \hline
 \multicolumn{2}{|l|}{mid} & \multicolumn{1}{l|}{24.02}     & \multicolumn{1}{l|}{19.70}     & 33.82     & \multicolumn{1}{l|}{26.64}     & \multicolumn{1}{l|}{24.20}     & 35.76     \\ \hline
 \end{tabular}
-\caption{subject 2 femur fiducials measurements }
+\caption{subject 2 femur fiducials measurements}
 \label{tab:sub2_femur}
 \end{table}
+
 
 \begin{table}[]
 \centering
 \begin{tabular}{ll|lll|lll|}
 \cline{3-8}
-            &             & \multicolumn{3}{c|}{Bio}                                                    & \multicolumn{3}{c|}{Pin}                                                    \\ \hline
+            &             & \multicolumn{3}{c|}{Bio}   & \multicolumn{3}{c|}{Pin}      \\ \hline
 \multicolumn{2}{|l|}{Fid} & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 & \multicolumn{1}{l|}{F1-F2} & \multicolumn{1}{l|}{F2-F3} & F1-F3 \\ \hline
 \multicolumn{2}{|l|}{no}  & \multicolumn{1}{l|}{25.4}      & \multicolumn{1}{l|}{25.02}     & 35.5      & \multicolumn{1}{l|}{25.34}     & \multicolumn{1}{l|}{33.19}     & 43.0      \\ \hline
 \multicolumn{2}{|l|}{max} & \multicolumn{1}{l|}{26.08}     & \multicolumn{1}{l|}{22.2}      & 34.5      & \multicolumn{1}{l|}{26.03}     & \multicolumn{1}{l|}{24.48}     & 37.07     \\ \hline
